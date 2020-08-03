@@ -13,8 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class ThemeActiFragment extends Fragment {
-    private RecyclerView themeRecyvlerView;
-    private LinearLayoutManager layoutManager;
+    private RecyclerView themeRecyclerView;
 
     public static ThemeActiFragment newInstance() {
         ThemeActiFragment themeActiFragment = new ThemeActiFragment();
@@ -25,10 +24,9 @@ public class ThemeActiFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_theme, container, false);
-        themeRecyvlerView = rootView.findViewById(R.id.themeRecyvlerView);
+        themeRecyclerView = rootView.findViewById(R.id.themeRecyclerView);
 
-        layoutManager = new LinearLayoutManager(getActivity());
-        themeRecyvlerView.setLayoutManager(layoutManager);
+
         rootView.setBackgroundColor(Color.BLUE);
         return rootView;
     }
