@@ -13,20 +13,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class ThemeShopFragment extends Fragment {
-    private RecyclerView themeRecyvlerView;
-    private LinearLayoutManager layoutManager;
-    public static ThemeShopFragment newInstance(){
+    private RecyclerView themeRecyclerView;
+
+    public static ThemeShopFragment newInstance() {
         ThemeShopFragment themeActiFragment = new ThemeShopFragment();
         return themeActiFragment;
     }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_theme, container, false);
-        themeRecyvlerView = rootView.findViewById(R.id.themeRecyvlerView);
+        themeRecyclerView = rootView.findViewById(R.id.themeRecyclerView);
 
-        layoutManager = new LinearLayoutManager(getActivity());
-        themeRecyvlerView.setLayoutManager(layoutManager);
+
         rootView.setBackgroundColor(Color.YELLOW);
         return rootView;
     }

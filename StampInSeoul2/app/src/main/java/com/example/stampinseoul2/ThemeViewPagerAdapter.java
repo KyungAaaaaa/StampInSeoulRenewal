@@ -1,6 +1,5 @@
 package com.example.stampinseoul2;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -14,7 +13,6 @@ public class ThemeViewPagerAdapter extends FragmentStatePagerAdapter {
         this.count = count;
     }
 
-    //프래그먼트 교체를 보여주는 역할
     @Override
     public Fragment getItem(int position) {
         switch (position) {
@@ -31,7 +29,6 @@ public class ThemeViewPagerAdapter extends FragmentStatePagerAdapter {
             default:
                 return null;
         }
-
     }
 
     @Override
@@ -39,13 +36,10 @@ public class ThemeViewPagerAdapter extends FragmentStatePagerAdapter {
         return 5;
     }
 
-
-    //상단의 탭 레이아웃 인디케이터에 텍스트를 선언해주는것
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
         switch (position) {
-
             case 0:
                 return "축제";
             case 1:
@@ -53,7 +47,7 @@ public class ThemeViewPagerAdapter extends FragmentStatePagerAdapter {
             case 2:
                 return "맛집";
             case 3:
-                return "액티비티";
+                return "활동";
             case 4:
                 return "쇼핑";
             default:
