@@ -46,7 +46,6 @@ public class ThemeFestivalFragment extends Fragment {
         // 리사이클러뷰에 ThemeAdapter 객체 지정.
         ThemeAdapter adapter = new ThemeAdapter(list);
         themeRecyclerView.setAdapter(adapter);
-        rootView.setBackgroundColor(Color.GREEN);
         return rootView;
     }
 

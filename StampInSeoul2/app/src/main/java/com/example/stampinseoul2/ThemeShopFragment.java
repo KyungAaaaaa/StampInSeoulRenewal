@@ -27,7 +27,6 @@ public class ThemeShopFragment extends Fragment {
         themeRecyclerView = rootView.findViewById(R.id.themeRecyclerView);
 
 
-        rootView.setBackgroundColor(Color.YELLOW);
         return rootView;
     }
 

@@ -27,7 +27,6 @@ public class ThemeCultureFragment extends Fragment {
         themeRecyclerView = rootView.findViewById(R.id.themeRecyclerView);
 
 
-        rootView.setBackgroundColor(Color.RED);
         return rootView;
     }
 

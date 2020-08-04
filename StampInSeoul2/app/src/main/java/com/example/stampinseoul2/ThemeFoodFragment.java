@@ -26,7 +26,6 @@ public class ThemeFoodFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_theme, container, false);
         themeRecyclerView = rootView.findViewById(R.id.themeRecyclerView);
 
-        rootView.setBackgroundColor(Color.GRAY);
         return rootView;
     }
 
