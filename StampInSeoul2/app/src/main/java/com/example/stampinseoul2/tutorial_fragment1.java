@@ -1,4 +1,8 @@
 package com.example.stampinseoul2;
 
-public class tutorial_fragment1 {
+import androidx.fragment.app.Fragment;
+
+public class tutorial_fragment1 extends Fragment {
+
+
 }
