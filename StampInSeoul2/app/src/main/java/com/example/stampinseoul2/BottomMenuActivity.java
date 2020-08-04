@@ -9,11 +9,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class BottomMenuActivity extends AppCompatActivity {
-    private BottomNavigationMenuView bottomNavigationMenuView;
+    private BottomNavigationView bottomNavigationView;
     private FrameLayout frameLayout;
 
     private FragmentManager fragmentManager;
@@ -29,8 +28,8 @@ public class BottomMenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom);
 
-        BottomNavigationView bottomNavigationMenuView = findViewById(R.id.bottomNavigationMenuView);
-        frameLayout = findViewById(R.id.framelayout);
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        frameLayout = findViewById(R.id.frameLayout);
 
         mapLocateActivity = new MapLocateActivity();
         moreActivity = new MoreActivity();
@@ -39,7 +38,7 @@ public class BottomMenuActivity extends AppCompatActivity {
 
         setChangeFragment(0);
 
-        bottomNavigationMenuView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
@@ -70,17 +69,17 @@ public class BottomMenuActivity extends AppCompatActivity {
         switch (position) {
 
             case 0:
-                fragmentTransaction.replace(R.id.framelayout, gpsActivity);
+                fragmentTransaction.replace(R.id.frameLayout, gpsActivity);
                 break;
             case 1:
                 MapLocateActivity mainFragment = new MapLocateActivity();
-                getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, mainFragment, "main").commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, mainFragment, "main").commit();
                 break;
             case 2:
-                fragmentTransaction.replace(R.id.framelayout, albumActivity);
+                fragmentTransaction.replace(R.id.frameLayout, albumActivity);
                 break;
             case 3:
-                fragmentTransaction.replace(R.id.framelayout, moreActivity);
+                fragmentTransaction.replace(R.id.frameLayout, moreActivity);
                 break;
         }//switch
         fragmentTransaction.commit();
