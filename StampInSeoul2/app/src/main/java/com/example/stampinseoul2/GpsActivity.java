@@ -1,4 +1,6 @@
 package com.example.stampinseoul2;
 
-public class GpsActivity{
+import androidx.fragment.app.Fragment;
+
+public class GpsActivity extends Fragment {
 }
