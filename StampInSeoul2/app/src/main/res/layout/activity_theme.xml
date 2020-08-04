@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#303136"
+    android:background="#FFFFFF"
     tools:context=".ThemeActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -16,45 +16,44 @@
             android:layout_height="wrap_content"
             app:layout_scrollFlags="scroll|enterAlways">
 
-            <LinearLayout
-                android:id="@+id/searchLayout"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginRight="13dp"
-                android:background="#3F4047"
-                android:gravity="center"
-                android:orientation="horizontal">
+                app:cardBackgroundColor="#E7E7E7"
+                app:cardCornerRadius="20dp"
+                app:cardUseCompatPadding="true">
 
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:id="@+id/searchLayout"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_weight="1"
-                    android:text="검색 : "
-                    android:textColor="#FFFFFF"
-                    android:textSize="18sp" />
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="10dp"
+                    android:background="#00A39F9F"
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
-                <EditText
-                    android:id="@+id/editText"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="4"
-                    android:ems="5"
-                    android:inputType="textPersonName"
-                    android:textColor="#FFFFFF" />
+                    <EditText
+                        android:id="@+id/editText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4"
+                        android:ems="5"
+                        android:hint="Search"
+                        android:inputType="textPersonName"
+                        android:textColor="#FFFFFF" />
 
-                <ImageButton
-                    android:id="@+id/imageButton"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="#00FFFFFF"
-                    app:srcCompat="@drawable/ic_search_black_24dp"
-                    tools:ignore="VectorDrawableCompat" />
-            </LinearLayout>
+                    <ImageButton
+                        android:id="@+id/imageButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="#00FFFFFF"
+                        app:srcCompat="@drawable/ic_search_black_24dp"
+                        tools:ignore="VectorDrawableCompat" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
         </androidx.appcompat.widget.Toolbar>
 
 
