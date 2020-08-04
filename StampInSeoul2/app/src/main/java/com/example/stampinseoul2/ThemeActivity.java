@@ -31,7 +31,7 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
         tabLayout.setupWithViewPager(viewPager);
         viewPager.setAdapter(fragmentStatePagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.setTabTextColors(Color.GRAY, Color.WHITE);
+        tabLayout.setTabTextColors(Color.GRAY, Color.BLACK);
 
         // == 플로팅 버튼, 드로어
         fab = findViewById(R.id.fab);

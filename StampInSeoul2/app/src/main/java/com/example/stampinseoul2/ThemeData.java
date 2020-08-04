@@ -1,9 +1,25 @@
 package com.example.stampinseoul2;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
+
 public class ThemeData {
+    @SerializedName("response")
+    @Expose
+    private Response response;
+
+    public Response getResponse() {
+        return response;
+    }
+
+    public void setResponse(Response response) {
+        this.response = response;
+    }
     private String title;
     private String firstImage;
-    private String addr;
+    private String addr1;
     private String tel;
     private String overView;
     private String picture;
@@ -21,7 +37,7 @@ public class ThemeData {
 
     public ThemeData(String title, String addr, double mapX, double mapY, String firstImage) {
         this.title = title;
-        this.addr = addr;
+        this.addr1 = addr;
         this.mapX = mapX;
         this.mapY = mapY;
         this.firstImage = firstImage;
@@ -53,7 +69,7 @@ public class ThemeData {
 
     public ThemeData(String title, String addr, double mapX, double mapY) {
         this.title = title;
-        this.addr = addr;
+        this.addr1 = addr;
         this.mapX = mapX;
         this.mapY = mapY;
     }
@@ -193,14 +209,14 @@ public class ThemeData {
 
     public String getAddr() {
 
-        return addr;
+        return addr1;
 
     }
 
 
     public void setAddr(String addr) {
 
-        this.addr = addr;
+        this.addr1 = addr;
 
     }
 
@@ -243,4 +259,5 @@ public class ThemeData {
 
         this.firstImage = firstImage;
     }
+
 }
