@@ -11,13 +11,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 
-    public class tutorial_fragment1 extends Fragment {
+
+public class tutorial_fragment1 extends Fragment {
         private TextView textView;
         private View view;
-        private Button btnStart;
 
 
         //페이저를 통해  슬라이딩 탭을 눌러 프레그들이 변경되려면 현재 프레그를 저장해줘야한다.
@@ -35,11 +35,12 @@ import com.bumptech.glide.Glide;
             view = inflater.inflate(R.layout.tutorial_frag1, container, false);
 
             textView = view.findViewById(R.id.textView);
+
             ImageView marker = view.findViewById(R.id.marker);
-            //GlideDrawableImageViewTarget gifImage = new GlideDrawableImageViewTarget(marker);
-            //Glide.with(this).load(R.drawable.markeranimaition).into(gifImage);
+
+            GlideDrawableImageViewTarget gifImage = new GlideDrawableImageViewTarget(marker);
+            Glide.with(getActivity()).load(R.drawable.markeranimaition).into(gifImage);
 
             return view;
-
         }
     }
