@@ -39,6 +39,6 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.github.bumptech.glide:glide:4.9.0'          //Glide
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'  //Glide
-//    implementation 'com.squareup.retrofit2:retrofit:2.5.0'          // Retrofit2
-//    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'      // Json Parser
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'          // Retrofit2
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'      // Json Parser
 }

@@ -16,8 +16,8 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 
 public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ViewHolder> {
-    //private ArrayList<Item> dataArrayList = null;
-    private ArrayList<ThemeData> dataArrayList = null;
+    private ArrayList<Item> dataArrayList = null;
+    //private ArrayList<ThemeData> dataArrayList = null;
     Context context;
 
     @NonNull
@@ -32,10 +32,10 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        //Item data = dataArrayList.get(position);
-        ThemeData data = dataArrayList.get(position);
+        Item data = dataArrayList.get(position);
+        //ThemeData data = dataArrayList.get(position);
         holder.txtView.setText(data.getTitle());
-        Glide.with(context).load(data.getFirstImage()).into(holder.imgView);
+        Glide.with(context).load(data.getFirstimage()).into(holder.imgView);
     }
 
     @Override
@@ -58,14 +58,14 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ViewHolder> 
         }
     }
 
-    //    // 생성자에서 데이터 리스트 객체를 전달받음.
-//    ThemeAdapter(ArrayList<Item> list) {
-//        dataArrayList = list;
-//    }
-    // 생성자에서 데이터 리스트 객체를 전달받음.
-    ThemeAdapter(ArrayList<ThemeData> list) {
+        // 생성자에서 데이터 리스트 객체를 전달받음.
+    ThemeAdapter(ArrayList<Item> list) {
         dataArrayList = list;
     }
+    // 생성자에서 데이터 리스트 객체를 전달받음.
+//    ThemeAdapter(ArrayList<ThemeData> list) {
+//        dataArrayList = list;
+//    }
 
 }
 

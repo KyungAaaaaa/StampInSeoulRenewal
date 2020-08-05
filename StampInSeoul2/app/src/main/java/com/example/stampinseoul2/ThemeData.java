@@ -17,6 +17,8 @@ public class ThemeData {
     public void setResponse(Response response) {
         this.response = response;
     }
+
+
     private String title;
     private String firstImage;
     private String addr1;
