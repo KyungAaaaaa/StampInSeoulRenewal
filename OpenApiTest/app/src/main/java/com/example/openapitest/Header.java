@@ -1,4 +1,4 @@
-package com.example.stampinseoul2;
+package com.example.openapitest;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

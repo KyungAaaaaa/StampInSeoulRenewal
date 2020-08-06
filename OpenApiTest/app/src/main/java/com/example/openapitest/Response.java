@@ -1,9 +1,7 @@
-package com.example.stampinseoul2;
+package com.example.openapitest;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
-import java.util.List;
 
 public class Response {
     @SerializedName("header")
@@ -28,6 +26,7 @@ public class Response {
     public void setBody(Body body) {
         this.body = body;
     }
+
 
     //////////////////////////////////////////////////////////
 //    public class Body {
