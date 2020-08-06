@@ -95,12 +95,11 @@ public class MapLocateActivity extends Fragment implements View.OnTouchListener,
         linearLayoutManager = new LinearLayoutManager(view1.getContext());
 
         recyclerView.setLayoutManager(linearLayoutManager);
+        UserDBHelper userDBHelper = UserDBHelper.getInstance(getContext());
+        themedatalist =userDBHelper.likePlaceLoad(LoginActivity.userData);
 
-        themedatalist.add(new ThemeData(lat, lng));
 
-//        listSetting();
-
-        mapLocateAdapter = new MapLocateAdapter(R.layout.map_item, themedatalist);
+                mapLocateAdapter = new MapLocateAdapter(R.layout.map_item, themedatalist);
 
         recyclerView.setAdapter(mapLocateAdapter);
 

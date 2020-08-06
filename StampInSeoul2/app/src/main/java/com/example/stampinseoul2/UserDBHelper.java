@@ -125,5 +125,25 @@ public class UserDBHelper extends SQLiteOpenHelper {
 
     }
 
+    public ArrayList<ThemeData> likePlaceLoad(User user) {
+        ArrayList<ThemeData> arrayList = new ArrayList<>();
+        SQLiteDatabase sqLiteDatabase = null;
+        Cursor cursor = null;
+        try {
+            sqLiteDatabase = this.getWritableDatabase();
+            cursor = sqLiteDatabase.rawQuery("SELECT * FROM LikePlace" + user.getUserId() + "TBL;", null);
+            while (cursor.moveToNext()) {
+                arrayList.add(new ThemeData(cursor.getString(0),cursor.getString(1),cursor.getLong(2),cursor.getLong(3),cursor.getString(4)));
+            }
+            Log.d("DBLikePlaceLoad", "성공");
+        } catch (SQLException e) {
+            Log.d("DBLikePlaceLoad", e.getMessage());
+        } finally {
+            if(cursor!=null)   cursor.close();
+            sqLiteDatabase.close();
+        }
+        return arrayList;
+    }
+
 }
 

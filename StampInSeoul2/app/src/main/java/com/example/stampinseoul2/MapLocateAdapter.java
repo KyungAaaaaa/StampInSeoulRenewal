@@ -37,14 +37,14 @@ public class MapLocateAdapter extends RecyclerView.Adapter<MapLocateAdapter.Cust
     @Override
     public void onBindViewHolder(@NonNull final MapLocateAdapter.CustomViewHolder customViewHolder, final int position) {
 
-        list.add(new ThemeData("아파트","서울시 도봉구 방학3동",37.662049, 127.022908));
+        //list.add(new ThemeData("아파트","서울시 도봉구 방학3동",37.662049, 127.022908));
 
 //        customViewHolder.txtContent.setText("서울시 도봉구 방학3동");
 //        customViewHolder.txtName.setText("아파트");
+        ThemeData data = list.get(position);
 
-
-        customViewHolder.txtName.setText(list.get(position).getTitle());
-        customViewHolder.txtContent.setText(list.get(position).getAddr());
+        customViewHolder.txtName.setText(data.getTitle());
+        customViewHolder.txtContent.setText(data.getAddr());
 //
 //        customViewHolder.itemView.setTag(position);
 //
