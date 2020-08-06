@@ -19,10 +19,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -69,16 +72,16 @@ public class ThemeFestivalFragment extends Fragment {
 
         layoutManager = new LinearLayoutManager(getActivity());
         themeRecyclerView.setLayoutManager(layoutManager);
-        list = new ArrayList<>();
         if (requestQueue == null) {
             requestQueue = Volley.newRequestQueue(getActivity());
         }
-        list = (requestLotto());
+        list=new ArrayList<>();
+        requestLotto();
         // 리사이클러뷰에 ThemeAdapter 객체 지정.
-        ThemeFestivalFragment.AsyncTaskClassMain async = new ThemeFestivalFragment.AsyncTaskClassMain();
-        async.execute();
         adapter = new ThemeAdapter(list);
         themeRecyclerView.setAdapter(adapter);
+//        ThemeFestivalFragment.AsyncTaskClassMain async = new ThemeFestivalFragment.AsyncTaskClassMain();
+//        async.execute();
         return rootView;
     }
 
@@ -114,13 +117,13 @@ public class ThemeFestivalFragment extends Fragment {
         }
     } // end of AsyncTaskClassMain
 
-    public ArrayList<ThemeData> requestLotto() {
+    public void requestLotto() {
         // ThemeData data = new ThemeData("");
         ArrayList<ThemeData> dataArrayList = new ArrayList<>();
         queue = Volley.newRequestQueue(getActivity());
-        String url = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/searchFestival?" +
+        String url = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList?" +
                 "ServiceKey=" +KEY+
-                "&areaCode=1&numOfRows=20&pageNo=1" +
+                "&areaCode=1&contentTypeId=15&listYN=Y&arrange=P&numOfRows=20&pageNo=1" +
                 "&MobileOS=AND&MobileApp=" +APP_NAME+
                 "&_type=json";
 
@@ -134,6 +137,7 @@ public class ThemeFestivalFragment extends Fragment {
                             JSONObject parse_body = (JSONObject) parse_response.get("body");
                             JSONObject parse_items = (JSONObject) parse_body.get("items");
                             JSONArray parse_itemlist = (JSONArray) parse_items.get("item");
+                            list.removeAll(list);
                             for (int i = 0; i < parse_itemlist.length(); i++) {
 
                                 JSONObject imsi = (JSONObject) parse_itemlist.get(i);
@@ -144,8 +148,7 @@ public class ThemeFestivalFragment extends Fragment {
                                 themeData.setMapX(imsi.getDouble("mapx"));
                                 themeData.setMapY(imsi.getDouble("mapy"));
                                 themeData.setContentsID(Integer.valueOf(imsi.getString("contentid")));
-                                //list.add(themeData);
-                                dataArrayList.add(themeData);
+                                list.add(themeData);
                             }
                             themeRecyclerView.setAdapter(adapter);
                         } catch (JSONException e) {
@@ -158,10 +161,29 @@ public class ThemeFestivalFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                     }
-                });
+                }){
+            @Override //response를 UTF8로 변경해주는 소스코드
+            protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
+                try {
+                    String utf8String = new String(response.data, "UTF-8");
+                    JSONObject jsonObject = new JSONObject(utf8String);
+                    return Response.success(jsonObject, HttpHeaderParser.parseCacheHeaders(response));
+                } catch (UnsupportedEncodingException e) {
+                    // log error
+                    return Response.error(new ParseError(e));
+                } catch (Exception e) {
+                    // log error
+                    return Response.error(new ParseError(e));
+                }
+            }
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                return super.getParams();
+            }
+        };
         queue.add(jsObjRequest);
 
-        return dataArrayList;
     }
 
     // contentid를 위한 함수(contentId는 detailCommon에서 쓰기 위해 구한다)
@@ -181,11 +203,6 @@ public class ThemeFestivalFragment extends Fragment {
 
                         pDialog.dismiss();
 
-                        /*MainActivity.db = MainActivity.dbHelper.getWritableDatabase();
-
-                        Cursor cursor;
-
-                        cursor = MainActivity.db.rawQuery("SELECT title FROM ZZIM_"+LoginActivity.userId+";", null);*/
 
                         try {
                             JSONObject parse_response = (JSONObject) response.get("response");
@@ -222,7 +239,27 @@ public class ThemeFestivalFragment extends Fragment {
                                 error.getMessage(), Toast.LENGTH_LONG).show();
                         Log.d("ThemeFestivalFragment", error.getMessage() + "에러");
                     }
-                });
+                }){
+        @Override //response를 UTF8로 변경해주는 소스코드
+        protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
+            try {
+                String utf8String = new String(response.data, "UTF-8");
+                JSONObject jsonObject = new JSONObject(utf8String);
+                return Response.success(jsonObject, HttpHeaderParser.parseCacheHeaders(response));
+            } catch (UnsupportedEncodingException e) {
+                // log error
+                return Response.error(new ParseError(e));
+            } catch (Exception e) {
+                // log error
+                return Response.error(new ParseError(e));
+            }
+        }
+
+        @Override
+        protected Map<String, String> getParams() throws AuthFailureError {
+            return super.getParams();
+        }
+    };
         queue.add(jsObjRequest);
     } // end of getAreaBasedList
 
