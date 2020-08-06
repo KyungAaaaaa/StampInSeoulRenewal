@@ -80,8 +80,8 @@ public class ThemeFestivalFragment extends Fragment {
         // 리사이클러뷰에 ThemeAdapter 객체 지정.
         adapter = new ThemeAdapter(list);
         themeRecyclerView.setAdapter(adapter);
-//        ThemeFestivalFragment.AsyncTaskClassMain async = new ThemeFestivalFragment.AsyncTaskClassMain();
-//        async.execute();
+        ThemeFestivalFragment.AsyncTaskClassMain async = new ThemeFestivalFragment.AsyncTaskClassMain();
+        async.execute();
         return rootView;
     }
 

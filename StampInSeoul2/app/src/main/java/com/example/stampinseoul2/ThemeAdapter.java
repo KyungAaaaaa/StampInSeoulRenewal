@@ -51,6 +51,8 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ViewHolder> 
     static final String appName = "Zella";
 
 
+
+
     /////////////////////////////////////////////////////////////
 
 
@@ -156,14 +158,13 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ViewHolder> 
         }
 
     }
-
     //전체 데이터의 갯수 리턴
     @Override
     public int getItemCount() {
         return list.size();
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////
     // 관광 정보(리사이클러뷰) 를 선택했을때 상세 데이터 읽어오는 메소드
     private ThemeData getData(int contentID) {
 
