@@ -10,12 +10,12 @@ import android.os.Bundle;
 import me.relex.circleindicator.CircleIndicator;
 
 public class MainActivity extends AppCompatActivity {
+    public static final String KEY = "r5SONxjKf67vRjWSB5VkCHjhlvpWtAAcXV8IEJumquZL3SfuS9eazbphf2%2BSprq0iO6PVT1MVcC70enAwCeLOA%3D%3D";
     private long backButtonTime = 0;
-
     private FragmentPagerAdapter fragmentPagerAdapter;
     private ViewPager viewPager;
 
-    public static DBHelper dbHelper;
+    //public static DBHelper dbHelper;
     public static SQLiteDatabase db;
 
 
