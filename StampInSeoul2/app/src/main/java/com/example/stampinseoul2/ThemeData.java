@@ -3,6 +3,7 @@ package com.example.stampinseoul2;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class ThemeData {
@@ -19,6 +20,11 @@ public class ThemeData {
     private double mapX;
     private double mapY;
     private boolean hart = false;
+
+    public ThemeData(double mapX, double mapY) {
+        this.mapX = mapX;
+        this.mapY = mapY;
+    }
 
     public ThemeData(String title) {
         this.title = title;

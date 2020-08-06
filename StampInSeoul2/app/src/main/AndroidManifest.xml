@@ -31,22 +31,19 @@
 
         <meta-data
             android:name="com.google.android.geo.APi_KEY"
-            android:value="AIzaSyDzDmPuEdRn-WLvX8SY06aPk5J6Fex2CsE" />
+            android:value="AIzaSyC2AxkliylJfef-_aAjqJ3OZ-57BgX0EoM" />
 
-        <activity
-            android:name=".LoginActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat">
 
-        </activity>
-        <activity android:name=".MapInWeb"></activity>
-        <activity android:name=".ThemeActivity" />
+
+
+        <activity android:name=".MapInWeb"/>
+        <activity android:name=".ThemeActivity"/>
+        <activity android:name=".LoginActivity"/>
         <activity android:name=".SearchActivity" />
         <activity android:name=".BottomMenuActivity" />
         <activity android:name=".CameraActivity" />
         <activity android:name=".MainActivity" />
-        <activity
-            android:name=".StartActivity"
+        <activity android:name=".StartActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Start_app">
             <intent-filter>
@@ -58,12 +55,12 @@
 
         <!-- 카카오톡 데이터 -->
         <meta-data
-        android:name="com.kakao.sdk.AppKey"
-        android:value="54168c178ba7edaf46803ea023775af8" />
+            android:name="com.kakao.sdk.AppKey"
+            android:value="54168c178ba7edaf46803ea023775af8" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyC2AxkliylJfef-_aAjqJ3OZ-57BgX0EoM" />
+            android:value="AIzaSyDzDmPuEdRn-WLvX8SY06aPk5J6Fex2CsE" />
 
         <uses-library
             android:name="org.apache.http.legacy"

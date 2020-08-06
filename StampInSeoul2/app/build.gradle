@@ -41,3 +41,4 @@ dependencies {
     implementation 'com.kakao.sdk:usermgmt:1.27.0'
     implementation 'me.relex:circleindicator:1.2.2'
 }
+

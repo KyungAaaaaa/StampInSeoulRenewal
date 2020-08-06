@@ -1,13 +1,20 @@
 package com.example.stampinseoul2;
 
+import android.Manifest;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.icu.text.Transliterator;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,19 +22,25 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -48,8 +61,8 @@ public class MapLocateActivity extends Fragment implements View.OnTouchListener,
     static ArrayList<ThemeData> themedatalist = new ArrayList<>();
     ArrayList<MarkerOptions> cctvlist = new ArrayList<MarkerOptions>();
     ArrayList<String> check = new ArrayList<>();
-    static GoogleMap googleMap;
-    static GoogleMap googleMap2;
+    static GoogleMap googleMaps;
+    static GoogleMap googleMaps2;
 
     private FragmentManager fragmentManager;
     private MapView mapView;
@@ -67,6 +80,8 @@ public class MapLocateActivity extends Fragment implements View.OnTouchListener,
     private DrawerLayout drawerLayout;
     private ConstraintLayout drawer;
 
+    private static final int FASTEST_UPDATE_INTERVAL_MS = 1000 * 30;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -81,6 +96,8 @@ public class MapLocateActivity extends Fragment implements View.OnTouchListener,
 
         recyclerView.setLayoutManager(linearLayoutManager);
 
+        themedatalist.add(new ThemeData(lat, lng));
+
 //        listSetting();
 
         mapLocateAdapter = new MapLocateAdapter(R.layout.map_item, themedatalist);
@@ -90,7 +107,7 @@ public class MapLocateActivity extends Fragment implements View.OnTouchListener,
 
         mapView = view1.findViewById(R.id.fgGoogleMap);
 
-//        mapView.onCreate(savedInstanceState); 수정해야할부분 2020-08.04
+        mapView.onCreate(savedInstanceState);
 
         mapView.getMapAsync((OnMapReadyCallback) this);
 
@@ -100,6 +117,20 @@ public class MapLocateActivity extends Fragment implements View.OnTouchListener,
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView, new ClickListener() {
             @Override
             public void onClick(View view, int position) {
+
+//                LatLng latLng1 = new LatLng(37.662049, 127.022908);
+//
+//                MarkerOptions markerOptions1 = new MarkerOptions();
+//                BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.placeholder);
+//                Bitmap b = bitmapdraw.getBitmap();
+//                Bitmap smallMarker = Bitmap.createScaledBitmap(b, 100, 100, false);
+//                markerOptions1.icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+//                markerOptions1.position(latLng1);
+//                markerOptions1.getIcon();
+//                googleMaps2.addMarker(markerOptions1);
+//                googleMaps2.moveCamera(CameraUpdateFactory.newLatLng(latLng1));
+//                googleMaps2.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng1, 16));
+
                 boolean tag = true;
                 if (check.size() == 0) {
                     check.add(themedatalist.get(position).getTitle());
@@ -112,13 +143,14 @@ public class MapLocateActivity extends Fragment implements View.OnTouchListener,
                     if (tag)
                         check.add(themedatalist.get(position).getTitle());
                 }
+
+
                 mapView = view1.findViewById(R.id.fgGoogleMap);
 
                 mapView.getMapAsync(MapLocateActivity.this);
 
                 drawerLayout.closeDrawer(drawer);
             }
-
 
             @Override
             public void onLongClick(View view, int position) {
@@ -147,7 +179,8 @@ public class MapLocateActivity extends Fragment implements View.OnTouchListener,
 
         drawer.setOnTouchListener(this);
         drawerLayout.setDrawerListener(listener);
-        return super.onCreateView(inflater, container, savedInstanceState);
+
+        return view1;
 
 
     }
@@ -170,6 +203,22 @@ public class MapLocateActivity extends Fragment implements View.OnTouchListener,
         switch (view.getId()) {
             case R.id.fab:
                 anmi();
+                break;
+            case R.id.fab1:
+                anmi();
+                drawerLayout.openDrawer(drawer);
+                break;
+            case R.id.fab2:
+                anmi();
+                if (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(view1.getContext(),
+                        Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+                } else {
+                    locationManager.getLastKnownLocation(locationManager.GPS_PROVIDER);
+                    locationManager.requestLocationUpdates(locationManager.GPS_PROVIDER, 1000, 1, gpsLocationListener);
+                    locationManager.requestLocationUpdates(locationManager.NETWORK_PROVIDER, 1000, 1, gpsLocationListener);
+                }
+            default:
                 break;
         }
     }
@@ -235,7 +284,53 @@ public class MapLocateActivity extends Fragment implements View.OnTouchListener,
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
+        googleMaps = googleMap;
+
+        googleMaps2 = googleMap;
+
+        googleMaps.clear();
+
+        if (check.size() >= 1) {
+
+            for (String x : check) {
+                for (ThemeData y : themedatalist) {
+                    if (x.equals(y.getTitle())) ;
+                    {
+                        LatLng latLng = new LatLng(y.getMapX(), y.getMapY());
+
+                        MarkerOptions markerOptions = new MarkerOptions();
+                        markerOptions.title(y.getTitle());
+                        markerOptions.snippet(y.getAddr());
+                        markerOptions.position(latLng);
+
+                        googleMaps2.addMarker(markerOptions);
+                        googleMaps2.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
+                    }
+                }
+            }
+        }
+
+        if (win) {
+
+            LatLng latLng = new LatLng(lat, lng);
+
+            MarkerOptions markerOptions = new MarkerOptions();
+
+            BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.placeholder);
+            Bitmap b = bitmapdraw.getBitmap();
+            Bitmap smallMarker = Bitmap.createScaledBitmap(b, 100, 100, false);
+            markerOptions.icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+
+            markerOptions.position(latLng);
+            markerOptions.getIcon();
+            googleMaps.addMarker(markerOptions);
+            googleMaps.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14));
+
+            win = false;
+        }
+
     }
+
 
     DrawerLayout.DrawerListener listener = new DrawerLayout.DrawerListener() {
         @Override
@@ -258,4 +353,22 @@ public class MapLocateActivity extends Fragment implements View.OnTouchListener,
 
         }
     };
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mapView.onResume();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapView.onLowMemory();
+    }
 }

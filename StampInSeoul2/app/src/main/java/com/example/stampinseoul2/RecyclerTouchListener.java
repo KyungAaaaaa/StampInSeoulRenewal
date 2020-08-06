@@ -1,6 +1,6 @@
 package com.example.stampinseoul2;
 
-    // 인위적으로 만든 리사이클러뷰 터치 리스너 클래스
+// 인위적으로 만든 리사이클러뷰 터치 리스너 클래스
 
 import android.content.Context;
 import android.view.GestureDetector;
@@ -37,6 +37,7 @@ public class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
         View child = rv.findChildViewUnder(e.getX(), e.getY());
         if (child != null && clickListener != null && gestureDetector.onTouchEvent(e)) {
             clickListener.onClick(child, rv.getChildAdapterPosition(child));
+
         }
         return false;
     }
