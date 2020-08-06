@@ -1,4 +1,4 @@
-package com.example.stampinseoul2;
+package com.example.openapitest;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -6,6 +6,9 @@ import com.google.gson.annotations.SerializedName;
 public class Header {
 
 
+    @SerializedName("responseTime")
+    @Expose
+    private String responseTime;
     @SerializedName("resultCode")
     @Expose
     private String resultCode;
@@ -29,4 +32,11 @@ public class Header {
         this.resultMsg = resultMsg;
     }
 
+    public String getResponseTime() {
+        return responseTime;
+    }
+
+    public void setResponseTime(String responseTime) {
+        this.responseTime = responseTime;
+    }
 }

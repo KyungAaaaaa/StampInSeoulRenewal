@@ -1,12 +1,23 @@
-package com.example.stampinseoul2;
+package com.example.openapitest;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
 public class ThemeData {
-     private String title;
+    @SerializedName("response")
+    @Expose
+    private Response response;
+
+    public Response getResponse() {
+        return response;
+    }
+
+    public void setResponse(Response response) {
+        this.response = response;
+    }
+
+
+    private String title;
     private String firstImage;
     private String addr1;
     private String tel;

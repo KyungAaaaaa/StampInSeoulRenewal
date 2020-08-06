@@ -1,20 +1,20 @@
-package com.example.stampinseoul2;
+package com.example.openapitest;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class Items {
     @SerializedName("item")
     @Expose
-    private List<Item> item = null;
+    private ArrayList<Item> item = null;
 
-    public List<Item> getItem() {
+    public ArrayList<Item> getItem() {
         return item;
     }
 
-    public void setItem(List<Item> item) {
+    public void setItem(ArrayList<Item> item) {
         this.item = item;
     }
 }
