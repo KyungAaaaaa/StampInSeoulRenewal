@@ -9,7 +9,10 @@
     </style>
 
     <style name="Start_app" parent="android:style/Theme.Light.NoTitleBar">
-        <item name="android:windowBackground">@drawable/roading2</item>
+        <item name="android:windowBackground">@drawable/roading2
+
+        </item>
+
     </style>
 
     <!-- 카카오 네이티브앱 키 -->
@@ -28,5 +31,4 @@
         <item name="colorAccent">@android:color/white</item>
 
     </style>
-
 </resources>

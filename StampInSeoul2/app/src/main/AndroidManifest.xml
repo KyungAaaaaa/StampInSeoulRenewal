@@ -32,23 +32,23 @@
             android:name="com.google.android.geo.APi_KEY"
             android:value="AIzaSyDzDmPuEdRn-WLvX8SY06aPk5J6Fex2CsE" />
 
+        <activity android:name=".LoginActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".MapInWeb"></activity>
         <activity android:name=".ThemeActivity" />
         <activity android:name=".SearchActivity" />
         <activity android:name=".BottomMenuActivity" />
         <activity android:name=".CameraActivity" />
-        <activity android:name=".LoginActivity" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".StartActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Start_app">
+        <activity android:name=".StartActivity">
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-        </activity>
+            </activity>
 
         <!-- 카카오톡 데이터 -->
         <meta-data

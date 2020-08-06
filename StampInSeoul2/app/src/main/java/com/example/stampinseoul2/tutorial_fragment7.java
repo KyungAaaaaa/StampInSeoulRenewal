@@ -29,7 +29,7 @@ public class tutorial_fragment7 extends Fragment {
 
         textView = view.findViewById(R.id.textView);
         btnStart = view.findViewById(R.id.btnStart);
-
+/*
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -39,7 +39,7 @@ public class tutorial_fragment7 extends Fragment {
 
                 getActivity().finish();
             }
-        });
+        });*/
 
         return view;
 

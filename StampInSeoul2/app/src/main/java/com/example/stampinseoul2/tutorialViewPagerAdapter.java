@@ -16,7 +16,7 @@ public class tutorialViewPagerAdapter extends FragmentPagerAdapter {
         super(fl);
     }
 
-    @NonNull
+   @NonNull
     @Override
     public Fragment getItem(int position) {
         return fragmentArrayList.get(position);

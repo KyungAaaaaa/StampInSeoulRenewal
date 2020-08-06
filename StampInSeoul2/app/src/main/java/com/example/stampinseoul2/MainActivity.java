@@ -38,13 +38,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
        tutorialViewPagerAdapter adapter = new tutorialViewPagerAdapter(getSupportFragmentManager());
-       adapter.addFragment(new tutorial_fragment1());
+     /*  adapter.addFragment(new tutorial_fragment1());
        adapter.addFragment(new tutorial_fragment2());
        adapter.addFragment(new tutorial_fragment3());
        adapter.addFragment(new tutorial_fragment4());
        adapter.addFragment(new tutorial_fragment5());
        adapter.addFragment(new tutorial_fragment6());
-       adapter.addFragment(new tutorial_fragment7());
-       viewPager.setAdapter(adapter);
+       adapter.addFragment(new tutorial_fragment7());*/
+       //viewPager.setAdapter(adapter);
     }
 }
