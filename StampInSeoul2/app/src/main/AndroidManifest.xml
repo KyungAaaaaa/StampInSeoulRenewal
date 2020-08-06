@@ -21,25 +21,23 @@
 
     <application
         android:name=".App"
-        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:icon="@drawable/stamp_icon"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
 
         <meta-data
             android:name="com.google.android.geo.APi_KEY"
             android:value="AIzaSyDzDmPuEdRn-WLvX8SY06aPk5J6Fex2CsE" />
 
-        <activity android:name=".LoginActivity"
+        <activity
+            android:name=".LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
         <activity android:name=".MapInWeb"></activity>
         <activity android:name=".ThemeActivity" />
@@ -47,16 +45,21 @@
         <activity android:name=".BottomMenuActivity" />
         <activity android:name=".CameraActivity" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".StartActivity"
+        <activity
+            android:name=".StartActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Start_app">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
-            </activity>
+        </activity>
 
         <!-- 카카오톡 데이터 -->
         <meta-data
-            android:name="com.kakao.sdk.AppKey"
-            android:value="54168c178ba7edaf46803ea023775af8" />
+        android:name="com.kakao.sdk.AppKey"
+        android:value="54168c178ba7edaf46803ea023775af8" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
