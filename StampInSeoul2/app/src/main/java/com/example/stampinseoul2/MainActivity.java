@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
     private FragmentPagerAdapter fragmentPagerAdapter;
     private ViewPager viewPager;
 
-    //public static DBHelper dbHelper;
+    public static UserDBHelper userdbHelper;
     public static SQLiteDatabase db;
 
 

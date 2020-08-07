@@ -34,6 +34,12 @@ public class UserDBHelper extends SQLiteOpenHelper {
                 "userId TEXT not null primary key," +
                 "userName TEXT not null," +
                 "profileImage TEXT not null);");
+
+//        sqLiteDatabase.execSQL("CREATE TABLE userTBL("
+//                + "userId TEXT PRIMARY KEY,"
+//                + "userName TEXT, "
+//                + "profileImage TEXT); ");
+
     }
 
     @Override

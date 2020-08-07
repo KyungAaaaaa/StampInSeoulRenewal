@@ -31,7 +31,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnLogin;
     private LoginButton btn_kakao_login;
     private SessionCallback sessionCallback;
-    public Long userId = null;
+    public static Long userId = null;
     public static User userData=null;
 
     @Override
