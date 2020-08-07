@@ -1,0 +1,43 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#FFFFFF</item>
+        <item name="colorPrimaryDark">#818181</item>
+        <item name="colorAccent">#FFFFFF</item>
+    </style>
+
+    <style name="Start_app" parent="android:style/Theme.Light.NoTitleBar">
+        <item name="android:windowBackground">@drawable/loding_image
+
+        </item>
+
+    </style>
+
+    <!-- 카카오 네이티브앱 키 -->
+    <string name="kakao_app_key">b98d5b1452478b18ccf4b70ecd757824</string>
+
+    <!-- 디버그 키 -->
+    <!-- <string name="pGke5ClkWgMcTb+KbdUUx6lcT8s="></string> -->
+
+    <style name="TapTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <item name="colorPrimary">#303136</item>
+
+        <item name="android:textColorPrimary">@android:color/black</item>
+        <item name="android:textColorSecondary">@android:color/darker_gray</item>
+
+        <item name="colorAccent">@android:color/black</item>
+
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+</resources>

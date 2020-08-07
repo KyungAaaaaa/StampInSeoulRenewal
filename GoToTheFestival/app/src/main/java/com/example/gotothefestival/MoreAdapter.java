@@ -1,0 +1,4 @@
+package com.example.gotothefestival;
+
+public class MoreAdapter {
+}

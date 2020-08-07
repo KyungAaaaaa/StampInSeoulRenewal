@@ -1,0 +1,225 @@
+[33mcommit 08202e109bb4275b18e79fa539307da2a1cfc75c[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: kyungaaaaaa <kyungaaaaaa1223@gmail.com>
+Date:   Fri Aug 7 15:58:41 2020 +0900
+
+    UI수정중
+
+[33mcommit 3c686c8bc4d693d4bc511ff39e7490d542670740[m
+Author: kyungaaaaaa <kyungaaaaaa1223@gmail.com>
+Date:   Fri Aug 7 14:47:13 2020 +0900
+
+    검색 수정
+    
+    마지막탭에서 검색 불가능
+
+[33mcommit bfe998588fdfafd62324e69a8ce38613933757e3[m
+Merge: 8d6889a a3a181d
+Author: kyungaaaaaa <kyungaaaaaa1223@gmail.com>
+Date:   Fri Aug 7 11:29:42 2020 +0900
+
+    충돌수정
+    
+    Conflicts:
+
+[33mcommit 8d6889a9b942e855253186294192a70c89e9f177[m
+Author: kyungaaaaaa <kyungaaaaaa1223@gmail.com>
+Date:   Fri Aug 7 11:28:19 2020 +0900
+
+    Theme수정 검색
+
+[33mcommit a3a181d0caeba767283477538f53269445e06b74[m
+Author: gon00130 <gon00130@gmail.com>
+Date:   Fri Aug 7 10:42:58 2020 +0900
+
+    맵 좌표찍기 수정
+
+[33mcommit c52165b8f76b01f3c75813be9454aec225ad91ad[m
+Merge: 7ec29e1 8950a9b
+Author: gon00130 <gon00130@gmail.com>
+Date:   Fri Aug 7 02:40:15 2020 +0900
+
+    Merge branch 'kbg'
+
+[33mcommit 8950a9bb82a921d688a2020bbbcb6c698ae41db0[m
+Author: gon00130 <gon00130@gmail.com>
+Date:   Fri Aug 7 02:37:31 2020 +0900
+
+    더보기 프레그먼트창에 로그아웃버튼추가
+
+[33mcommit 7ec29e12967a029a6eda3e26365eb7dcc188a64a[m[33m ([m[1;32mka[m[33m)[m
+Author: kyungaaaaaa <kyungaaaaaa1223@gmail.com>
+Date:   Fri Aug 7 01:45:23 2020 +0900
+
+    맵 Like리사이클러뷰 셋팅
+
+[33mcommit 02fd545c90dd7d0168007e1adb3af851b1a5655c[m
+Merge: 233ef98 392e3a5
+Author: kyungaaaaaa <kyungaaaaaa1223@gmail.com>
+Date:   Fri Aug 7 01:10:39 2020 +0900
+
+    Merge branch 'ka'
+
+[33mcommit 233ef986cc524f7169047148dd173e8f939e0a6b[m
+Author: gon00130 <gon00130@gmail.com>
+Date:   Fri Aug 7 01:01:07 2020 +0900
+
+    앨범기능추가 && 플로팅버튼오류수정중
+
+[33mcommit 392e3a5109df9a700e6bd0ac4d747cbc00f8bf61[m
+Author: kyungaaaaaa <kyungaaaaaa1223@gmail.com>
+Date:   Fri Aug 7 00:36:50 2020 +0900
+
+    검색 프레그먼트추가
+    
+    search Activity 사용하지않음
+    오동작있음 확인 후 수정필요!
+
+[33mcommit 36a9f1343882a7e48b2477c61de0164c74592869[m[33m ([m[1;31morigin/ka[m[33m)[m
+Author: kyungaaaaaa <kyungaaaaaa1223@gmail.com>
+Date:   Thu Aug 6 22:13:39 2020 +0900
+
+    로그인 DB수정 & Theme 좋아요
+    
+    한글깨짐 해결
+
+[33mcommit efcdff30b4a47203513d58321c686dfcbe928f48[m
+Author: kyungaaaaaa <kyungaaaaaa1223@gmail.com>
+Date:   Thu Aug 6 13:27:33 2020 +0900
+
+    로그인 & 테마 & 맵
+    
+    한글 깨짐
+
+[33mcommit 589bfac38d637125d3b59d3f939997d4c7def047[m
+Author: kyungaaaaaa <kyungaaaaaa1223@gmail.com>
+Date:   Thu Aug 6 13:11:28 2020 +0900
+
+    충돌22:
+
+[33mcommit 9219bc5c65299653892684d39b571a0b1996e43f[m
+Merge: e8fdb93 e6bd838
+Author: kyungaaaaaa <kyungaaaaaa1223@gmail.com>
+Date:   Thu Aug 6 10:48:15 2020 +0900
+
+    로그인 기능 추가
+
+[33mcommit e6bd838a940e087afb3a529fcd270485e73f7e13[m
+Author: kyungaaaaaa <kyungaaaaaa1223@gmail.com>
+Date:   Thu Aug 6 10:40:48 2020 +0900
+
+    Theme 축제탭 리스트불러오기
+    
+    한글깨짐
+
+[33mcommit e8fdb93380f9804453067ad8ee1fb58648706942[m
+Author: yung34 <yung3455@naver.com>
+Date:   Thu Aug 6 10:05:11 2020 +0900
+
+    프레그먼트 삭제
+
+[33mcommit 69190f7e1c5b7440c658882406ab03e30b5f836e[m
+Author: yung34 <yung3455@naver.com>
+Date:   Wed Aug 5 17:30:22 2020 +0900
+
+    로그인 기능 활성화
+
+[33mcommit d1ec0858470f5c31ac02daad3d0eb03f94f78aab[m
+Merge: 2c99081 826045e
+Author: kyungaaaaaa <kyungaaaaaa1223@gmail.com>
+Date:   Wed Aug 5 10:38:03 2020 +0900
+
+    수정작업중 충돌수정
+
+[33mcommit 826045e67b8c1e7058b5a398f08130776a6debda[m
+Merge: 81c5922 9b32172
+Author: kyungaaaaaa <kyungaaaaaa1223@gmail.com>
+Date:   Wed Aug 5 10:11:00 2020 +0900
+
+    충돌 수정
+
+[33mcommit 2c99081e21f8174e182cbc9dbc55717604d5147a[m
+Author: kyungaaaaaa <kyungaaaaaa1223@gmail.com>
+Date:   Wed Aug 5 09:54:21 2020 +0900
+
+    레트로핏 수정중
+
+[33mcommit 9b32172277e6632846106dc0782a23c10d6bf8a4[m
+Author: yung34 <yung3455@naver.com>
+Date:   Wed Aug 5 09:50:51 2020 +0900
+
+    시작화면 수정
+
+[33mcommit 81c59222c297470ae9172c1d34cffa9209fa859d[m
+Merge: a1e6ed3 e888f76
+Author: kyungaaaaaa <kyungaaaaaa1223@gmail.com>
+Date:   Wed Aug 5 00:23:40 2020 +0900
+
+    BottomActovity & Map & Theme 수정중
+    
+    map api 부분 수정중
+    Theme api 부분 수정중
+
+[33mcommit a1e6ed3369b38af3c11a4e169d4a529b8ac7031a[m
+Merge: 1ff5024 e8b0ef3
+Author: kyungaaaaaa <kyungaaaaaa1223@gmail.com>
+Date:   Wed Aug 5 00:22:06 2020 +0900
+
+    pull작업+병곤+원
+    
+    Please enter a commit message to explain why this merge is necessary,
+
+[33mcommit e888f769e11855067893d8a8285ce47e12f82a9c[m
+Author: kyungaaaaaa <kyungaaaaaa1223@gmail.com>
+Date:   Wed Aug 5 00:18:02 2020 +0900
+
+    Theme 디자인 수정 & api 받아오기
+    
+    한글깨짐현상
+    Volley,JsonObject 대신 레트로핏으로 api받아오기 주석처리
+
+[33mcommit e8b0ef37759d0244092f630b1dbe71cae4731a16[m
+Author: gon00130 <gon00130@gmail.com>
+Date:   Tue Aug 4 23:54:22 2020 +0900
+
+    map생성및 수정 api키값만입력
+
+[33mcommit 1ff50244dac2418845c463e9e7fc1a0bfc369ba9[m
+Author: yung34 <yung3455@naver.com>
+Date:   Tue Aug 4 17:34:40 2020 +0900
+
+     스타트,로그인,메인액티비티 프레그먼트 수정
+
+[33mcommit 8733d593a9a8923e00e6ccafa4ad9857e09b626a[m
+Merge: c7acef9 8fac7e4
+Author: gon00130 <gon00130@gmail.com>
+Date:   Tue Aug 4 11:26:57 2020 +0900
+
+    Merge branch 'kbg'
+
+[33mcommit 8fac7e411725a1dc6454ef541ae6c6e1c7db0237[m
+Author: gon00130 <gon00130@gmail.com>
+Date:   Tue Aug 4 11:25:54 2020 +0900
+
+    바텀메뉴 클래스및레이아웃생성
+
+[33mcommit c7acef9cc40632258239b53edf62f9001427a343[m
+Author: kyungaaaaaa <kyungaaaaaa1223@gmail.com>
+Date:   Tue Aug 4 10:38:58 2020 +0900
+
+    Theme 레이아웃 수정
+    
+    AppBar, ToolBar 사용으로 화면 스크롤시 검색창 숨기기
+
+[33mcommit 1629d0bc744c0cca205493a0d9dc2a11be8ae8a1[m
+Author: kyungaaaaaa <kyungaaaaaa1223@gmail.com>
+Date:   Tue Aug 4 01:15:56 2020 +0900
+
+    Theme 레이아웃 설계 & 빌드 수정
+    
+    리사이클뷰 어댑터, 데이터 모델, 프레그먼트 수정
+
+[33mcommit aa5425b1753adcf2632f257f1931141d502dd0fa[m
+Author: kyungaaaaaa <kyungaaaaaa1223@gmail.com>
+Date:   Mon Aug 3 21:34:12 2020 +0900
+
+    원본파일 & 기본 뼈대
