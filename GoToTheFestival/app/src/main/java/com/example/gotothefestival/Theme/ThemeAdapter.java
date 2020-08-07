@@ -1,7 +1,6 @@
 package com.example.gotothefestival.Theme;
 
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.database.SQLException;
 import android.graphics.Color;
@@ -27,8 +26,8 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
-import com.example.gotothefestival.LoginActivity;
-import com.example.gotothefestival.MainActivity;
+import com.example.gotothefestival.Login.LoginActivity;
+import com.example.gotothefestival.Login.MainActivity;
 import com.example.gotothefestival.Model.ThemeData;
 import com.example.gotothefestival.R;
 import com.example.gotothefestival.UserDBHelper;

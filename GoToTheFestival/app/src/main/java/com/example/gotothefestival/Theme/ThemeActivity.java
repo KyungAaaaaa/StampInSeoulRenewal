@@ -3,10 +3,8 @@ package com.example.gotothefestival.Theme;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,15 +12,11 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -35,14 +29,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.gotothefestival.BottomMenuActivity;
-import com.example.gotothefestival.MainActivity;
+import com.example.gotothefestival.BottomMenu.BottomMenuActivity;
+import com.example.gotothefestival.Login.MainActivity;
 import com.example.gotothefestival.Model.ThemeData;
 import com.example.gotothefestival.R;
-import com.example.gotothefestival.Theme.ThemeSearchFragment;
-import com.example.gotothefestival.Theme.ThemeViewPager;
-import com.example.gotothefestival.Theme.ThemeViewPagerAdapter;
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
@@ -57,7 +47,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.Queue;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -94,18 +83,8 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
         String strProfile = intent.getStringExtra("profile");
         String strNickName = intent.getStringExtra("name");
 
-        Context context = getApplicationContext();
-        CharSequence txt = "메시지입니다";
-        int time = Toast.LENGTH_SHORT;// 아니면 Long으로
-        Toast toast = Toast.makeText(context, txt, time);
         Snackbar.make(getWindow().getDecorView().getRootView(), strNickName + "님 환영합니다!", Snackbar.LENGTH_LONG).show();
-        LayoutInflater inflater = getLayoutInflater();
-//xml 파일과 레이아웃 정의
-        View view = inflater.inflate(R.layout.custom_toastview, (ViewGroup) findViewById(R.id.containers));
 
-        TextView txtView = view.findViewById(R.id.txtId);
-
-        txtView.setText(strNickName);//텍스트뷰에 이름 보여주기
         Thread thread = new Thread() {
             @Override
             public void run() {
@@ -129,8 +108,7 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
             civImage.setBorderWidth(1);
         } catch (InterruptedException e) {
         }
-        toast.setView(view);
-        //toast.show();//토스트 메시지 보여주기
+
 
         // == 플로팅 버튼, 드로어
         fab = findViewById(R.id.fab);

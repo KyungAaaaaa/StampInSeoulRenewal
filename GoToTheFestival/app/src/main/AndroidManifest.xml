@@ -24,9 +24,9 @@
         android:name="android.hardware.Camera"
         android:required="true" />
     <application
-        android:name=".App"
+        android:name=".Login.App"
         android:allowBackup="true"
-        android:icon="@drawable/stamp_icon"
+        android:icon="@drawable/go_to_the_festival_logo"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -38,22 +38,18 @@
             android:value="AIzaSyC2AxkliylJfef-_aAjqJ3OZ-57BgX0EoM" />
 
 
-        <activity android:name=".MapInWeb" />
+        <activity android:name=".BottomMenu.MapInWeb" />
         <activity android:name=".Theme.ThemeActivity"
             android:windowSoftInputMode="stateHidden"
              />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".SearchActivity" />
-        <activity android:name=".BottomMenuActivity" />
-        <activity android:name=".CameraActivity" />
-        <activity android:name=".MainActivity" />
-        <activity
-            android:name=".StartActivity"
+        <activity android:name=".Login.LoginActivity" />
+        <activity android:name=".BottomMenu.BottomMenuActivity" />
+        <activity android:name=".BottomMenu.CameraActivity" />
+        <activity android:name=".Login.MainActivity" >
             android:screenOrientation="portrait"
             android:theme="@style/Start_app">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity> <!-- 카카오톡 데이터 -->
