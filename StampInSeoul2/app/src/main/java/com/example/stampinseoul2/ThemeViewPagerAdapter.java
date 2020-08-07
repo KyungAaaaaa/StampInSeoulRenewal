@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
 public class ThemeViewPagerAdapter extends FragmentStatePagerAdapter {
-    private int count;
+    int count = 0;
 
     public ThemeViewPagerAdapter(FragmentManager fm, int count) {
         super(fm);
@@ -26,14 +26,22 @@ public class ThemeViewPagerAdapter extends FragmentStatePagerAdapter {
                 return ThemeActiFragment.newInstance();
             case 4:
                 return ThemeShopFragment.newInstance();
+            case 5:
+                return ThemeShopFragment.newInstance();
+            case 6:
+                return ThemeShopFragment.newInstance();
+            case 7:
+                return ThemeShopFragment.newInstance();
+            case 8:
+                return ThemeSearchFragment.newInstance();
             default:
-                return null;
+                return  null;
         }
     }
 
     @Override
     public int getCount() {
-        return 5;
+        return 9;
     }
 
     @Nullable
@@ -41,15 +49,21 @@ public class ThemeViewPagerAdapter extends FragmentStatePagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                return "축제";
+                return "서울";
             case 1:
-                return "문화";
+                return "경기";
             case 2:
-                return "맛집";
+                return "인천";
             case 3:
-                return "활동";
+                return "강원";
             case 4:
-                return "쇼핑";
+                return "충청";
+            case 5:
+                return "전라";
+            case 6:
+                return "경상";
+            case 7:
+                return "제주";
             default:
                 return null;
         }

@@ -112,9 +112,9 @@ public class ThemeFestivalFragment extends Fragment {
         // ThemeData data = new ThemeData("");
         ArrayList<ThemeData> dataArrayList = new ArrayList<>();
         queue = Volley.newRequestQueue(getActivity());
-        String url = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList?" +
+        String url = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/searchFestival?" +
                 "ServiceKey=" +KEY+
-                "&contentTypeId=15&listYN=Y&arrange=P&numOfRows=20&pageNo=1" +
+                "&areaCode=1&contentTypeId=15&listYN=Y&arrange=P&numOfRows=20&pageNo=1" +
                 "&MobileOS=AND&MobileApp=" +APP_NAME+
                 "&_type=json";
 
@@ -183,7 +183,7 @@ public class ThemeFestivalFragment extends Fragment {
         // 액티비티 28
         String url = "http://api.visitkorea.or.kr/openapi/service/"
                 + "rest/KorService/searchFestival?ServiceKey=" + KEY
-                + "&contentTypeId=15&listYN=Y&arrange=P"
+                + "&areaCode=1&contentTypeId=15&listYN=Y&arrange=P"
                 + "&numOfRows=20&pageNo=1&MobileOS=AND&MobileApp="
                 + APP_NAME + "&_type=json";
 

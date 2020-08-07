@@ -73,20 +73,22 @@
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/searchLayout">
+            android:layout_below="@id/searchLayout"
+            app:tabIndicatorColor="#00FF0101"
+            app:tabMode="scrollable">
 
         </com.google.android.material.tabs.TabLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
 
-    <androidx.viewpager.widget.ViewPager
+    <com.example.stampinseoul2.ThemeViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/tabLayout"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    </androidx.viewpager.widget.ViewPager>
+    </com.example.stampinseoul2.ThemeViewPager>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab2"

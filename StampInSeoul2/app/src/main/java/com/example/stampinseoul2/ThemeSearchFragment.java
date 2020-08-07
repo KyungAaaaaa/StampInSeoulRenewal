@@ -1,12 +1,14 @@
 package com.example.stampinseoul2;
 
 import android.app.ProgressDialog;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -52,25 +54,38 @@ public class ThemeSearchFragment extends Fragment {
     static final String APP_NAME = "Apptest";
     ProgressDialog pDialog;
     Bundle bundle;
+
+    public static ThemeSearchFragment newInstance() {
+        ThemeSearchFragment themeSearchFragment = new ThemeSearchFragment();
+        return themeSearchFragment;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_theme, container, false);
         themeActivity = (ThemeActivity) getActivity();
-        //Bundle bundle=getArguments();
-         bundle = themeActivity.getThemeSearchFragment().getArguments();
+
         themeRecyclerView = rootView.findViewById(R.id.themeRecyclerView);
         layoutManager = new LinearLayoutManager(getActivity());
         themeRecyclerView.setLayoutManager(layoutManager);
         if (requestQueue == null) {
             requestQueue = Volley.newRequestQueue(getActivity());
         }
-
         list = new ArrayList<>();
-        requestLotto(bundle.getString("keyword"));
+        try {
+            bundle = themeActivity.getThemeSearchFragment().getArguments();
+            requestLotto(bundle.getString("keyword"));
+        } catch (NullPointerException e) {
+
+        }
+
+
 //        ThemeSearchFragment.AsyncTaskClassMain async = new ThemeSearchFragment.AsyncTaskClassMain();
 //        async.execute();
-        adapter = new ThemeAdapter(list);
+        adapter = new
+
+                ThemeAdapter(list);
         themeRecyclerView.setAdapter(adapter);
 
         return rootView;
@@ -106,8 +121,8 @@ public class ThemeSearchFragment extends Fragment {
             // Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
             super.onPostExecute(s);
         }
-    } // end of AsyncTaskClassMain
 
+    } // end of AsyncTaskClassMain
 
 
     public void requestLotto(String word) {
@@ -149,7 +164,7 @@ public class ThemeSearchFragment extends Fragment {
                             themeRecyclerView.setAdapter(adapter);
                         } catch (ClassCastException e) {
                             Log.d("JSON 오류", e.getMessage());
-                            Snackbar.make(getView(), "검색결과가 없습니다.", Snackbar.LENGTH_LONG) .show();
+                            Snackbar.make(getView(), "검색결과가 없습니다.", Snackbar.LENGTH_LONG).show();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

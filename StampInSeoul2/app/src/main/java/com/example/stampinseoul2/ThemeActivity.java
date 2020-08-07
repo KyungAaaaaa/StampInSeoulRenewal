@@ -18,6 +18,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
@@ -31,9 +32,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ThemeActivity extends AppCompatActivity implements View.OnClickListener {
     private TabLayout tabLayout;
-    private ViewPager viewPager;
+    private ThemeViewPager viewPager;
     private EditText edtSearch;
     private ImageButton ibSearch;
+    private AppBarLayout appBar;
     private FloatingActionButton fab, fab1, fab2;
     private ThemeSearchFragment themeSearchFragment;
     private Animation fab_open, fab_close;
@@ -52,6 +54,7 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
         viewPager = findViewById(R.id.viewPager);
         edtSearch = findViewById(R.id.edtSearch);
         ibSearch = findViewById(R.id.ibSearch);
+        appBar = findViewById(R.id.appBar);
         FragmentStatePagerAdapter fragmentStatePagerAdapter = new ThemeViewPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         tabLayout.setupWithViewPager(viewPager);
         viewPager.setAdapter(fragmentStatePagerAdapter);
@@ -63,7 +66,7 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
         String strProfile = intent.getStringExtra("profile");
         CircleImageView civImage = findViewById(R.id.civImage);
 
-        Thread thread=new Thread() {
+        Thread thread = new Thread() {
             @Override
             public void run() {
                 try {
@@ -99,7 +102,6 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
         fab1.setOnClickListener(this);
         fab2.setOnClickListener(this);
         ibSearch.setOnClickListener(this);
-
     }
 
     public ThemeSearchFragment getThemeSearchFragment() {
@@ -128,13 +130,16 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
                 if (word.length() > 1) {
                     searchData();
                     themeSearchFragment = new ThemeSearchFragment();
-                    viewPager.setVisibility(View.GONE);
                     Bundle bundle = new Bundle();
                     bundle.putString("keyword", word);
                     themeSearchFragment.setArguments(bundle);
                     searchDisplayFlag = true;
-                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.searchFrame, themeSearchFragment).commit();
+
+                    viewPager.setCurrentItem(8);
+                    viewPager.setPagingDisabled();
+
+//                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//                    fragmentTransaction.replace(R.id.searchFrame, themeSearchFragment).commit();
                 } else {
                     Toast.makeText(getApplicationContext(), "두 글자 이상 입력해 주세요", Toast.LENGTH_LONG).show();
                 }
@@ -145,7 +150,9 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
     private void searchData() {
         if (!searchFlag) {
             tabLayout.setVisibility(View.GONE);
-            searchFrame.setVisibility(View.VISIBLE);
+            edtSearch.setEnabled(false);
+            ibSearch.setEnabled(false);
+            //searchFrame.setVisibility(View.VISIBLE);
             currentDisplay = "search";
             //searchFlag=true;
         } else {
@@ -178,10 +185,11 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onBackPressed() {
         if (searchDisplayFlag) {
-            searchFrame.setVisibility(View.GONE);
-            viewPager.setVisibility(View.VISIBLE);
             searchFlag = false;
-            tabLayout.setVisibility(View.VISIBLE);
+            viewPager.setPagingEnabled();
+            ibSearch.setEnabled(true);
+            edtSearch.setEnabled(true);
+            viewPager.setCurrentItem(0);
             searchDisplayFlag = false;
             themeSearchFragment = null;
             return;
