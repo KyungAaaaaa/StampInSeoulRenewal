@@ -89,7 +89,7 @@ public class UserDBHelper extends SQLiteOpenHelper {
         } catch (SQLException e) {
             Log.d("DBLikeLoad", e.getMessage());
         } finally {
-            if(cursor!=null)   cursor.close();
+            if (cursor != null) cursor.close();
             sqLiteDatabase.close();
         }
         return arrayList;
@@ -113,7 +113,7 @@ public class UserDBHelper extends SQLiteOpenHelper {
         SQLiteDatabase sqLiteDatabase = null;
         try {
             sqLiteDatabase = this.getWritableDatabase();
-            sqLiteDatabase.execSQL("INSERT INTO LikePlace" + user.getUserId() + "TBL VALUES('"
+            sqLiteDatabase.execSQL("INSERT INTO LikePlace" + user.getUserId() + "TBL (title,addr,mapX,mapY,image) VALUES ('"
                     + data.getTitle() + "','"
                     + data.getAddr() + "','"
                     + data.getMapX() + "','"
@@ -136,13 +136,13 @@ public class UserDBHelper extends SQLiteOpenHelper {
             sqLiteDatabase = this.getWritableDatabase();
             cursor = sqLiteDatabase.rawQuery("SELECT * FROM LikePlace" + user.getUserId() + "TBL;", null);
             while (cursor.moveToNext()) {
-                arrayList.add(new ThemeData(cursor.getString(0),cursor.getString(1),cursor.getDouble(2),cursor.getDouble(3),cursor.getString(4)));
+                arrayList.add(new ThemeData(cursor.getString(0), cursor.getString(1), cursor.getDouble(2), cursor.getDouble(3), cursor.getString(4)));
             }
             Log.d("DBLikePlaceLoad", "성공");
         } catch (SQLException e) {
             Log.d("DBLikePlaceLoad", e.getMessage());
         } finally {
-            if(cursor!=null)   cursor.close();
+            if (cursor != null) cursor.close();
             sqLiteDatabase.close();
         }
         return arrayList;

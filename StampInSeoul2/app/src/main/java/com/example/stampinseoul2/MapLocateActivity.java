@@ -12,6 +12,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -92,9 +93,9 @@ public class MapLocateActivity extends Fragment implements View.OnTouchListener,
 
         recyclerView.setLayoutManager(linearLayoutManager);
         UserDBHelper userDBHelper = UserDBHelper.getInstance(getContext());
-        themedatalist =userDBHelper.likePlaceLoad(LoginActivity.userData);
-        themedatalist.add(new ThemeData("타이틀","주소",37.662049, 127.022908));
-                mapLocateAdapter = new MapLocateAdapter(R.layout.map_item, themedatalist);
+        themedatalist = userDBHelper.likePlaceLoad(LoginActivity.userData);
+        mapLocateAdapter = new MapLocateAdapter(R.layout.map_item, themedatalist);
+
         recyclerView.setAdapter(mapLocateAdapter);
 
 
@@ -289,8 +290,9 @@ public class MapLocateActivity extends Fragment implements View.OnTouchListener,
                 for (ThemeData y : themedatalist) {
                     if (x.equals(y.getTitle())) ;
                     {
-                        LatLng latLng = new LatLng(y.getMapX(), y.getMapY());
-
+                        //api에서 xy좌표를 반대로 제공.
+                        LatLng latLng = new LatLng(y.getMapY(), y.getMapX());
+                        Log.d("MapActivity", y.getMapY() + "/" + y.getMapX());
                         MarkerOptions markerOptions = new MarkerOptions();
                         markerOptions.title(y.getTitle());
                         markerOptions.snippet(y.getAddr());
