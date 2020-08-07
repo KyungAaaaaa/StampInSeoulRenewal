@@ -1,7 +1,5 @@
 package com.example.stampinseoul2;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +8,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.stampinseoul2.Model.ThemeData;
 
 import java.util.ArrayList;
 

@@ -7,22 +7,17 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.icu.text.Transliterator;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,6 +30,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.stampinseoul2.Model.ThemeData;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -97,10 +93,8 @@ public class MapLocateActivity extends Fragment implements View.OnTouchListener,
         recyclerView.setLayoutManager(linearLayoutManager);
         UserDBHelper userDBHelper = UserDBHelper.getInstance(getContext());
         themedatalist =userDBHelper.likePlaceLoad(LoginActivity.userData);
-
-
+        themedatalist.add(new ThemeData("타이틀","주소",37.662049, 127.022908));
                 mapLocateAdapter = new MapLocateAdapter(R.layout.map_item, themedatalist);
-
         recyclerView.setAdapter(mapLocateAdapter);
 
 

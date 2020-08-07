@@ -1,19 +1,17 @@
 package com.example.stampinseoul2;
 
 import android.content.Intent;
-import android.content.pm.PackageInstaller;
 import android.database.sqlite.SQLiteConstraintException;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.InputMethod;
 import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.kakao.auth.AuthType;
+import com.example.stampinseoul2.Model.User;
 import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
 import com.kakao.network.ErrorResult;
@@ -23,7 +21,6 @@ import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.MeV2ResponseCallback;
 import com.kakao.usermgmt.response.MeV2Response;
 import com.kakao.util.exception.KakaoException;
-import com.kakao.usermgmt.LoginButton;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -32,7 +29,7 @@ public class LoginActivity extends AppCompatActivity {
     private LoginButton btn_kakao_login;
     private SessionCallback sessionCallback;
     public Long userId = null;
-    public static User userData=null;
+    public static User userData = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,14 +69,34 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private class SessionCallback implements ISessionCallback {
-
         @Override
         public void onSessionOpened() {
-
             //유저의 정보를 받아오는 함수 이름
             UserManagement.getInstance().me(new MeV2ResponseCallback() {
+                //로그인에 성공했을 때 MeV2Response 객체 넘어오는데, 로그인한 유저의 정보를 담고 있는 중요객체.
+                @Override
+                public void onSuccess(MeV2Response result) {
+                    try {
+                        UserDBHelper userDBHelper = UserDBHelper.getInstance(getApplicationContext());
+                        userId = result.getId();
+                        userData = new User(result.getId(), result.getNickname(), result.getProfileImagePath());
+                        //로그인한 계정의정보를 userTBL에 insert
+                        userDBHelper.insertUserInfo(userData);
+                    } catch (SQLiteConstraintException e) {
+                        Log.d("LoginActivity DB", e.getMessage());
+                    }
+
+                    Intent intent = new Intent(getApplicationContext(), ThemeActivity.class);
+                    intent.putExtra("name", result.getNickname()); //유저 닉네임
+                    intent.putExtra("profile", result.getProfileImagePath()); //카카오톡 프로필 이미지
+                    intent.putExtra("id", result.getId());
+
+                    startActivity(intent);
+                    finish();
+                }
 
                 //로그인에 실패했을 경우
+
                 @Override
                 public void onFailure(ErrorResult errorResult) {
                     int result = errorResult.getErrorCode();
@@ -98,47 +115,6 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "세션이 닫혔습니다. 다시 시도하시기 바랍니다: " + errorResult.getErrorMessage(), Toast.LENGTH_SHORT).show();
                 }
 
-                //로그인에 성공했을 때 MeV2Response 객체 넘어오는데, 로그인한 유저의 정보를 담고 있는 중요객체.
-                @Override
-                public void onSuccess(MeV2Response result) {
-
-                    try {
-                        UserDBHelper userDBHelper = UserDBHelper.getInstance(getApplicationContext());
-                        userId = result.getId();
-                        userData = new User(result.getId(), result.getNickname(), result.getProfileImagePath());
-                        //로그인한 계정의정보를 userTBL에 insert
-                        userDBHelper.insertUserInfo(userData);
-
-
-                        //새로 로그인한 유저의 전용 테이블 생성
-                        userDBHelper.createUserLikePlaceTBL(userData);
-//                        String createStampTBL = "CREATE TABLE IF NOT EXISTS STAMP_" + result.getId() + "("
-//                                + "_id INTEGER PRIMARY KEY AUTOINCREMENT, "
-//                                + "title TEXT, "
-//                                + "addr TEXT, "
-//                                + "mapX REAL, "
-//                                + "mapY REAL, "
-//                                + "firstImage TEXT, "
-//                                + "picture TEXT, "
-//                                + "content_pola TEXT, "
-//                                + "content_title TEXT, "
-//                                + "contents TEXT, "
-//                                + "complete INTEGER);";
-//
-//                        MainActivity.db.execSQL(createStampTBL);
-
-                    } catch (SQLiteConstraintException e) {
-                        Log.d("LoginActivity DB", e.getMessage());
-                    }
-
-                    Intent intent = new Intent(getApplicationContext(), ThemeActivity.class);
-                    intent.putExtra("name", result.getNickname()); //유저 닉네임
-                    intent.putExtra("profile", result.getProfileImagePath()); //카카오톡 프로필 이미지
-                    intent.putExtra("id", result.getId());
-
-                    startActivity(intent);
-                    finish();
-                }
             });
         }
 

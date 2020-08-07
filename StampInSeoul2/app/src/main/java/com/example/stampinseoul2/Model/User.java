@@ -1,4 +1,4 @@
-package com.example.stampinseoul2;
+package com.example.stampinseoul2.Model;
 
 public class User {
     Long userId;

@@ -1,7 +1,6 @@
 package com.example.stampinseoul2;
 
 import android.app.ProgressDialog;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,7 +12,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,23 +25,16 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.example.stampinseoul2.Model.ThemeData;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 
@@ -123,7 +114,7 @@ public class ThemeFestivalFragment extends Fragment {
         queue = Volley.newRequestQueue(getActivity());
         String url = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList?" +
                 "ServiceKey=" +KEY+
-                "&areaCode=1&contentTypeId=15&listYN=Y&arrange=P&numOfRows=20&pageNo=1" +
+                "&contentTypeId=15&listYN=Y&arrange=P&numOfRows=20&pageNo=1" +
                 "&MobileOS=AND&MobileApp=" +APP_NAME+
                 "&_type=json";
 
@@ -192,7 +183,7 @@ public class ThemeFestivalFragment extends Fragment {
         // 액티비티 28
         String url = "http://api.visitkorea.or.kr/openapi/service/"
                 + "rest/KorService/searchFestival?ServiceKey=" + KEY
-                + "&areaCode=1&contentTypeId=28&listYN=Y&arrange=P"
+                + "&contentTypeId=15&listYN=Y&arrange=P"
                 + "&numOfRows=20&pageNo=1&MobileOS=AND&MobileApp="
                 + APP_NAME + "&_type=json";
 

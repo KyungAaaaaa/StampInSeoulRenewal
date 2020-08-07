@@ -9,8 +9,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.stampinseoul2.Model.ThemeData;
+
 import java.util.ArrayList;
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.CustomViewHolder> {
 

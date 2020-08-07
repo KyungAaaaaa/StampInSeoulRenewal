@@ -7,6 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.example.stampinseoul2.Model.ThemeData;
+import com.example.stampinseoul2.Model.User;
+
 import java.util.ArrayList;
 
 
@@ -133,7 +136,7 @@ public class UserDBHelper extends SQLiteOpenHelper {
             sqLiteDatabase = this.getWritableDatabase();
             cursor = sqLiteDatabase.rawQuery("SELECT * FROM LikePlace" + user.getUserId() + "TBL;", null);
             while (cursor.moveToNext()) {
-                arrayList.add(new ThemeData(cursor.getString(0),cursor.getString(1),cursor.getLong(2),cursor.getLong(3),cursor.getString(4)));
+                arrayList.add(new ThemeData(cursor.getString(0),cursor.getString(1),cursor.getDouble(2),cursor.getDouble(3),cursor.getString(4)));
             }
             Log.d("DBLikePlaceLoad", "성공");
         } catch (SQLException e) {

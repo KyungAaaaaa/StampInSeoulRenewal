@@ -6,6 +6,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -19,6 +21,14 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class ThemeActivity extends AppCompatActivity implements View.OnClickListener {
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -31,6 +41,7 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
     private boolean searchFlag;
     private boolean searchDisplayFlag;
     private FrameLayout searchFrame;
+    private Bitmap bitmap;
     String currentDisplay = null;
 
     @Override
@@ -47,6 +58,34 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.setTabTextColors(Color.LTGRAY, Color.BLACK);
         searchFrame = findViewById(R.id.searchFrame);
+
+        Intent intent = getIntent();
+        String strProfile = intent.getStringExtra("profile");
+        CircleImageView civImage = findViewById(R.id.civImage);
+
+        Thread thread=new Thread() {
+            @Override
+            public void run() {
+                try {
+                    URL url = new URL(strProfile);
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setDoInput(true);
+                    conn.connect();
+                    InputStream is = conn.getInputStream();
+                    bitmap = BitmapFactory.decodeStream(is);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        thread.start();
+        try {
+            thread.join();
+            civImage.setImageBitmap(bitmap);
+            civImage.setBorderColor(Color.BLACK);
+            civImage.setBorderWidth(1);
+        } catch (InterruptedException e) {
+        }
 
         // == 플로팅 버튼, 드로어
         fab = findViewById(R.id.fab);
@@ -89,6 +128,7 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
                 if (word.length() > 1) {
                     searchData();
                     themeSearchFragment = new ThemeSearchFragment();
+                    viewPager.setVisibility(View.GONE);
                     Bundle bundle = new Bundle();
                     bundle.putString("keyword", word);
                     themeSearchFragment.setArguments(bundle);
@@ -112,7 +152,7 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
             tabLayout.setVisibility(View.VISIBLE);
             searchFrame.setVisibility(View.GONE);
             currentDisplay = "none";
-           // searchFlag=false;
+            // searchFlag=false;
         }
     }
 
@@ -139,10 +179,11 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
     public void onBackPressed() {
         if (searchDisplayFlag) {
             searchFrame.setVisibility(View.GONE);
-            searchFlag=false;
+            viewPager.setVisibility(View.VISIBLE);
+            searchFlag = false;
             tabLayout.setVisibility(View.VISIBLE);
-            searchDisplayFlag=false;
-            themeSearchFragment=null;
+            searchDisplayFlag = false;
+            themeSearchFragment = null;
             return;
         }
         if (System.currentTimeMillis() > backKeyPressedTime + 2500) {

@@ -1,18 +1,12 @@
 package com.example.stampinseoul2;
 
-import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,6 +25,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.stampinseoul2.Model.ThemeData;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
@@ -55,14 +51,14 @@ public class ThemeSearchFragment extends Fragment {
     ThemeActivity themeActivity;
     static final String APP_NAME = "Apptest";
     ProgressDialog pDialog;
-
+    Bundle bundle;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_theme, container, false);
         themeActivity = (ThemeActivity) getActivity();
         //Bundle bundle=getArguments();
-        Bundle bundle = themeActivity.getThemeSearchFragment().getArguments();
+         bundle = themeActivity.getThemeSearchFragment().getArguments();
         themeRecyclerView = rootView.findViewById(R.id.themeRecyclerView);
         layoutManager = new LinearLayoutManager(getActivity());
         themeRecyclerView.setLayoutManager(layoutManager);
@@ -72,11 +68,46 @@ public class ThemeSearchFragment extends Fragment {
 
         list = new ArrayList<>();
         requestLotto(bundle.getString("keyword"));
+//        ThemeSearchFragment.AsyncTaskClassMain async = new ThemeSearchFragment.AsyncTaskClassMain();
+//        async.execute();
         adapter = new ThemeAdapter(list);
         themeRecyclerView.setAdapter(adapter);
 
         return rootView;
     }
+
+    class AsyncTaskClassMain extends android.os.AsyncTask<Integer, Long, String> {
+
+        // 일반쓰레드 돌리기 전 메인쓰레드에서 보여줄 화면처리
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            displayLoader();
+        }
+
+        // 일반쓰레드에서 돌릴 네트워크 작업
+        @Override
+        protected String doInBackground(Integer... integers) {
+            requestLotto(bundle.getString("keyword"));
+            // publishProgress()를 호출하면 onProgressUpdate가 실행되고 메인쓰레드에서 UI 처리를 한다
+            // publishProgress();
+            return "작업 종료";
+        }
+
+        @Override
+        protected void onProgressUpdate(Long... values) {
+            // 일반 쓰레드가 도는 도중에 메인 쓰레드에서 처리할 UI작업
+            super.onProgressUpdate(values);
+        }
+
+        // doInBackground 메서드가 완료되면 메인 쓰레드가 얘를 호출한다(doInBackground가 반환한 값을 매개변수로 받음)
+        @Override
+        protected void onPostExecute(String s) {
+            // Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+            super.onPostExecute(s);
+        }
+    } // end of AsyncTaskClassMain
+
 
 
     public void requestLotto(String word) {
@@ -89,7 +120,7 @@ public class ThemeSearchFragment extends Fragment {
         queue = Volley.newRequestQueue(getActivity());
         String url = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/searchKeyword?" +
                 "ServiceKey=" + MainActivity.KEY + "&keyword=" + keyword +
-                "&areaCode=1&numOfRows=20&pageNo=1" +
+                "&contentTypeId=15&numOfRows=20&pageNo=1" +
                 "&MobileOS=AND&MobileApp=" + APP_NAME +
                 "&_type=json";
 
@@ -118,25 +149,7 @@ public class ThemeSearchFragment extends Fragment {
                             themeRecyclerView.setAdapter(adapter);
                         } catch (ClassCastException e) {
                             Log.d("JSON 오류", e.getMessage());
-                            e.printStackTrace();
-                            View viewDialog = View.inflate(getActivity(), R.layout.dialog_search_message, null);
-
-                            Button btnExit = viewDialog.findViewById(R.id.btnExit);
-
-                            final Dialog noSearchDlg = new Dialog(getActivity());
-
-                            noSearchDlg.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-                            noSearchDlg.setContentView(viewDialog);
-                            noSearchDlg.show();
-
-                            btnExit.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    noSearchDlg.dismiss();
-                                }
-                            });
-
+                            Snackbar.make(getView(), "검색결과가 없습니다.", Snackbar.LENGTH_LONG) .show();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
