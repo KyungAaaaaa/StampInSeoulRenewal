@@ -74,7 +74,7 @@ public class MapLocateActivity extends Fragment implements View.OnTouchListener,
     private Animation fab_open, fab_close;
     private Boolean isfabOpen = false;
 
-    private FloatingActionButton fab, fab1, fab2, fab3;
+    private FloatingActionButton fab, fab1, fab2;
     private DrawerLayout drawerLayout;
     private ConstraintLayout drawer;
 
@@ -164,13 +164,6 @@ public class MapLocateActivity extends Fragment implements View.OnTouchListener,
         fab.setOnClickListener(this);
         fab1.setOnClickListener(this);
         fab2.setOnClickListener(this);
-        fab3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), com.example.gotothefestival.MapInWeb.class);
-                startActivity(intent);
-            }
-        });
 
         drawer.setOnTouchListener(this);
         drawerLayout.setDrawerListener(listener);
@@ -184,7 +177,6 @@ public class MapLocateActivity extends Fragment implements View.OnTouchListener,
         fab = view1.findViewById(R.id.fab);
         fab1 = view1.findViewById(R.id.fab1);
         fab2 = view1.findViewById(R.id.fab2);
-        fab3 = view1.findViewById(R.id.fab3);
     }
 
 //    private void listSetting() {
@@ -222,21 +214,17 @@ public class MapLocateActivity extends Fragment implements View.OnTouchListener,
         if (isfabOpen) {
             fab1.startAnimation(fab_close);
             fab2.startAnimation(fab_close);
-            fab3.startAnimation(fab_close);
 
             fab1.setClickable(false);
             fab2.setClickable(false);
-            fab3.setClickable(false);
 
             isfabOpen = false;
         } else {
             fab1.startAnimation(fab_open);
             fab2.startAnimation(fab_open);
-            fab3.startAnimation(fab_open);
 
             fab1.setClickable(true);
             fab2.setClickable(true);
-            fab3.setClickable(true);
 
             isfabOpen = true;
         }

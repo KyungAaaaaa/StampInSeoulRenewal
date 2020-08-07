@@ -23,6 +23,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
+import com.example.gotothefestival.Model.ThemeData;
+import com.example.gotothefestival.Model.User;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
@@ -44,7 +46,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     public static Bitmap imagesave = null;
     private ArrayList<CameraData> cameraList = new ArrayList<>();
     private String imageFile;
-    public static String title;
+    private ThemeData themeData;
 
     private SQLiteDatabase sqlDG;
 
@@ -55,7 +57,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 
         findViewByIdFunc();
 
-        title = getIntent().getStringExtra("title");
+        themeData = getIntent().getParcelableExtra("themadata");
 
         TedPermission.with(getApplicationContext()).setPermissionListener(new PermissionListener() {
 
@@ -126,17 +128,15 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 
             } else if (view.getId() == R.id.btnSave) {
 
-//                MainActivity.db = MainActivity.userdbHelper.getWritableDatabase();
-//                MainActivity.db = MainActivity.userdbHelper.getWritableDatabase();
-//
-//                MainActivity.db.execSQL("UPDATE STAMP_" + LoginActivity.userId + " SET picture='" + imageFilepath
-//                        + "', content_pola='" + edtPola.getText().toString() //한줄
-//                        + "', content_title='" + edtTitle.getText().toString() //제목
-//                        + "', contents='" + edtContents.getText().toString() //내용
-//                        + "', complete=" + 1 //성공여부
-//                        + " WHERE title='" + title + "';");
-//
-//                MainActivity.db.close();
+                UserDBHelper userDBHelper = UserDBHelper.getInstance(getApplicationContext());
+
+
+                themeData.setContents(edtContents.getText().toString());
+                themeData.setTitle(edtTitle.getText().toString());
+                themeData.setContent_pola(edtPola.getText().toString());
+                themeData.setPicture(imageFilepath);
+
+                userDBHelper.oninsertCameraTBL(LoginActivity.userData, themeData);
 
                 finish();
 
@@ -219,7 +219,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         File directory = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(imageFile, ".jpg", directory);
         imageFilepath = image.getAbsolutePath();
-        Log.d("path",imageFilepath);
+        Log.d("path", imageFilepath);
         return image;
     }
 }

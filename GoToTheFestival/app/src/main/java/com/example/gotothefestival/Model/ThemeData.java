@@ -1,12 +1,15 @@
 package com.example.gotothefestival.Model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.List;
 
-public class ThemeData {
+public class ThemeData implements Parcelable {
      private String title;
     private String firstImage;
     private String addr1;
@@ -36,6 +39,16 @@ public class ThemeData {
         this.mapX = mapX;
         this.mapY = mapY;
         this.firstImage = firstImage;
+    }
+
+    public ThemeData(String title, String firstImage, String addr1, String picture, String content_pola, String content_title, String contents) {
+        this.title = title;
+        this.firstImage = firstImage;
+        this.addr1 = addr1;
+        this.picture = picture;
+        this.content_pola = content_pola;
+        this.content_title = content_title;
+        this.contents = contents;
     }
 
     public ThemeData(String title, String picture, String content_pola, String content_title, String contents, int complete) {
@@ -69,6 +82,39 @@ public class ThemeData {
         this.mapY = mapY;
     }
 
+
+    protected ThemeData(Parcel in) {
+        title = in.readString();
+        firstImage = in.readString();
+        addr1 = in.readString();
+        tel = in.readString();
+        overView = in.readString();
+        picture = in.readString();
+        content_pola = in.readString();
+        content_title = in.readString();
+        contents = in.readString();
+        complete = in.readInt();
+        mapX = in.readDouble();
+        mapY = in.readDouble();
+        hart = in.readByte() != 0;
+        if (in.readByte() == 0) {
+            contentsID = null;
+        } else {
+            contentsID = in.readInt();
+        }
+    }
+
+    public static final Creator<ThemeData> CREATOR = new Creator<ThemeData>() {
+        @Override
+        public ThemeData createFromParcel(Parcel in) {
+            return new ThemeData(in);
+        }
+
+        @Override
+        public ThemeData[] newArray(int size) {
+            return new ThemeData[size];
+        }
+    };
 
     public String getPicture() {
         return picture;
@@ -255,4 +301,31 @@ public class ThemeData {
         this.firstImage = firstImage;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(title);
+        parcel.writeString(firstImage);
+        parcel.writeString(addr1);
+        parcel.writeString(tel);
+        parcel.writeString(overView);
+        parcel.writeString(picture);
+        parcel.writeString(content_pola);
+        parcel.writeString(content_title);
+        parcel.writeString(contents);
+        parcel.writeInt(complete);
+        parcel.writeDouble(mapX);
+        parcel.writeDouble(mapY);
+        parcel.writeByte((byte) (hart ? 1 : 0));
+        if (contentsID == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeInt(contentsID);
+        }
+    }
 }
