@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    tools:context=".ThemeActivity">
+    tools:context=".Theme.ThemeActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBar"
@@ -81,14 +81,14 @@
     </com.google.android.material.appbar.AppBarLayout>
 
 
-    <com.example.stampinseoul2.ThemeViewPager
+    <com.example.stampinseoul2.Theme.ThemeViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/tabLayout"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    </com.example.stampinseoul2.ThemeViewPager>
+    </com.example.stampinseoul2.Theme.ThemeViewPager>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab2"
@@ -104,7 +104,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="145dp"
-        android:backgroundTint="#ffa7b3"
+        android:backgroundTint="#73CED8"
         android:src="@drawable/ic_shopping_basket_black_24dp"
         android:visibility="invisible"
         app:elevation="6dp"
@@ -122,7 +122,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="80dp"
-        android:backgroundTint="#ff8c9c"
+        android:backgroundTint="#73CED8"
         android:src="@drawable/ic_person_black_24dp"
         android:visibility="invisible"
         app:elevation="6dp"
@@ -140,21 +140,10 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="16dp"
-        android:backgroundTint="#FD6F83"
+        android:backgroundTint="#73CED8"
         android:src="@drawable/ic_shopping_basket_black_24dp">
 
     </com.google.android.material.floatingactionbutton.FloatingActionButton>
-
-    <FrameLayout
-        android:id="@+id/searchFrame"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/tabLayout"
-        android:layout_gravity="bottom"
-        android:layout_marginTop="60dp"
-        android:background="#00FF0000">
-
-    </FrameLayout>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

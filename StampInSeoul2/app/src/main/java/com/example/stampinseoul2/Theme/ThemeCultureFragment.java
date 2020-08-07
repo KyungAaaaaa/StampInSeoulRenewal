@@ -1,4 +1,4 @@
-package com.example.stampinseoul2;
+package com.example.stampinseoul2.Theme;
 
 import android.app.ProgressDialog;
 import android.os.Build;
@@ -27,6 +27,7 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.stampinseoul2.Model.ThemeData;
+import com.example.stampinseoul2.R;
 import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
@@ -38,7 +39,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 
-public class ThemeFestivalFragment extends Fragment {
+public class ThemeCultureFragment extends Fragment {
     private RecyclerView themeRecyclerView;
     private LinearLayoutManager layoutManager;
     RequestQueue queue;
@@ -50,9 +51,9 @@ public class ThemeFestivalFragment extends Fragment {
     static final String APP_NAME = "StampInSeoul2";
     ProgressDialog pDialog;
 
-    public static ThemeFestivalFragment newInstance() {
-        ThemeFestivalFragment themeFestivalFragment = new ThemeFestivalFragment();
-        return themeFestivalFragment;
+    public static ThemeCultureFragment newInstance() {
+        ThemeCultureFragment themeCultureFragment = new ThemeCultureFragment();
+        return themeCultureFragment;
     }
 
     @Nullable
@@ -71,7 +72,7 @@ public class ThemeFestivalFragment extends Fragment {
         // 리사이클러뷰에 ThemeAdapter 객체 지정.
         adapter = new ThemeAdapter(list);
         themeRecyclerView.setAdapter(adapter);
-        ThemeFestivalFragment.AsyncTaskClassMain async = new ThemeFestivalFragment.AsyncTaskClassMain();
+        ThemeCultureFragment.AsyncTaskClassMain async = new ThemeCultureFragment.AsyncTaskClassMain();
         async.execute();
         return rootView;
     }
@@ -114,7 +115,7 @@ public class ThemeFestivalFragment extends Fragment {
         queue = Volley.newRequestQueue(getActivity());
         String url = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/searchFestival?" +
                 "ServiceKey=" +KEY+
-                "&areaCode=1&contentTypeId=15&listYN=Y&arrange=P&numOfRows=20&pageNo=1" +
+                "&areaCode=31&contentTypeId=15&listYN=Y&arrange=P&numOfRows=20&pageNo=1" +
                 "&MobileOS=AND&MobileApp=" +APP_NAME+
                 "&_type=json";
 
@@ -183,7 +184,7 @@ public class ThemeFestivalFragment extends Fragment {
         // 액티비티 28
         String url = "http://api.visitkorea.or.kr/openapi/service/"
                 + "rest/KorService/searchFestival?ServiceKey=" + KEY
-                + "&areaCode=1&contentTypeId=15&listYN=Y&arrange=P"
+                + "&areaCode=31&contentTypeId=15&listYN=Y&arrange=P"
                 + "&numOfRows=20&pageNo=1&MobileOS=AND&MobileApp="
                 + APP_NAME + "&_type=json";
 
@@ -231,26 +232,26 @@ public class ThemeFestivalFragment extends Fragment {
                         Log.d("ThemeFestivalFragment", error.getMessage() + "에러");
                     }
                 }){
-        @Override //response를 UTF8로 변경해주는 소스코드
-        protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
-            try {
-                String utf8String = new String(response.data, "UTF-8");
-                JSONObject jsonObject = new JSONObject(utf8String);
-                return Response.success(jsonObject, HttpHeaderParser.parseCacheHeaders(response));
-            } catch (UnsupportedEncodingException e) {
-                // log error
-                return Response.error(new ParseError(e));
-            } catch (Exception e) {
-                // log error
-                return Response.error(new ParseError(e));
+            @Override //response를 UTF8로 변경해주는 소스코드
+            protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
+                try {
+                    String utf8String = new String(response.data, "UTF-8");
+                    JSONObject jsonObject = new JSONObject(utf8String);
+                    return Response.success(jsonObject, HttpHeaderParser.parseCacheHeaders(response));
+                } catch (UnsupportedEncodingException e) {
+                    // log error
+                    return Response.error(new ParseError(e));
+                } catch (Exception e) {
+                    // log error
+                    return Response.error(new ParseError(e));
+                }
             }
-        }
 
-        @Override
-        protected Map<String, String> getParams() throws AuthFailureError {
-            return super.getParams();
-        }
-    };
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                return super.getParams();
+            }
+        };
         queue.add(jsObjRequest);
     } // end of getAreaBasedList
 

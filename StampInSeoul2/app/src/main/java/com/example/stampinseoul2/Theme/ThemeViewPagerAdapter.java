@@ -1,4 +1,4 @@
-package com.example.stampinseoul2;
+package com.example.stampinseoul2.Theme;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;

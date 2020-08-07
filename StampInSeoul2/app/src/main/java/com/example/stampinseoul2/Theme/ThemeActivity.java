@@ -1,9 +1,7 @@
-package com.example.stampinseoul2;
+package com.example.stampinseoul2.Theme;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -18,14 +16,14 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.example.stampinseoul2.BottomMenuActivity;
+import com.example.stampinseoul2.R;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -35,14 +33,12 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
     private ThemeViewPager viewPager;
     private EditText edtSearch;
     private ImageButton ibSearch;
-    private AppBarLayout appBar;
     private FloatingActionButton fab, fab1, fab2;
     private ThemeSearchFragment themeSearchFragment;
     private Animation fab_open, fab_close;
     private boolean isFabOpen;
     private boolean searchFlag;
     private boolean searchDisplayFlag;
-    private FrameLayout searchFrame;
     private Bitmap bitmap;
     String currentDisplay = null;
 
@@ -54,14 +50,12 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
         viewPager = findViewById(R.id.viewPager);
         edtSearch = findViewById(R.id.edtSearch);
         ibSearch = findViewById(R.id.ibSearch);
-        appBar = findViewById(R.id.appBar);
         FragmentStatePagerAdapter fragmentStatePagerAdapter = new ThemeViewPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         tabLayout.setupWithViewPager(viewPager);
         viewPager.setAdapter(fragmentStatePagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.setTabTextColors(Color.LTGRAY, Color.BLACK);
-        searchFrame = findViewById(R.id.searchFrame);
-
+        tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#73CED8"));
         Intent intent = getIntent();
         String strProfile = intent.getStringExtra("profile");
         CircleImageView civImage = findViewById(R.id.civImage);
@@ -157,7 +151,6 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
             //searchFlag=true;
         } else {
             tabLayout.setVisibility(View.VISIBLE);
-            searchFrame.setVisibility(View.GONE);
             currentDisplay = "none";
             // searchFlag=false;
         }

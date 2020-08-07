@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="310dp"
+    android:layout_height="320dp"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".ThemeActivity">
+    tools:context=".Theme.ThemeActivity">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -16,7 +16,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="310dp"
             android:background="#00E7E7E7"
             android:elevation="6dp">
 
@@ -24,42 +24,57 @@
                 android:id="@+id/txtView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="16dp"
+                android:background="#FFFFFF"
+                android:gravity="bottom"
+                android:paddingLeft="8dp"
                 android:text="RecyclerView"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="#000000"
-                android:textSize="15sp"
+                android:textSize="18sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvAddr"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:paddingLeft="8dp"
+                android:text="TextView"
+                android:textColor="#4E4E4E"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtView" />
 
             <ImageView
                 android:id="@+id/imgView"
                 android:layout_width="0dp"
-                android:layout_height="240dp"
-                android:background="#6B6B6B"
+                android:layout_height="230dp"
+                android:background="#FFFFFF"
                 android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtView">
+                app:layout_constraintTop_toBottomOf="@+id/tvAddr">
 
             </ImageView>
 
             <ImageView
                 android:id="@+id/imagebtn"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_marginTop="4dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
                 android:background="@drawable/like_selector"
                 android:src="@drawable/ic_favorite_border_black_24dp"
+                app:layout_constraintBottom_toBottomOf="@+id/tvAddr"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.04"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imgView" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.888" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

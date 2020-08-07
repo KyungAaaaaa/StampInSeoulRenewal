@@ -1,4 +1,4 @@
-package com.example.stampinseoul2;
+package com.example.stampinseoul2.Theme;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -26,7 +26,11 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.example.stampinseoul2.LoginActivity;
+import com.example.stampinseoul2.MainActivity;
 import com.example.stampinseoul2.Model.ThemeData;
+import com.example.stampinseoul2.R;
+import com.example.stampinseoul2.UserDBHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,14 +49,13 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ViewHolder> 
     static final String appName = "Zella";
 
 
-
-
     /////////////////////////////////////////////////////////////
 
 
     // 아이템 뷰를 저장하는 뷰홀더 클래스.
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView txtView;
+        TextView tvAddr;
         ImageView imgView;
         ImageView imagebtn;
 
@@ -60,6 +63,7 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ViewHolder> 
             super(itemView);
             // 뷰 객체에 대한 참조. (hold strong reference)
             txtView = itemView.findViewById(R.id.txtView);
+            tvAddr = itemView.findViewById(R.id.tvAddr);
             imgView = itemView.findViewById(R.id.imgView);
             imagebtn = itemView.findViewById(R.id.imagebtn);
 
@@ -132,7 +136,7 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ViewHolder> 
         holder.txtView.setText(data.getTitle());
         Glide.with(context).load(data.getFirstImage()).into(holder.imgView);
         holder.itemView.setTag(position);
-
+        holder.tvAddr.setText(data.getAddr());
         ArrayList<String> likeList = userDBHelper.likeLoad(LoginActivity.userData);
         int i = 0;
         if (likeList.size() != 0) {
@@ -152,13 +156,14 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ViewHolder> 
         }
 
     }
+
     //전체 데이터의 갯수 리턴
     @Override
     public int getItemCount() {
         return list.size();
     }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
     // 관광 정보(리사이클러뷰) 를 선택했을때 상세 데이터 읽어오는 메소드
     private ThemeData getData(int contentID) {
 

@@ -34,7 +34,7 @@
             android:value="AIzaSyC2AxkliylJfef-_aAjqJ3OZ-57BgX0EoM" />
 
         <activity android:name=".MapInWeb" />
-        <activity android:name=".ThemeActivity" />
+        <activity android:name=".Theme.ThemeActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".SearchActivity" />
         <activity android:name=".BottomMenuActivity" />

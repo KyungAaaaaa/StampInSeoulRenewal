@@ -1,4 +1,4 @@
-package com.example.stampinseoul2;
+package com.example.stampinseoul2.Theme;
 
 import android.content.Context;
 import android.util.AttributeSet;
