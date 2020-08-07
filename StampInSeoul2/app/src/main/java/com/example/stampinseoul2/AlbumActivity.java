@@ -1,6 +1,8 @@
 package com.example.stampinseoul2;
 
 import android.app.Dialog;
+import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -55,6 +57,8 @@ public class AlbumActivity extends Fragment implements View.OnClickListener, Vie
 
         view = inflater.inflate(R.layout.activity_album, container, false);
 
+
+        findViewByidFunc();
         //리사이클러뷰 불러오는 객체
         recyclerView = view.findViewById(R.id.recyclerView);
         linearLayoutManager = new LinearLayoutManager(view.getContext());
@@ -92,7 +96,21 @@ public class AlbumActivity extends Fragment implements View.OnClickListener, Vie
         recyclerView.setAdapter(albumAdapter);
         albumAdapter.notifyDataSetChanged();
 
+//        MainActivity.db = MainActivity.userdbHelper.getWritableDatabase();
+//
+//        String searchComplete = "SELECT * FROM STAMP_" + LoginActivity.userId + " WHERE complete=1;";
+//
+//        Cursor cursorComplete = MainActivity.db.rawQuery(searchComplete, null);
+//        while (cursorComplete.moveToNext()) {
+//            cameraList.add(new ThemeData(cursorComplete.getString(1), cursorComplete.getString(5),
+//                    cursorComplete.getString(6), cursorComplete.getString(7), cursorComplete.getString(8), cursorComplete.getString(9),
+//                    cursorComplete.getInt(10)));
+//        }
         return view;
+    }
+
+    private void findViewByidFunc() {
+
     }
 
     DrawerLayout.DrawerListener listener = new DrawerLayout.DrawerListener() {

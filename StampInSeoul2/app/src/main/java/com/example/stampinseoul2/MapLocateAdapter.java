@@ -18,10 +18,12 @@ public class MapLocateAdapter extends RecyclerView.Adapter<MapLocateAdapter.Cust
     private ArrayList<ThemeData> list;
 
     static int number = 0;
+
     public MapLocateAdapter(int layout, ArrayList<ThemeData> themedatalist) {
         this.layout = layout;
         this.list = themedatalist;
     }
+
     @NonNull
     @Override
     public MapLocateAdapter.CustomViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
@@ -78,6 +80,15 @@ public class MapLocateAdapter extends RecyclerView.Adapter<MapLocateAdapter.Cust
 //                v.getContext().startActivity(intent);
 //            }
 //        });
+
+        customViewHolder.imgPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), CameraActivity.class);
+                intent.putExtra("title", list.get(position).getTitle());
+                view.getContext().startActivity(intent);
+            }
+        });
     }
 
 

@@ -32,6 +32,7 @@ public class LoginActivity extends AppCompatActivity {
     public Long userId = null;
     public static User userData = null;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
