@@ -3,17 +3,21 @@ package com.example.stampinseoul2.Theme;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.stampinseoul2.BottomMenuActivity;
@@ -56,10 +60,24 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.setTabTextColors(Color.LTGRAY, Color.BLACK);
         tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#73CED8"));
-        Intent intent = getIntent();
-        String strProfile = intent.getStringExtra("profile");
         CircleImageView civImage = findViewById(R.id.civImage);
 
+        Intent intent = getIntent();
+        String strProfile = intent.getStringExtra("profile");
+        String strNickName = intent.getStringExtra("name");
+        Long strId = intent.getLongExtra("id", 0L);
+
+        Context context = getApplicationContext();
+        CharSequence txt = "메시지입니다";
+        int time = Toast.LENGTH_SHORT;// 아니면 Long으로
+        Toast toast = Toast.makeText(context, txt, time);
+        LayoutInflater inflater = getLayoutInflater();
+//xml 파일과 레이아웃 정의
+        View view = inflater.inflate(R.layout.custom_toastview, (ViewGroup) findViewById(R.id.containers));
+
+        TextView txtView = view.findViewById(R.id.txtId);
+
+        txtView.setText(strNickName);//텍스트뷰에 이름 보여주기
         Thread thread = new Thread() {
             @Override
             public void run() {
@@ -83,6 +101,8 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
             civImage.setBorderWidth(1);
         } catch (InterruptedException e) {
         }
+        toast.setView(view);
+        toast.show();//토스트 메시지 보여주기
 
         // == 플로팅 버튼, 드로어
         fab = findViewById(R.id.fab);

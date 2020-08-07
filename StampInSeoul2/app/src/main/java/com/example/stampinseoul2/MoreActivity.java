@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,6 +33,7 @@ public class MoreActivity extends Fragment {
             @Override
             public void onClick(View view) {
                 onClickLogout();
+                Toast.makeText(view.getContext(), "로그아웃 되었습니다", Toast.LENGTH_SHORT).show();
             }
         });
         return view;

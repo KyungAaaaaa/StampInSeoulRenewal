@@ -75,6 +75,7 @@ public class LoginActivity extends AppCompatActivity {
             //유저의 정보를 받아오는 함수 이름
             UserManagement.getInstance().me(new MeV2ResponseCallback() {
                 //로그인에 성공했을 때 MeV2Response 객체 넘어오는데, 로그인한 유저의 정보를 담고 있는 중요객체.
+                //UserManagement.getInstance().me(new MeV2ResponseCallback()가 넘어온다.
                 @Override
                 public void onSuccess(MeV2Response result) {
                     try {
