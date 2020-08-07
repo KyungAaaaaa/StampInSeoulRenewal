@@ -87,6 +87,7 @@ public class LoginActivity extends AppCompatActivity {
                         userDBHelper.createUserLikePlaceTBL(userData);
                         //로그인한 계정의정보를 userTBL에 insert
                         userDBHelper.insertUserInfo(userData);
+                        userDBHelper.onCreatCamereTBL(userData);
                     } catch (SQLiteConstraintException e) {
                         Log.d("LoginActivity DB", e.getMessage());
                     }

@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.strictmode.SqliteObjectLeakedViolation;
 import android.util.Log;
 
 import com.example.gotothefestival.Model.ThemeData;
@@ -31,17 +32,13 @@ public class UserDBHelper extends SQLiteOpenHelper {
         return userDBHelper;
     }
 
+
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL("create Table userTBL(" +
                 "userId TEXT not null primary key," +
                 "userName TEXT not null," +
                 "profileImage TEXT not null);");
-
-//        sqLiteDatabase.execSQL("CREATE TABLE userTBL("
-//                + "userId TEXT PRIMARY KEY,"
-//                + "userName TEXT, "
-//                + "profileImage TEXT); ");
 
     }
 
@@ -154,5 +151,69 @@ public class UserDBHelper extends SQLiteOpenHelper {
         return arrayList;
     }
 
-}
+    public void onCreatCamereTBL(User user) {
+        SQLiteDatabase sqLiteDatabase = null;
 
+        sqLiteDatabase = this.getWritableDatabase();
+        try {
+            sqLiteDatabase.execSQL("create table if not exists ALBUM" + user.getUserId() + "TBL(" +
+                    "datanum integer primary key autoincrement, " +
+                    "title Text, " +
+                    "firstImage Text," +
+                    "addr Text, " +
+                    "picture Text, " +
+                    "content_pola Text, " +
+                    "content_title Text, " +
+                    "contents Text)");
+
+            Log.d("DBCreatCamereTBL", "성공");
+        } catch (Exception e) {
+            Log.d("DBCreatCamereTBL", e.getMessage());
+
+        } finally {
+            sqLiteDatabase.close();
+        }
+    }
+
+    public void oninsertCameraTBL(User user, ThemeData themeData) {
+
+        SQLiteDatabase sqLiteDatabase = null;
+        sqLiteDatabase = this.getWritableDatabase();
+        try {
+
+            sqLiteDatabase.execSQL("insert into ALBUM" + user.getUserId() + "TBL Values (null,'" + themeData.getTitle() + "'," +
+                    "'" + themeData.getAddr() + "','" + themeData.getFirstImage() + "'," +
+                    "'" + themeData.getContent_pola() + "','" + themeData.getContent_title() + "','" + themeData.getPicture() + "'," +
+                    "'" + themeData.getContents() + "');");
+            Log.d("DBinsertCameraTBL", "성공");
+        } catch (Exception e) {
+            Log.d("DBinsertCameraTBL", "실패");
+        } finally {
+            sqLiteDatabase.close();
+        }
+    }
+
+    public ArrayList<ThemeData> onSelectAlbumTBL(User user) {
+
+        SQLiteDatabase sqLiteDatabase = null;
+        sqLiteDatabase = this.getWritableDatabase();
+
+        ArrayList<ThemeData> albumArraylist = new ArrayList<ThemeData>();
+        Cursor cursor =null;
+
+        try {
+            cursor = sqLiteDatabase.rawQuery("select * from ALBUM" + user.getUserId() + "TBL", null);
+            while (cursor.moveToNext()){
+                albumArraylist.add(new ThemeData(cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),
+                        cursor.getString(5),cursor.getString(6),cursor.getString(7)));
+            }
+            Log.d("DBSelectAlbumTBL", "성공");
+        }catch (Exception e){
+            Log.d("DBSelectAlbumTBL", "성공");
+        }finally {
+            if (cursor != null) cursor.close();
+            sqLiteDatabase.close();
+        }
+        return albumArraylist;
+    }
+}

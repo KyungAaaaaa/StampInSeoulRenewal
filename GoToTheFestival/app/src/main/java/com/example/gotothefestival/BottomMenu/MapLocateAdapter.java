@@ -1,6 +1,8 @@
 package com.example.gotothefestival.BottomMenu;
 
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,23 +54,23 @@ public class MapLocateAdapter extends RecyclerView.Adapter<MapLocateAdapter.Cust
 //
 //        customViewHolder.itemView.setTag(position);
 //
-//        customViewHolder.imaProfile.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//
-//                String str = list.get(position).getTitle();
-//
-//                Uri uri = Uri.parse("https://www.google.com/search?q="+str+"&oq="+str+"&aqs=chrome");
-//
-//                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-//
-//                intent.setPackage("com.android.chrome");
-//
-//                v.getContext().startActivity(intent);
-//
-//            }
-//        });
+        customViewHolder.imaProfile.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                String str = list.get(position).getTitle();
+
+                Uri uri = Uri.parse("https://www.google.com/search?q="+str+"&oq="+str+"&aqs=chrome");
+
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+
+                intent.setPackage("com.android.chrome");
+
+                v.getContext().startActivity(intent);
+
+            }
+        });
 //
 //        customViewHolder.imgPhoto.setOnClickListener(new View.OnClickListener() {
 //
@@ -87,7 +89,7 @@ public class MapLocateAdapter extends RecyclerView.Adapter<MapLocateAdapter.Cust
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), CameraActivity.class);
-                intent.putExtra("title", list.get(position).getTitle());
+                intent.putExtra("themadata",data);
                 view.getContext().startActivity(intent);
             }
         });
