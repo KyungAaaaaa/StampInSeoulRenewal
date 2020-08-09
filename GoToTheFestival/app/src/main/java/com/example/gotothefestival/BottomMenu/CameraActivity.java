@@ -23,7 +23,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
 import com.example.gotothefestival.Login.LoginActivity;
-import com.example.gotothefestival.Model.CameraData;
 import com.example.gotothefestival.Model.ThemeData;
 import com.example.gotothefestival.R;
 import com.example.gotothefestival.UserDBHelper;
@@ -46,7 +45,6 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     private Uri phorturi;
     static final int RE = 672;
     public static Bitmap imagesave = null;
-    private ArrayList<CameraData> cameraList = new ArrayList<>();
     private String imageFile;
     private ThemeData themeData;
 
@@ -129,26 +127,30 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, phorturi);
                 startActivityForResult(intent, RE);
+            }
+        }
 
-            } else if (view.getId() == R.id.btnSave) {
+        switch (view.getId()) {
+            case (R.id.btnSave):
 
                 //사진을 앨범으로 옮기기위해 일단 데이터베이스에 사진을 추가한다.
                 UserDBHelper userDBHelper = UserDBHelper.getInstance(getApplicationContext());
 
 
-                themeData.setContents(edtContents.getText().toString());
-                themeData.setTitle(edtTitle.getText().toString());
+                themeData.setContent_title(edtTitle.getText().toString());
                 themeData.setContent_pola(edtPola.getText().toString());
+                themeData.setContents(edtContents.getText().toString());
                 themeData.setPicture(imageFilepath);
 
                 userDBHelper.oninsertCameraTBL(LoginActivity.userData, themeData);
 
                 finish();
-
-            } else if (view.getId() == R.id.btnExit) {
+                break;
+            case (R.id.btnExit):
 
                 finish();
-            }
+                break;
+
         }
     }
 
@@ -214,6 +216,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         return 0;
 
     }
+
     //이미지파일을 저장할때 사용하는함수
     private File imageFileSave() throws IOException {
 

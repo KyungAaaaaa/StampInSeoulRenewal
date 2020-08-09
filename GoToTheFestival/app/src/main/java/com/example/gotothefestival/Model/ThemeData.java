@@ -10,7 +10,8 @@ import java.io.Serializable;
 import java.util.List;
 
 public class ThemeData implements Parcelable {
-     private String title;
+    private int key;
+    private String title;
     private String firstImage;
     private String addr1;
     private String tel;
@@ -29,6 +30,14 @@ public class ThemeData implements Parcelable {
         this.mapY = mapY;
     }
 
+    public int getKey() {
+        return key;
+    }
+
+    public void setKey(int key) {
+        this.key = key;
+    }
+
     public ThemeData(String title) {
         this.title = title;
     }
@@ -41,7 +50,8 @@ public class ThemeData implements Parcelable {
         this.firstImage = firstImage;
     }
 
-    public ThemeData(String title, String firstImage, String addr1, String picture, String content_pola, String content_title, String contents) {
+    public ThemeData(int key, String title, String firstImage, String addr1, String picture, String content_pola, String content_title, String contents) {
+        this.key = key;
         this.title = title;
         this.firstImage = firstImage;
         this.addr1 = addr1;
@@ -62,6 +72,7 @@ public class ThemeData implements Parcelable {
     }
 
     public ThemeData(String title, String firstImage, String picture, String content_pola, String content_title, String contents, int complete) {
+
         this.title = title;
         this.firstImage = firstImage;
         this.picture = picture;

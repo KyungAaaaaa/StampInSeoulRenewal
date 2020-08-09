@@ -2,6 +2,7 @@ package com.example.gotothefestival.Login;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -15,9 +16,9 @@ import com.example.gotothefestival.R;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
     public static final String KEY = "r5SONxjKf67vRjWSB5VkCHjhlvpWtAAcXV8IEJumquZL3SfuS9eazbphf2%2BSprq0iO6PVT1MVcC70enAwCeLOA%3D%3D";
-    public static final String APP_NAME = "Apptest";
+    public static final String APP_NAME = "GoToTheFestival";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         getHashKey();
 
         try{
-            Thread.sleep(2500);
+            Thread.sleep(3000);
         }catch(InterruptedException e) {
             e.printStackTrace();
         }

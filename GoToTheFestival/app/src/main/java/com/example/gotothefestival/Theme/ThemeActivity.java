@@ -3,6 +3,7 @@ package com.example.gotothefestival.Theme;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -50,7 +51,7 @@ import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ThemeActivity extends AppCompatActivity implements View.OnClickListener {
+public class ThemeActivity extends AppCompatActivity implements View.OnClickListener, ThemeViewPager.OnPageChangeListener {
     private TabLayout tabLayout;
     private ThemeViewPager viewPager;
     private EditText edtSearch;
@@ -58,7 +59,7 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
     private FloatingActionButton fab, fab1, fab2;
     private ThemeSearchFragment themeSearchFragment;
     private Animation fab_open, fab_close;
-    private FragmentStatePagerAdapter fragmentStatePagerAdapter;
+    private ThemeViewPagerAdapter fragmentStatePagerAdapter;
     private boolean isFabOpen;
     private boolean searchFlag;
     private Bitmap bitmap;
@@ -84,6 +85,7 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
         String strNickName = intent.getStringExtra("name");
 
         Snackbar.make(getWindow().getDecorView().getRootView(), strNickName + "님 환영합니다!", Snackbar.LENGTH_LONG).show();
+
 
         Thread thread = new Thread() {
             @Override
@@ -294,4 +296,25 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
         if (System.currentTimeMillis() <= backKeyPressedTime + 2500) finish();
     }
 
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        refresh();
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        refresh();
+
+
+
+    }
+
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+        refresh();
+    }
+    private void refresh() {
+        fragmentStatePagerAdapter.notifyDataSetChanged();
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.gotothefestival.BottomMenu;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -14,10 +15,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.example.gotothefestival.Login.LoginActivity;
 import com.example.gotothefestival.Model.ThemeData;
 
 import com.bumptech.glide.Glide;
+import com.example.gotothefestival.Model.User;
 import com.example.gotothefestival.R;
+import com.example.gotothefestival.UserDBHelper;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 
 
 import java.util.ArrayList;
@@ -26,10 +32,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.CustomViewHolder> {
 
+    private Context context;
     private int layout;
     private ArrayList<ThemeData> list;
 
-    public AlbumAdapter(int layout, ArrayList<ThemeData> list) {
+    public AlbumAdapter(Context context, int layout, ArrayList<ThemeData> list) {
+        this.context = context;
         this.layout = layout;
         this.list = list;
     }
@@ -42,6 +50,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.CustomViewHo
         CustomViewHolder viewHolder = new CustomViewHolder(view);
         return viewHolder;
     }
+
     //내가 커스텀한 view에 세팅해주는 함수
     @Override
     public void onBindViewHolder(@NonNull AlbumAdapter.CustomViewHolder customViewHolder, int position) {
@@ -54,7 +63,6 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.CustomViewHo
         customViewHolder.itemView.setTag(position);
 
         if (list.get(position).getPicture() != null) {
-
             Bitmap bitmap = BitmapFactory.decodeFile(list.get(position).getPicture());
             customViewHolder.imgReview.setImageBitmap(bitmap);
 
@@ -86,7 +94,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.CustomViewHo
         public TextView txtContent;
         public TextView txtID;
 
-        public  CustomViewHolder(@NonNull View itemView) {
+        public CustomViewHolder(@NonNull View itemView) {
             super(itemView);
             imgReview = itemView.findViewById(R.id.imgReview);
             imgChoice = itemView.findViewById(R.id.imgChoice);
@@ -95,8 +103,27 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.CustomViewHo
             txtTitle = itemView.findViewById(R.id.txtTitle);
             txtContent = itemView.findViewById(R.id.txtContent);
             txtID = itemView.findViewById(R.id.txtID);
+
+
+            imgReview.setOnLongClickListener(view -> {
+                UserDBHelper dbHelper = UserDBHelper.getInstance(context);
+                Snackbar snackbar = Snackbar.make(view, "기록을 삭제하시겠습니까?", Snackbar.LENGTH_LONG); //스낵바 우측 텍스트 띄우고 터치 했을때 이벤트 설정
+                snackbar.setAction("확인", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dbHelper.deleteAlbumData(LoginActivity.userData, list.get(getAdapterPosition()));
+                        snackbar.dismiss();
+                    }
+                });
+                snackbar.show();
+
+
+                return true;
+            });
         }
+
     }
+
     //
     private int exiforToDe(int exifOrientation) {
 
@@ -126,7 +153,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.CustomViewHo
 
         matrix.postRotate(exifDegres);
 
-        Bitmap teepre = Bitmap.createBitmap(bitmap,0,0,bitmap.getWidth(),bitmap.getHeight(),matrix,true);
+        Bitmap teepre = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
 
         return teepre;
 

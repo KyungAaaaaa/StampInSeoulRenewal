@@ -38,7 +38,7 @@ public class BottomMenuActivity extends AppCompatActivity {
         moreActivity = new MoreActivity();
         albumActivity = new AlbumActivity();
 
-        setChangeFragment(0);
+        setChangeFragment(1);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override

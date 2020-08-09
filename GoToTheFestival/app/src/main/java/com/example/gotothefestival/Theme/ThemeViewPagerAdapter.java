@@ -7,13 +7,30 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import java.util.ArrayList;
+
 public class ThemeViewPagerAdapter extends FragmentStatePagerAdapter implements ViewPager.OnPageChangeListener {
     int count = 0;
-    ThemeViewPagerAdapter adapter;
+    ArrayList<Fragment> items = new ArrayList<Fragment>();
+    String check = null;
+
     public ThemeViewPagerAdapter(FragmentManager fm, int count) {
         super(fm);
         this.count = count;
     }
+
+
+    //Adapter갱신
+    @Override
+    public int getItemPosition(Object object) {
+        //check => 교체시 가져온 fm.toString();
+       // if (check.equals(object.toString())) {
+            return POSITION_NONE;
+//        } else {
+//            return super.getItemPosition(object);
+//        }
+    }
+
 
     @Override
     public Fragment getItem(int position) {
@@ -31,14 +48,10 @@ public class ThemeViewPagerAdapter extends FragmentStatePagerAdapter implements 
             case 5:
                 return com.example.gotothefestival.Theme.ThemeSearchFragment.newInstance();
             default:
-                return  null;
+                return null;
         }
     }
 
-    @Override
-    public int getItemPosition(@NonNull Object object) {
-        return POSITION_NONE;
-    }
 
     @Override
     public int getCount() {
@@ -79,6 +92,10 @@ public class ThemeViewPagerAdapter extends FragmentStatePagerAdapter implements 
 
     }
 
-
+    //fm교체
+    public void set(Fragment fm, int position) {
+        check = getItem(position).toString();
+        items.set(position, fm);
+    }
 
 }

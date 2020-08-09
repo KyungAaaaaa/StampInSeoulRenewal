@@ -33,24 +33,21 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
 
-<!--        <meta-data-->
-<!--            android:name="com.google.android.geo.APi_KEY"-->
-<!--            android:value="AIzaSyC2AxkliylJfef-_aAjqJ3OZ-57BgX0EoM" />-->
-
         <activity android:name=".Theme.ThemeActivity"
-            android:windowSoftInputMode="stateHidden"
-             />
+            android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".Login.LoginActivity" />
         <activity android:name=".BottomMenu.BottomMenuActivity" />
         <activity android:name=".BottomMenu.CameraActivity" />
-        <activity android:name=".Login.MainActivity" >
+        <activity android:name=".Login.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Start_app">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> <!-- 카카오톡 데이터 -->
+        </activity>
+
+        <!-- 카카오톡 데이터 -->
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="54168c178ba7edaf46803ea023775af8" />

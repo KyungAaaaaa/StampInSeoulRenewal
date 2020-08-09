@@ -9,10 +9,7 @@
     </style>
 
     <style name="Start_app" parent="android:style/Theme.Light.NoTitleBar">
-        <item name="android:windowBackground">@drawable/loding_image
-
-        </item>
-
+        <item name="android:windowBackground">@drawable/loding_image</item>
     </style>
 
     <!-- 카카오 네이티브앱 키 -->
