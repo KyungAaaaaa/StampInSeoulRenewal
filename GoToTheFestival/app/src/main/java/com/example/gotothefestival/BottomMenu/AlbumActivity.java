@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.service.autofill.UserData;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -11,6 +12,8 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,11 +24,15 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.gotothefestival.Login.LoginActivity;
 import com.example.gotothefestival.Model.ThemeData;
 import com.example.gotothefestival.R;
+import com.example.gotothefestival.UserDBHelper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AlbumActivity extends Fragment implements View.OnClickListener, View.OnTouchListener {
     private ArrayList<ThemeData> cameraList = new ArrayList<>();
@@ -45,6 +52,8 @@ public class AlbumActivity extends Fragment implements View.OnClickListener, Vie
     private DrawerLayout drawerLayout;
     private ConstraintLayout drawer;
 
+    private ArrayList<ThemeData> themeData;
+
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
         return false;
@@ -59,7 +68,7 @@ public class AlbumActivity extends Fragment implements View.OnClickListener, Vie
 
         findViewByidFunc();
         //리사이클러뷰 불러오는 객체
-        recyclerView = view.findViewById(R.id.recyclerView);
+
         linearLayoutManager = new LinearLayoutManager(view.getContext());
 
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -70,45 +79,41 @@ public class AlbumActivity extends Fragment implements View.OnClickListener, Vie
 
         cameraList.removeAll(cameraList);
 
-
-        fab = view.findViewById(R.id.fab);
-        fab1 = view.findViewById(R.id.fab1);
-        fab2 = view.findViewById(R.id.fab2);
-
-
+        //플로팅 버튼 애니매이션 주기
         fab_open = AnimationUtils.loadAnimation(view.getContext(), R.anim.fab_open);
         fab_close = AnimationUtils.loadAnimation(view.getContext(), R.anim.fab_close);
 
-        drawerLayout = view.findViewById(R.id.drawerLayout);
-        drawer = view.findViewById(R.id.drawer);
 
         fab.setOnClickListener(this);
         fab1.setOnClickListener(this);
         fab2.setOnClickListener(this);
 
 
-//        drawer.setOnTouchListener(this);
         drawerLayout.setDrawerListener(listener);
 
         albumAdapter = new AlbumAdapter(R.layout.album_item, cameraList);
 
         recyclerView.setAdapter(albumAdapter);
+
         albumAdapter.notifyDataSetChanged();
 
-//        MainActivity.db = MainActivity.userdbHelper.getWritableDatabase();
-//
-//        String searchComplete = "SELECT * FROM STAMP_" + LoginActivity.userId + " WHERE complete=1;";
-//
-//        Cursor cursorComplete = MainActivity.db.rawQuery(searchComplete, null);
-//        while (cursorComplete.moveToNext()) {
-//            cameraList.add(new ThemeData(cursorComplete.getString(1), cursorComplete.getString(5),
-//                    cursorComplete.getString(6), cursorComplete.getString(7), cursorComplete.getString(8), cursorComplete.getString(9),
-//                    cursorComplete.getInt(10)));
-//        }
+        //DB에서 촬영된 사진을 불러온다.
+        UserDBHelper userDBHelper = UserDBHelper.getInstance(getContext());
+
+        userDBHelper.onSelectAlbumTBL(LoginActivity.userData);
+
         return view;
     }
 
     private void findViewByidFunc() {
+        recyclerView = view.findViewById(R.id.recyclerView);
+
+        fab = view.findViewById(R.id.fab);
+        fab1 = view.findViewById(R.id.fab1);
+        fab2 = view.findViewById(R.id.fab2);
+
+        drawerLayout = view.findViewById(R.id.drawerLayout);
+        drawer = view.findViewById(R.id.drawer);
 
     }
 
@@ -180,35 +185,6 @@ public class AlbumActivity extends Fragment implements View.OnClickListener, Vie
                 noSearchDlg.setContentView(viewDialog);
                 noSearchDlg.show();
 
-                //DB할때 쓸꺼
-              /* btnGiveUp.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        cameraList.removeAll(cameraList);
-
-                        MainActivity.db = MainActivity.dbHelper.getWritableDatabase();
-                        MainActivity.db.execSQL("DROP TABLE IF EXISTS STAMP_" + LoginActivity.userId + ";");
-                        MainActivity.db.execSQL("CREATE TABLE IF NOT EXISTS STAMP_" + LoginActivity.userId  + "("
-                                + "_id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                                + "title TEXT, "
-                                + "addr TEXT, "
-                                + "mapX REAL, "
-                                + "mapY REAL, "
-                                + "firstImage TEXT, "
-                                + "picture TEXT, "
-                                + "content_pola TEXT, "
-                                + "content_title TEXT, "
-                                + "contents TEXT, "
-                                + "complete INTEGER);");
-
-                        Intent intent = new Intent(v.getContext(), ThemeActivity.class);
-                        startActivity(intent);
-
-                        getActivity().finish();
-
-                    }
-                });*/
                 btnExit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

@@ -30,7 +30,7 @@ public class MoreActivity extends Fragment {
         view = inflater.inflate(R.layout.activity_more, container, false);
 
         findViewfunc();
-
+        //로그아웃 버튼 이베트 등록
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -40,7 +40,7 @@ public class MoreActivity extends Fragment {
         });
         return view;
     }
-
+    //유저정보를 받아서 종료시키는 함수
     private void onClickLogout() {
         UserManagement.getInstance().requestLogout(new LogoutResponseCallback() {
             @Override

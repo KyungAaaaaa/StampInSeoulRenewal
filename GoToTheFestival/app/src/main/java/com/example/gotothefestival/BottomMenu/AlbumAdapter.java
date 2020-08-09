@@ -34,6 +34,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.CustomViewHo
         this.list = list;
     }
 
+    //내가 커스텀한 view를 보여주기위한 함수
     @NonNull
     @Override
     public AlbumAdapter.CustomViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
@@ -41,7 +42,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.CustomViewHo
         CustomViewHolder viewHolder = new CustomViewHolder(view);
         return viewHolder;
     }
-
+    //내가 커스텀한 view에 세팅해주는 함수
     @Override
     public void onBindViewHolder(@NonNull AlbumAdapter.CustomViewHolder customViewHolder, int position) {
         customViewHolder.txtPola.setText(list.get(position).getContent_pola());
@@ -73,7 +74,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.CustomViewHo
 
     @Override
     public int getItemCount() {
-        return (list != null) ? (list.size()) : (0);
+        return (list != null) ? (list.size()) : (0);// 리스트에 값이 들어있으면 카운트를 해준다.
     }
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
@@ -96,6 +97,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.CustomViewHo
             txtID = itemView.findViewById(R.id.txtID);
         }
     }
+    //
     private int exiforToDe(int exifOrientation) {
 
         switch (exifOrientation) {

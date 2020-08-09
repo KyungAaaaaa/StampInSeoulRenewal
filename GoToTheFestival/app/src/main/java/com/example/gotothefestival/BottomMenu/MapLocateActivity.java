@@ -55,7 +55,6 @@ public class MapLocateActivity extends Fragment implements View.OnTouchListener,
     double lng = 0.0;
 
     LocationManager locationManager;
-    PendingIntent pendingIntent;
 
     static ArrayList<ThemeData> themedatalist = new ArrayList<>();
     ArrayList<MarkerOptions> cctvlist = new ArrayList<MarkerOptions>();
@@ -93,7 +92,10 @@ public class MapLocateActivity extends Fragment implements View.OnTouchListener,
 
         linearLayoutManager = new LinearLayoutManager(view1.getContext());
 
+        //리사이블러뷰
         recyclerView.setLayoutManager(linearLayoutManager);
+
+        //저장된 데이터베이스를 불러준다.
         com.example.gotothefestival.UserDBHelper userDBHelper = com.example.gotothefestival.UserDBHelper.getInstance(getContext());
         themedatalist = userDBHelper.likePlaceLoad(LoginActivity.userData);
         mapLocateAdapter = new MapLocateAdapter(R.layout.map_item, themedatalist);
@@ -109,23 +111,11 @@ public class MapLocateActivity extends Fragment implements View.OnTouchListener,
 
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 
-
+        //리사클러뷰 터치이벤트 함수
+        //리사클러뷰에 가고싶은곳 좋아요버튼을 눌렀을때 그값들을 리스트로 띄워준다.
         recyclerView.addOnItemTouchListener(new com.example.gotothefestival.RecyclerTouchListener(getContext(), recyclerView, new com.example.gotothefestival.ClickListener() {
             @Override
             public void onClick(View view, int position) {
-
-//                LatLng latLng1 = new LatLng(37.662049, 127.022908);
-//
-//                MarkerOptions markerOptions1 = new MarkerOptions();
-//                BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.placeholder);
-//                Bitmap b = bitmapdraw.getBitmap();
-//                Bitmap smallMarker = Bitmap.createScaledBitmap(b, 100, 100, false);
-//                markerOptions1.icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
-//                markerOptions1.position(latLng1);
-//                markerOptions1.getIcon();
-//                googleMaps2.addMarker(markerOptions1);
-//                googleMaps2.moveCamera(CameraUpdateFactory.newLatLng(latLng1));
-//                googleMaps2.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng1, 16));
 
                 boolean tag = true;
                 if (check.size() == 0) {
@@ -139,7 +129,6 @@ public class MapLocateActivity extends Fragment implements View.OnTouchListener,
                     if (tag)
                         check.add(themedatalist.get(position).getTitle());
                 }
-
 
                 mapView = view1.findViewById(R.id.fgGoogleMap);
 
@@ -156,6 +145,7 @@ public class MapLocateActivity extends Fragment implements View.OnTouchListener,
 
         findViewByIdFunc();
 
+        //플로팅버튼을 이벤트 등록
         fab_open = AnimationUtils.loadAnimation(view1.getContext(), R.anim.fab_open);
         fab_close = AnimationUtils.loadAnimation(view1.getContext(), R.anim.fab_close);
 
@@ -180,12 +170,6 @@ public class MapLocateActivity extends Fragment implements View.OnTouchListener,
         fab2 = view1.findViewById(R.id.fab2);
     }
 
-//    private void listSetting() {
-//        themedatalist.removeAll(themedatalist);
-//
-//        MainActivity.db
-//    }
-
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -198,6 +182,7 @@ public class MapLocateActivity extends Fragment implements View.OnTouchListener,
                 break;
             case R.id.fab2:
                 anmi();
+                //?
                 if (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(view1.getContext(),
                         Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
@@ -211,6 +196,7 @@ public class MapLocateActivity extends Fragment implements View.OnTouchListener,
         }
     }
 
+    //플로팅 버튼 이벤트등록 함수
     private void anmi() {
         if (isfabOpen) {
             fab1.startAnimation(fab_close);
@@ -265,6 +251,8 @@ public class MapLocateActivity extends Fragment implements View.OnTouchListener,
         return false;
     }
 
+
+    //구글맵에 이벤트를 나타나게해주는 함수
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
@@ -273,14 +261,17 @@ public class MapLocateActivity extends Fragment implements View.OnTouchListener,
         googleMaps2 = googleMap;
 
         googleMaps.clear();
-
+        //api자체에서 xy죄표를 반대로 제공...
+        //구글맵에 찍어주는 아이콘설정,아이콘크기 설정 ,
+        //확대 초기값설정
+        //lat,lng 좌표값을 읽어오는 변수명
         if (check.size() >= 1) {
 
             for (String x : check) {
                 for (ThemeData y : themedatalist) {
                     if (x.equals(y.getTitle())) ;
                     {
-                        //api에서 xy좌표를 반대로 제공.
+
                         LatLng latLng = new LatLng(y.getMapY(), y.getMapX());
                         Log.d("MapActivity", y.getMapY() + "/" + y.getMapX());
                         MarkerOptions markerOptions = new MarkerOptions();
@@ -297,6 +288,7 @@ public class MapLocateActivity extends Fragment implements View.OnTouchListener,
 
         if (win) {
 
+            //구글맵에서 자체적으로 사용자 gps사용권한을 동의하면 버튼 이벤트로 현재 내위치를 구글맵에 표시해줄수있다.
             LatLng latLng = new LatLng(lat, lng);
 
             MarkerOptions markerOptions = new MarkerOptions();
@@ -315,24 +307,27 @@ public class MapLocateActivity extends Fragment implements View.OnTouchListener,
         }
 
     }
-
-
+    //드로잉 레이아웃 이벤트 등록 ...
     DrawerLayout.DrawerListener listener = new DrawerLayout.DrawerListener() {
+        // 슬라이딩을 시작 했을때 이벤트 발생
         @Override
         public void onDrawerSlide(@NonNull View drawerView, float sof) {
 
         }
 
+        // 메뉴가 열었을때 이벤트 발생
         @Override
         public void onDrawerOpened(@NonNull View drawerView) {
 
         }
 
+        // 메뉴를 닫았을때 이벤트 발생
         @Override
         public void onDrawerClosed(@NonNull View drawerView) {
 
         }
 
+        // 메뉴 바가 상태가 바뀌었을때 이벤트 발생
         @Override
         public void onDrawerStateChanged(int newState) {
 

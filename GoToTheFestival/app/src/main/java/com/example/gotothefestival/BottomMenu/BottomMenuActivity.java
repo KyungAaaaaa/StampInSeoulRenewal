@@ -43,10 +43,8 @@ public class BottomMenuActivity extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                //프래그먼트 화면 전환
                 switch (item.getItemId()) {
-                    case R.id.action_gps:
-                        //setChangeFragment(0);
-                        break;
                     case R.id.action_map:
                         setChangeFragment(1);
                         break;
@@ -62,7 +60,7 @@ public class BottomMenuActivity extends AppCompatActivity {
         });
 
     }
-
+    // 프래그먼트 화면전환을하기위해서 만든 화면전환 함수
     private void setChangeFragment(int position) {
         fragmentManager = getSupportFragmentManager();
 
@@ -70,9 +68,6 @@ public class BottomMenuActivity extends AppCompatActivity {
 
         switch (position) {
 
-            case 0:
-                //fragmentTransaction.replace(R.id.frameLayout, gpsActivity);
-                break;
             case 1:
                 MapLocateActivity mainFragment = new MapLocateActivity();
                 getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, mainFragment, "main").commit();

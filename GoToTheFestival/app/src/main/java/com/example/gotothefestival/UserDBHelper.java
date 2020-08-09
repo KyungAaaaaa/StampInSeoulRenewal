@@ -151,6 +151,7 @@ public class UserDBHelper extends SQLiteOpenHelper {
         return arrayList;
     }
 
+    //카메라앨범에 사진을 저장하기위한 테이블
     public void onCreatCamereTBL(User user) {
         SQLiteDatabase sqLiteDatabase = null;
 
@@ -175,6 +176,7 @@ public class UserDBHelper extends SQLiteOpenHelper {
         }
     }
 
+    //카메라 탭에서 버튼이벤트를 사용했을때 테이블에 저장하기위한 테이블
     public void oninsertCameraTBL(User user, ThemeData themeData) {
 
         SQLiteDatabase sqLiteDatabase = null;
@@ -193,6 +195,7 @@ public class UserDBHelper extends SQLiteOpenHelper {
         }
     }
 
+    //저장된 사진을 불러오기
     public ArrayList<ThemeData> onSelectAlbumTBL(User user) {
 
         SQLiteDatabase sqLiteDatabase = null;

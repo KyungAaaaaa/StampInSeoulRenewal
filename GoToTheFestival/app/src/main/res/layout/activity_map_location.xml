@@ -14,23 +14,6 @@
         android:background="#FCFCFF">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:backgroundTint="#D373CED8"
-            android:src="@drawable/icon_google"
-            android:visibility="invisible"
-            app:elevation="6dp"
-            app:layout_constraintBottom_toTopOf="@+id/fab2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.929"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0"
-            app:pressedTranslationZ="12dp" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

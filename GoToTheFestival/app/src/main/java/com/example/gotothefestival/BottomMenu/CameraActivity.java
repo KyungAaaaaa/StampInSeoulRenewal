@@ -59,8 +59,10 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 
         findViewByIdFunc();
 
+        //카메라로 촬영하나 사진을 데이터베이스에서 테이블을 생성해서 저장한다.
         themeData = getIntent().getParcelableExtra("themadata");
 
+        //카메라접근 권한을주느함수 (마시멜로우 6.0 버전부터 적용됨....)
         TedPermission.with(getApplicationContext()).setPermissionListener(new PermissionListener() {
 
             @Override
@@ -130,6 +132,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 
             } else if (view.getId() == R.id.btnSave) {
 
+                //사진을 앨범으로 옮기기위해 일단 데이터베이스에 사진을 추가한다.
                 UserDBHelper userDBHelper = UserDBHelper.getInstance(getApplicationContext());
 
 
@@ -149,7 +152,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-
+    //?
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -179,6 +182,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
+    //?
     private Bitmap rotate(Bitmap bitmap, int exifDegres) {
         Matrix matrix = new Matrix();
 
@@ -210,10 +214,12 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         return 0;
 
     }
-
+    //이미지파일을 저장할때 사용하는함수
     private File imageFileSave() throws IOException {
+
         SimpleDateFormat date = new SimpleDateFormat("yyyymmdd_HHmmss");
 
+        //날짜를 비교해서 중복된것을 없앤다.
         String string = date.format(new Date());
         imageFile = "test_" + string + "_";
 
