@@ -33,8 +33,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
 
-        <activity android:name=".Theme.ThemeActivity"
-            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".Theme.ThemeActivity" />
+<!--            android:windowSoftInputMode="stateHidden"-->
+
         <activity android:name=".Login.LoginActivity" />
         <activity android:name=".BottomMenu.BottomMenuActivity" />
         <activity android:name=".BottomMenu.CameraActivity" />
@@ -53,7 +54,7 @@
             android:value="54168c178ba7edaf46803ea023775af8" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDzDmPuEdRn-WLvX8SY06aPk5J6Fex2CsE" />
+            android:value="AIzaSyBUk36M2Tl1yZbBue0AONIXY3fJYdoc0qE" />
 
         <uses-library
             android:name="org.apache.http.legacy"

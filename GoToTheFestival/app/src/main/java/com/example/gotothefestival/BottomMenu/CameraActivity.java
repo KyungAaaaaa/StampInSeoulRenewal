@@ -95,7 +95,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         imgPhoto = findViewById(R.id.imgPhoto);
         btnCapture = findViewById(R.id.btnCapture);
 
-        btnSave = findViewById(R.id.btnSave);
+        btnSave = findViewById(R.id.btnLikeDelete);
         btnExit = findViewById(R.id.btnExit);
 
         edtPola = findViewById(R.id.edtPola);
@@ -131,7 +131,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         }
 
         switch (view.getId()) {
-            case (R.id.btnSave):
+            case (R.id.btnLikeDelete):
 
                 //사진을 앨범으로 옮기기위해 일단 데이터베이스에 사진을 추가한다.
                 UserDBHelper userDBHelper = UserDBHelper.getInstance(getApplicationContext());

@@ -5,19 +5,28 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -31,9 +40,11 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.gotothefestival.BottomMenu.BottomMenuActivity;
+import com.example.gotothefestival.Login.LoginActivity;
 import com.example.gotothefestival.Login.MainActivity;
 import com.example.gotothefestival.Model.ThemeData;
 import com.example.gotothefestival.R;
+import com.example.gotothefestival.UserDBHelper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
@@ -47,22 +58,28 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ThemeActivity extends AppCompatActivity implements View.OnClickListener, ThemeViewPager.OnPageChangeListener {
+public class ThemeActivity extends AppCompatActivity implements View.OnClickListener, ThemeViewPager.OnPageChangeListener, TabLayout.BaseOnTabSelectedListener {
     private TabLayout tabLayout;
     private ThemeViewPager viewPager;
+    private ListView likeListView;
     private EditText edtSearch;
     private ImageButton ibSearch;
     private FloatingActionButton fab, fab1, fab2;
     private ThemeSearchFragment themeSearchFragment;
     private Animation fab_open, fab_close;
     private ThemeViewPagerAdapter fragmentStatePagerAdapter;
+    UserDBHelper dbHelper;
+    private boolean isDragged;
     private boolean isFabOpen;
     private boolean searchFlag;
     private Bitmap bitmap;
+    ArrayList<ThemeData> checkedList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +89,8 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
         viewPager = findViewById(R.id.viewPager);
         edtSearch = findViewById(R.id.edtSearch);
         ibSearch = findViewById(R.id.ibSearch);
+        likeListView = findViewById(R.id.likeListView);
+        dbHelper = UserDBHelper.getInstance(getApplicationContext());
         fragmentStatePagerAdapter = new ThemeViewPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         tabLayout.setupWithViewPager(viewPager);
         viewPager.setAdapter(fragmentStatePagerAdapter);
@@ -127,6 +146,47 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fragmentStatePagerAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {
+        if (!isDragged) {
+            viewPager.setCurrentItem(tab.getPosition());
+        }
+        isDragged = false;
+    }
+
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {
+
+    }
+
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {
+
+    }
+
+
+    @Override
+    public void onPageScrolled(int i, float v, int i1) {
+
+    }
+
+    @Override
+    public void onPageSelected(int i) {
+
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int i) {
+        if (i == ViewPager.SCROLL_STATE_DRAGGING)
+            isDragged = true;
+    }
+
     public ThemeSearchFragment getThemeSearchFragment() {
         return themeSearchFragment;
     }
@@ -147,6 +207,86 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
                 startActivity(intent);
                 break;
             case R.id.fab2:
+//
+                ArrayList<String> likeList = dbHelper.likeLoad(LoginActivity.userData);
+                checkedList.clear();
+//                String[] likeList2 = new String[likeList.size()];
+//                android.app.AlertDialog.Builder alert = new AlertDialog.Builder(getApplication(),R.layout.dialog_like_list);
+//                boolean[] checkedItems = new boolean[likeList.size()];
+//                for (int i = 0; i < likeList2.length; i++) {
+//                    likeList2[i] = likeList.get(i);
+//                    checkedItems[i] = false;
+//                }
+//                alert.setTitle("좋아요 목록");
+////                alert.setMultiChoiceItems(likeList2, checkedItems, (dialogInterface, i, b) -> checkedItems[i] = b);
+////                alert.setPositiveButton("완료",(dialogInterface, i2) -> {
+////                    Set<String> set = new HashSet<>();
+////                    for (int i = 0; i < likeList2.length; i++) {
+////                        if (checkedItems[i]) set.add(likeList2[i]);
+////                    }
+////                    for (String s : set) {
+////                        dbHelper.likeDelete(LoginActivity.userData, new ThemeData(s));
+////                    }
+////                    Snackbar.make(getWindow().getDecorView().getRootView(), "완료", Snackbar.LENGTH_LONG).show();
+////                });
+////                alert.setNegativeButton("취소",null);
+//               // alert.setView(R.layout.dialog_like_list);
+//                alert.show();
+
+                final View viewDialog = view.inflate(view.getContext(), R.layout.dialog_like_list, null);
+
+                likeListView = viewDialog.findViewById(R.id.likeListView);
+
+//                // 여기서 DB ZZIM 테이블에 들어있는거 리스트에 넣어서 뿌려주기
+//                MainActivity.db = MainActivity.dbHelper.getWritableDatabase();
+//
+//                final Cursor cursor;
+//
+//                cursor = MainActivity.db.rawQuery("SELECT * FROM ZZIM_" + LoginActivity.userId + ";", null);
+//
+//                if (cursor != null) {
+//                    while (cursor.moveToNext()) {
+//                        list.add(new ThemeData(cursor.getString(0), cursor.getString(1), cursor.getDouble(2), cursor.getDouble(3), cursor.getString(4)));
+//                        titleList.add(cursor.getString(0));
+//                    }
+//                }
+
+                final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.item_check_box_color, likeList);
+                checkedList = new ArrayList<>();
+                likeListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+
+                likeListView.setAdapter(adapter);
+
+                adapter.notifyDataSetChanged();
+
+                Button btnLikeDelete = viewDialog.findViewById(R.id.btnLikeDelete);
+                Button btnExit = viewDialog.findViewById(R.id.btnExit);
+//
+//
+                final Dialog dialog = new Dialog(viewDialog.getContext());
+//
+
+                likeListView.setOnItemClickListener((adapterView, view1, i, l) -> {
+                    SparseBooleanArray booleans = likeListView.getCheckedItemPositions();
+                    if (booleans.get(i)) {
+                        checkedList.add(new ThemeData(likeList.get(i)));
+                    }
+                });
+                btnLikeDelete.setOnClickListener(view1 -> {
+                    for (int j = 0; j < checkedList.size(); j++) {
+                        dbHelper.likeDelete(LoginActivity.userData, checkedList.get(j));
+                    }
+                    Snackbar.make(getWindow().getDecorView().getRootView(), "수정 완료", Snackbar.LENGTH_LONG).show();
+                    dialog.dismiss();
+                    fragmentStatePagerAdapter.notifyDataSetChanged();
+                    viewPager.setAdapter(fragmentStatePagerAdapter);
+                });
+
+                dialog.setContentView(viewDialog);
+                dialog.show();
+                btnExit.setOnClickListener((v) -> {
+                    dialog.dismiss();
+                });
                 break;
             case R.id.ibSearch:
                 if (searchFlag) {
@@ -168,6 +308,7 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
                 }
                 break;
         }
+
     }
 
     private void searchData() {
@@ -296,25 +437,25 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
         if (System.currentTimeMillis() <= backKeyPressedTime + 2500) finish();
     }
 
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        refresh();
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-        refresh();
-
-
-
-    }
-
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
-        refresh();
-    }
-    private void refresh() {
-        fragmentStatePagerAdapter.notifyDataSetChanged();
-    }
+//    @Override
+//    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//        refresh();
+//    }
+//
+//    @Override
+//    public void onPageSelected(int position) {
+//        refresh();
+//
+//
+//    }
+//
+//
+//    @Override
+//    public void onPageScrollStateChanged(int state) {
+//        refresh();
+//    }
+//
+//    private void refresh() {
+//        fragmentStatePagerAdapter.notifyDataSetChanged();
+//    }
 }

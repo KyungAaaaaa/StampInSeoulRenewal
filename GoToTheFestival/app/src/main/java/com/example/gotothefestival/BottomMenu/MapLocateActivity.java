@@ -77,7 +77,8 @@ public class MapLocateActivity extends Fragment implements View.OnTouchListener,
     private FloatingActionButton fab, fab1, fab2;
     private DrawerLayout drawerLayout;
     private ConstraintLayout drawer;
-
+    private ThemeData data;
+    boolean tag = true;
     private static final int FASTEST_UPDATE_INTERVAL_MS = 1000 * 30;
 
     @Nullable
@@ -116,24 +117,24 @@ public class MapLocateActivity extends Fragment implements View.OnTouchListener,
         recyclerView.addOnItemTouchListener(new com.example.gotothefestival.RecyclerTouchListener(getContext(), recyclerView, new com.example.gotothefestival.ClickListener() {
             @Override
             public void onClick(View view, int position) {
-
-                boolean tag = true;
-                if (check.size() == 0) {
-                    check.add(themedatalist.get(position).getTitle());
-                } else {
-                    for (int i = 0; i < check.size(); i++) {
-                        check.remove(i);
-                        tag = false;
-                        break;
-                    }
-                    if (tag)
-                        check.add(themedatalist.get(position).getTitle());
+                check.clear();
+                data=themedatalist.get(position);
+                if (tag) {
+                   // check.add(themedatalist.get(position).getTitle());
+                    data=themedatalist.get(position);
+                    tag = false;
                 }
+                // } else {
+                //    for (int i = 0; i < check.size(); i++) {
+                //        check.remove(i);
 
+                //        break;
+                //    }
+                //   if (tag)
+                //      check.add(themedatalist.get(position).getTitle());
+                //  }
                 mapView = view1.findViewById(R.id.fgGoogleMap);
-
                 mapView.getMapAsync(MapLocateActivity.this);
-
                 drawerLayout.closeDrawer(drawer);
             }
 
@@ -265,26 +266,27 @@ public class MapLocateActivity extends Fragment implements View.OnTouchListener,
         //구글맵에 찍어주는 아이콘설정,아이콘크기 설정 ,
         //확대 초기값설정
         //lat,lng 좌표값을 읽어오는 변수명
-        if (check.size() >= 1) {
+        //if (check.size() >= 1) {
 
-            for (String x : check) {
-                for (ThemeData y : themedatalist) {
-                    if (x.equals(y.getTitle())) ;
-                    {
+            // for (String x : check) {
+           // for (ThemeData y : themedatalist) {
+               // if (check.get(0).equals(y.getTitle())){
+        if (data != null) {
 
-                        LatLng latLng = new LatLng(y.getMapY(), y.getMapX());
-                        Log.d("MapActivity", y.getMapY() + "/" + y.getMapX());
-                        MarkerOptions markerOptions = new MarkerOptions();
-                        markerOptions.title(y.getTitle());
-                        markerOptions.snippet(y.getAddr());
-                        markerOptions.position(latLng);
+            LatLng latLng1 = new LatLng(data.getMapY(), data.getMapX());
 
-                        googleMaps2.addMarker(markerOptions);
-                        googleMaps2.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
-                    }
-                }
-            }
-        }
+                    Log.d("MapActivity", data.getMapY() + "/" + data.getMapX());
+                    MarkerOptions markerOptions1 = new MarkerOptions();
+                    markerOptions1.title(data.getTitle());
+                    markerOptions1.snippet(data.getAddr());
+                    markerOptions1.position(latLng1);
+
+                    googleMaps2.addMarker(markerOptions1);
+                    googleMaps2.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng1, 16));}
+               // }
+          //  }
+            //  }
+       // }
 
         if (win) {
 
@@ -307,6 +309,7 @@ public class MapLocateActivity extends Fragment implements View.OnTouchListener,
         }
 
     }
+
     //드로잉 레이아웃 이벤트 등록 ...
     DrawerLayout.DrawerListener listener = new DrawerLayout.DrawerListener() {
         // 슬라이딩을 시작 했을때 이벤트 발생

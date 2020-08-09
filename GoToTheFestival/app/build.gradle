@@ -46,4 +46,6 @@ dependencies {
     implementation 'me.relex:circleindicator:1.2.2'
     implementation 'de.hdodenhof:circleimageview:3.0.0'//circleimageview
     implementation 'gun0912.ted:tedpermission:2.0.0'             //camera
+    implementation 'androidx.viewpager2:viewpager2:1.0.0'
+    implementation 'me.relex:circleindicator:2.1.4'
 }
