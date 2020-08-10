@@ -94,13 +94,13 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ViewHolder> 
                             // 하트 선택 해제
                             imagebtn.setSelected(false);
                             data.setHart(false);
-                            Snackbar.make(view,"좋아요 목록에서 삭제 되었습니다!", BaseTransientBottomBar.LENGTH_SHORT).show();
+                            Snackbar.make(v,"좋아요 목록에서 삭제 되었습니다!", BaseTransientBottomBar.LENGTH_SHORT).show();
                             userDBHelper.likeDelete(LoginActivity.userData, data);
                         } else {
                             // 하트 선택
                             imagebtn.setSelected(true);
                             data.setHart(true);
-                            Snackbar.make(view,"좋아요 목록에 추가 되었습니다!", BaseTransientBottomBar.LENGTH_SHORT).show();
+                            Snackbar.make(v,"좋아요 목록에 추가 되었습니다!", BaseTransientBottomBar.LENGTH_SHORT).show();
                             userDBHelper.likeInsert(LoginActivity.userData, data);
                         }
                     } catch (SQLException e) {

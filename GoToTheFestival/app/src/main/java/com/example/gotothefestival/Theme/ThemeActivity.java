@@ -2,18 +2,14 @@ package com.example.gotothefestival.Theme;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,7 +17,6 @@ import android.util.SparseBooleanArray;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -39,6 +34,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.example.gotothefestival.BottomMenu.BottomMenuActivity;
 import com.example.gotothefestival.Login.LoginActivity;
 import com.example.gotothefestival.Login.MainActivity;
@@ -58,46 +54,35 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ThemeActivity extends AppCompatActivity implements View.OnClickListener, ThemeViewPager.OnPageChangeListener, TabLayout.BaseOnTabSelectedListener {
-    private TabLayout tabLayout;
-    private ThemeViewPager viewPager;
     private ListView likeListView;
     private EditText edtSearch;
     private ImageButton ibSearch;
+    private CircleImageView civImage;
     private FloatingActionButton fab, fab1, fab2;
-    private ThemeSearchFragment themeSearchFragment;
-    private Animation fab_open, fab_close;
+    private TabLayout tabLayout;
+    private ThemeViewPager viewPager;
+
     private ThemeViewPagerAdapter fragmentStatePagerAdapter;
-    UserDBHelper dbHelper;
+    private ThemeSearchFragment themeSearchFragment;
+
+    private Animation fab_open, fab_close;
     private boolean isDragged;
     private boolean isFabOpen;
     private boolean searchFlag;
-    private Bitmap bitmap;
     ArrayList<ThemeData> checkedList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_theme);
-        tabLayout = findViewById(R.id.tabLayout);
-        viewPager = findViewById(R.id.viewPager);
-        edtSearch = findViewById(R.id.edtSearch);
-        ibSearch = findViewById(R.id.ibSearch);
-        likeListView = findViewById(R.id.likeListView);
-        dbHelper = UserDBHelper.getInstance(getApplicationContext());
-        fragmentStatePagerAdapter = new ThemeViewPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
-        tabLayout.setupWithViewPager(viewPager);
-        viewPager.setAdapter(fragmentStatePagerAdapter);
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.setTabTextColors(Color.LTGRAY, Color.BLACK);
-        tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#73CED8"));
-        CircleImageView civImage = findViewById(R.id.civImage);
+        findViewByIdFunc();
+        screenSetting();
+
 
         Intent intent = getIntent();
         String strProfile = intent.getStringExtra("profile");
@@ -106,50 +91,50 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
         Snackbar.make(getWindow().getDecorView().getRootView(), strNickName + "님 환영합니다!", Snackbar.LENGTH_LONG).show();
 
 
-        Thread thread = new Thread() {
-            @Override
-            public void run() {
-                try {
-                    URL url = new URL(strProfile);
-                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                    conn.setDoInput(true);
-                    conn.connect();
-                    InputStream is = conn.getInputStream();
-                    bitmap = BitmapFactory.decodeStream(is);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-        thread.start();
-        try {
-            thread.join();
-            civImage.setImageBitmap(bitmap);
-            civImage.setBorderColor(Color.BLACK);
-            civImage.setBorderWidth(1);
-        } catch (InterruptedException e) {
-        }
+        //build.gradle(Module:app)에 dependencies밑에 두가지 추가가 필요하다.
+        //implementation 'com.github.bumptech.glide:glide:4.8.0'
+        //annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
+        //이미지 처리 라이브러리를 이용해 프로필 사진URL을 이용해 이미지 뷰에 적용한다.
+        civImage.setBorderColor(Color.BLACK);
+        civImage.setBorderWidth(1);
+        Glide.with(getApplicationContext()).load(strProfile).into(civImage);
 
 
-        // == 플로팅 버튼, 드로어
+    }
+
+    private void screenSetting() {
+        fragmentStatePagerAdapter = new ThemeViewPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+        tabLayout.setupWithViewPager(viewPager);
+        viewPager.setAdapter(fragmentStatePagerAdapter);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.setTabTextColors(Color.LTGRAY, Color.BLACK);
+        tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#73CED8"));
+    }
+
+    private void findViewByIdFunc() {
+        tabLayout = findViewById(R.id.tabLayout);
+        viewPager = findViewById(R.id.viewPager);
+        edtSearch = findViewById(R.id.edtSearch);
+        ibSearch = findViewById(R.id.ibSearch);
+        likeListView = findViewById(R.id.likeListView);
+        civImage = findViewById(R.id.civImage);
+
         fab = findViewById(R.id.fab);
         fab1 = findViewById(R.id.fab1);
         fab2 = findViewById(R.id.fab2);
-
         fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
         fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
-
         fab.setOnClickListener(this);
         fab1.setOnClickListener(this);
         fab2.setOnClickListener(this);
         ibSearch.setOnClickListener(this);
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         fragmentStatePagerAdapter.notifyDataSetChanged();
+
     }
 
     @Override
@@ -187,13 +172,6 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
             isDragged = true;
     }
 
-    public ThemeSearchFragment getThemeSearchFragment() {
-        return themeSearchFragment;
-    }
-
-    public void setThemeSearchFragment(ThemeSearchFragment themeSearchFragment) {
-        this.themeSearchFragment = themeSearchFragment;
-    }
 
     @Override
     public void onClick(View view) {
@@ -207,49 +185,13 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
                 startActivity(intent);
                 break;
             case R.id.fab2:
-//
+                anim();
+                UserDBHelper dbHelper = UserDBHelper.getInstance(getApplicationContext());
                 ArrayList<String> likeList = dbHelper.likeLoad(LoginActivity.userData);
                 checkedList.clear();
-//                String[] likeList2 = new String[likeList.size()];
-//                android.app.AlertDialog.Builder alert = new AlertDialog.Builder(getApplication(),R.layout.dialog_like_list);
-//                boolean[] checkedItems = new boolean[likeList.size()];
-//                for (int i = 0; i < likeList2.length; i++) {
-//                    likeList2[i] = likeList.get(i);
-//                    checkedItems[i] = false;
-//                }
-//                alert.setTitle("좋아요 목록");
-////                alert.setMultiChoiceItems(likeList2, checkedItems, (dialogInterface, i, b) -> checkedItems[i] = b);
-////                alert.setPositiveButton("완료",(dialogInterface, i2) -> {
-////                    Set<String> set = new HashSet<>();
-////                    for (int i = 0; i < likeList2.length; i++) {
-////                        if (checkedItems[i]) set.add(likeList2[i]);
-////                    }
-////                    for (String s : set) {
-////                        dbHelper.likeDelete(LoginActivity.userData, new ThemeData(s));
-////                    }
-////                    Snackbar.make(getWindow().getDecorView().getRootView(), "완료", Snackbar.LENGTH_LONG).show();
-////                });
-////                alert.setNegativeButton("취소",null);
-//               // alert.setView(R.layout.dialog_like_list);
-//                alert.show();
-
                 final View viewDialog = view.inflate(view.getContext(), R.layout.dialog_like_list, null);
 
                 likeListView = viewDialog.findViewById(R.id.likeListView);
-
-//                // 여기서 DB ZZIM 테이블에 들어있는거 리스트에 넣어서 뿌려주기
-//                MainActivity.db = MainActivity.dbHelper.getWritableDatabase();
-//
-//                final Cursor cursor;
-//
-//                cursor = MainActivity.db.rawQuery("SELECT * FROM ZZIM_" + LoginActivity.userId + ";", null);
-//
-//                if (cursor != null) {
-//                    while (cursor.moveToNext()) {
-//                        list.add(new ThemeData(cursor.getString(0), cursor.getString(1), cursor.getDouble(2), cursor.getDouble(3), cursor.getString(4)));
-//                        titleList.add(cursor.getString(0));
-//                    }
-//                }
 
                 final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.item_check_box_color, likeList);
                 checkedList = new ArrayList<>();
@@ -261,10 +203,8 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
 
                 Button btnLikeDelete = viewDialog.findViewById(R.id.btnLikeDelete);
                 Button btnExit = viewDialog.findViewById(R.id.btnExit);
-//
-//
-                final Dialog dialog = new Dialog(viewDialog.getContext());
-//
+
+                Dialog dialog = new Dialog(viewDialog.getContext());
 
                 likeListView.setOnItemClickListener((adapterView, view1, i, l) -> {
                     SparseBooleanArray booleans = likeListView.getCheckedItemPositions();
@@ -278,15 +218,17 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
                     }
                     Snackbar.make(getWindow().getDecorView().getRootView(), "수정 완료", Snackbar.LENGTH_LONG).show();
                     dialog.dismiss();
-                    fragmentStatePagerAdapter.notifyDataSetChanged();
-                    viewPager.setAdapter(fragmentStatePagerAdapter);
+                    adapter.notifyDataSetChanged();
                 });
 
                 dialog.setContentView(viewDialog);
                 dialog.show();
                 btnExit.setOnClickListener((v) -> {
+                    adapter.notifyDataSetChanged();
                     dialog.dismiss();
                 });
+
+
                 break;
             case R.id.ibSearch:
                 if (searchFlag) {
@@ -314,9 +256,6 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
     private void searchData() {
         if (!searchFlag) {
             tabLayout.setVisibility(View.GONE);
-            //edtSearch.setEnabled(false);
-            //ibSearch.setEnabled(false);
-
 
         } else {
             tabLayout.setVisibility(View.VISIBLE);
@@ -437,25 +376,11 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
         if (System.currentTimeMillis() <= backKeyPressedTime + 2500) finish();
     }
 
-//    @Override
-//    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-//        refresh();
-//    }
-//
-//    @Override
-//    public void onPageSelected(int position) {
-//        refresh();
-//
-//
-//    }
-//
-//
-//    @Override
-//    public void onPageScrollStateChanged(int state) {
-//        refresh();
-//    }
-//
-//    private void refresh() {
-//        fragmentStatePagerAdapter.notifyDataSetChanged();
-//    }
+    public ThemeSearchFragment getThemeSearchFragment() {
+        return themeSearchFragment;
+    }
+
+    public void setThemeSearchFragment(ThemeSearchFragment themeSearchFragment) {
+        this.themeSearchFragment = themeSearchFragment;
+    }
 }

@@ -282,11 +282,12 @@ public class MapLocateActivity extends Fragment implements View.OnTouchListener,
                     markerOptions1.position(latLng1);
 
                     googleMaps2.addMarker(markerOptions1);
-                    googleMaps2.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng1, 16));}
-               // }
-          //  }
-            //  }
-       // }
+            googleMaps2.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng1, 16));
+        }
+        // }
+        //  }
+        //  }
+        // }
 
         if (win) {
 
