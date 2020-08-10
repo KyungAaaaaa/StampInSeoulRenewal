@@ -44,10 +44,7 @@ import java.util.Map;
 public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ViewHolder> {
     Context context;
     View view;
-    //RequestQueue queue;
-    //View viewDialog;
     ArrayList<ThemeData> list;
-    //int layout;
     UserDBHelper userDBHelper = UserDBHelper.getInstance(context);
     static final String appName = "Zella";
 
@@ -122,6 +119,8 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ViewHolder> 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        // 뷰홀더(ViewHolder)는 화면에 표시될 아이템 뷰를 저장하는 객체입니다.
+        // 미리 생성된 뷰홀더 객체가 있는 경우에는 새로 생성하지 않고 이미 만들어져 있는 뷰홀더를 재활용
         context = parent.getContext();
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.item_theme, parent, false);

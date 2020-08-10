@@ -79,7 +79,7 @@ public class AlbumActivity extends Fragment implements View.OnTouchListener {
             @Override
             public void onLongClick(View view, int position) {
 
-                    UserDBHelper dbHelper = UserDBHelper.getInstance(getContext());
+                    //UserDBHelper dbHelper = UserDBHelper.getInstance(getContext());
                     Snackbar snackbar = Snackbar.make(view, "기록을 삭제하시겠습니까?", Snackbar.LENGTH_LONG); //스낵바 우측 텍스트 띄우고 터치 했을때 이벤트 설정
                     snackbar.setAction("확인", new View.OnClickListener() {
                         @Override

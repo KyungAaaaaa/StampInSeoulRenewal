@@ -1,6 +1,7 @@
 package com.example.gotothefestival.Theme;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,14 +33,21 @@ public class ThemeSeoulFragment extends Fragment {
         return themeSeoulFragment;
     }
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        themeActivity = (com.example.gotothefestival.Theme.ThemeActivity) getActivity();
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_theme, container, false);
-        themeActivity = (com.example.gotothefestival.Theme.ThemeActivity) getActivity();
+
         lodingDialog = themeActivity.displayLoader();
         themeRecyclerView = rootView.findViewById(R.id.themeRecyclerView);
 
+        // 레이아웃매니저: 아이템 뷰가 나열되는 형태를 관리하기 위한 요소를 제공
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         themeRecyclerView.setLayoutManager(layoutManager);
         list = new ArrayList<>();
@@ -48,6 +56,9 @@ public class ThemeSeoulFragment extends Fragment {
         return rootView;
     }
 
+    //스레드를 위한 동작코드와 UI 접근 코드를 한꺼번에 사용할수있는 클래스
+    //UI 작업을 위해 별도의 스레드로 만들어져서 백그라운드에서 실행되는 태스크
+    // 메인 UI 스레드에서 시간이 오래 걸리는 UI 작업을 백그라운드에서 실행할 수 있고 만들어진 Asynctask와 메인 UI스레드간 이벤트 통신이 가능합니다.
     class AsyncTaskClassMain extends android.os.AsyncTask<Integer, Long, String> {
         // 일반쓰레드 돌리기 전 메인쓰레드에서 보여줄 화면처리
         @Override
@@ -62,7 +73,7 @@ public class ThemeSeoulFragment extends Fragment {
             list = themeActivity.requestData(1);
             adapter = new com.example.gotothefestival.Theme.ThemeAdapter(list,getView());
             // publishProgress()를 호출하면 onProgressUpdate가 실행되고 메인쓰레드에서 UI 처리를 한다
-            return "작업 종료";
+            return "종료";
         }
 
         @Override
@@ -80,7 +91,7 @@ public class ThemeSeoulFragment extends Fragment {
             themeRecyclerView.invalidate();
             lodingDialog.cancel();
         }
-    } // end of AsyncTaskClassMain
+    }
 
 
 }

@@ -59,7 +59,6 @@ import java.util.Map;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ThemeActivity extends AppCompatActivity implements View.OnClickListener, ThemeViewPager.OnPageChangeListener, TabLayout.BaseOnTabSelectedListener {
-    private ListView likeListView;
     private EditText edtSearch;
     private ImageButton ibSearch;
     private CircleImageView civImage;
@@ -80,35 +79,33 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_theme);
-        findViewByIdFunc();
-        screenSetting();
-
-
-        Intent intent = getIntent();
-        String strProfile = intent.getStringExtra("profile");
-        String strNickName = intent.getStringExtra("name");
-
-        Snackbar.make(getWindow().getDecorView().getRootView(), strNickName + "님 환영합니다!", Snackbar.LENGTH_LONG).show();
-
-
-        //build.gradle(Module:app)에 dependencies밑에 두가지 추가가 필요하다.
-        //implementation 'com.github.bumptech.glide:glide:4.8.0'
-        //annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
-        //이미지 처리 라이브러리를 이용해 프로필 사진URL을 이용해 이미지 뷰에 적용한다.
-        civImage.setBorderColor(Color.BLACK);
-        civImage.setBorderWidth(1);
-        Glide.with(getApplicationContext()).load(strProfile).into(civImage);
-
+        findViewByIdFunc(); //UI 처리 메소드
+        screenSetting();    //화면 셋팅 메소드
 
     }
 
+    //화면 셋팅 메소드
     private void screenSetting() {
+        //viewPager와 탭레이아웃 셋팅
         fragmentStatePagerAdapter = new ThemeViewPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         tabLayout.setupWithViewPager(viewPager);
         viewPager.setAdapter(fragmentStatePagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.setTabTextColors(Color.LTGRAY, Color.BLACK);
         tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#73CED8"));
+
+        //로그인에서 넘겨준 인텐트를 가져온다
+        Intent intent = getIntent();
+        String strProfile = intent.getStringExtra("profile");
+        String strNickName = intent.getStringExtra("name");
+
+
+        //이미지 처리 라이브러리를 이용해 프로필 사진URL을 이용해 뷰에 적용
+        civImage.setBorderColor(Color.BLACK);
+        civImage.setBorderWidth(1);
+        Glide.with(getApplicationContext()).load(strProfile).into(civImage);
+
+        Snackbar.make(getWindow().getDecorView().getRootView(), strNickName + "님 환영합니다!", Snackbar.LENGTH_LONG).show();
     }
 
     private void findViewByIdFunc() {
@@ -116,7 +113,6 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
         viewPager = findViewById(R.id.viewPager);
         edtSearch = findViewById(R.id.edtSearch);
         ibSearch = findViewById(R.id.ibSearch);
-        likeListView = findViewById(R.id.likeListView);
         civImage = findViewById(R.id.civImage);
 
         fab = findViewById(R.id.fab);
@@ -128,48 +124,6 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
         fab1.setOnClickListener(this);
         fab2.setOnClickListener(this);
         ibSearch.setOnClickListener(this);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        fragmentStatePagerAdapter.notifyDataSetChanged();
-
-    }
-
-    @Override
-    public void onTabSelected(TabLayout.Tab tab) {
-        if (!isDragged) {
-            viewPager.setCurrentItem(tab.getPosition());
-        }
-        isDragged = false;
-    }
-
-    @Override
-    public void onTabUnselected(TabLayout.Tab tab) {
-
-    }
-
-    @Override
-    public void onTabReselected(TabLayout.Tab tab) {
-
-    }
-
-
-    @Override
-    public void onPageScrolled(int i, float v, int i1) {
-
-    }
-
-    @Override
-    public void onPageSelected(int i) {
-
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int i) {
-        if (i == ViewPager.SCROLL_STATE_DRAGGING)
-            isDragged = true;
     }
 
 
@@ -186,58 +140,21 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.fab2:
                 anim();
-                UserDBHelper dbHelper = UserDBHelper.getInstance(getApplicationContext());
-                ArrayList<String> likeList = dbHelper.likeLoad(LoginActivity.userData);
-                checkedList.clear();
-                final View viewDialog = view.inflate(view.getContext(), R.layout.dialog_like_list, null);
-
-                likeListView = viewDialog.findViewById(R.id.likeListView);
-
-                final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.item_check_box_color, likeList);
-                checkedList = new ArrayList<>();
-                likeListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-
-                likeListView.setAdapter(adapter);
-
-                adapter.notifyDataSetChanged();
-
-                Button btnLikeDelete = viewDialog.findViewById(R.id.btnLikeDelete);
-                Button btnExit = viewDialog.findViewById(R.id.btnExit);
-
-                Dialog dialog = new Dialog(viewDialog.getContext());
-
-                likeListView.setOnItemClickListener((adapterView, view1, i, l) -> {
-                    SparseBooleanArray booleans = likeListView.getCheckedItemPositions();
-                    if (booleans.get(i)) {
-                        checkedList.add(new ThemeData(likeList.get(i)));
-                    }
-                });
-                btnLikeDelete.setOnClickListener(view1 -> {
-                    for (int j = 0; j < checkedList.size(); j++) {
-                        dbHelper.likeDelete(LoginActivity.userData, checkedList.get(j));
-                    }
-                    Snackbar.make(getWindow().getDecorView().getRootView(), "수정 완료", Snackbar.LENGTH_LONG).show();
-                    dialog.dismiss();
-                    adapter.notifyDataSetChanged();
-                });
-
-                dialog.setContentView(viewDialog);
-                dialog.show();
-                btnExit.setOnClickListener((v) -> {
-                    adapter.notifyDataSetChanged();
-                    dialog.dismiss();
-                });
+                likeListSetting(view);
 
 
                 break;
             case R.id.ibSearch:
                 if (searchFlag) {
-                    Snackbar.make(getWindow().getDecorView().getRootView(), "뒤로가기 버튼을 누른후 다시 시도하세요", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(view, "뒤로가기 버튼을 누른후 다시 시도하세요", Snackbar.LENGTH_LONG).show();
                     return;
                 }
                 String word = edtSearch.getText().toString().trim();
-                if (word.length() > 1) {
-                    searchData();
+                //검색어가 두글자 이상이면
+                if (word.length() >= 2) {
+                    if (!searchFlag) tabLayout.setVisibility(View.GONE);
+                    else tabLayout.setVisibility(View.VISIBLE);
+
                     themeSearchFragment = new ThemeSearchFragment();
                     Bundle bundle = new Bundle();
                     bundle.putString("keyword", word);
@@ -246,22 +163,56 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
                     viewPager.setCurrentItem(8);
                     viewPager.setPagingDisabled();
                 } else {
-                    Toast.makeText(getApplicationContext(), "두 글자 이상 입력해 주세요", Toast.LENGTH_LONG).show();
+                    Snackbar.make(view,"두 글자 이상 입력해 주세요",Snackbar.LENGTH_SHORT).show();
                 }
                 break;
         }
 
     }
 
-    private void searchData() {
-        if (!searchFlag) {
-            tabLayout.setVisibility(View.GONE);
+    //좋아요 리스트 확인& 삭제 다이얼로그 메소드
+    private void likeListSetting(View view) {
+        UserDBHelper dbHelper = UserDBHelper.getInstance(getApplicationContext());
+        ArrayList<String> likeList = dbHelper.likeLoad(LoginActivity.userData);
+        checkedList.clear();
 
-        } else {
-            tabLayout.setVisibility(View.VISIBLE);
-        }
+        View viewDialog = view.inflate(view.getContext(), R.layout.dialog_like_list, null);
+        ListView likeListView = viewDialog.findViewById(R.id.likeListView);
+        Button btnLikeDelete = viewDialog.findViewById(R.id.btnLikeDelete);
+        Button btnExit = viewDialog.findViewById(R.id.btnExit);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.item_check_box_color, likeList);
+        checkedList = new ArrayList<>();
+        likeListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        likeListView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+        Dialog dialog = new Dialog(viewDialog.getContext());
+        likeListView.setOnItemClickListener((adapterView, view1, i, l) -> {
+            SparseBooleanArray booleans = likeListView.getCheckedItemPositions();
+            if (booleans.get(i)) checkedList.add(new ThemeData(likeList.get(i)));
+        });
+
+        //삭제 버튼을 누르면 선택된 타이틀의 축제정보를 DB에 좋아요 값을 수정하고 어댑터를 다시 로드
+        btnLikeDelete.setOnClickListener(view1 -> {
+            for (int j = 0; j < checkedList.size(); j++) {
+                dbHelper.likeDelete(LoginActivity.userData, checkedList.get(j));
+            }
+            Snackbar.make(view1, "수정 완료", Snackbar.LENGTH_LONG).show();
+            dialog.dismiss();
+            viewPager.setAdapter(fragmentStatePagerAdapter);
+        });
+
+        //다이얼로그에 레이아웃 설정
+        dialog.setContentView(viewDialog);
+        dialog.show();
+
+        // 확인버튼 누르면 다이얼로그 종료
+        btnExit.setOnClickListener((v) -> dialog.dismiss());
+
     }
 
+
+    //플로팅버튼 애니메이션
     public void anim() {
         if (isFabOpen) {
             fab1.startAnimation(fab_close);
@@ -278,6 +229,7 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    //관광공사 api 받아오기
     public ArrayList<ThemeData> requestData(int areaCode) {
         ArrayList<ThemeData> dataArrayList = new ArrayList<>();
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -376,6 +328,8 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
         if (System.currentTimeMillis() <= backKeyPressedTime + 2500) finish();
     }
 
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public ThemeSearchFragment getThemeSearchFragment() {
         return themeSearchFragment;
     }
@@ -383,4 +337,47 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
     public void setThemeSearchFragment(ThemeSearchFragment themeSearchFragment) {
         this.themeSearchFragment = themeSearchFragment;
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fragmentStatePagerAdapter.notifyDataSetChanged();
+
+    }
+
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {
+        if (!isDragged) {
+            viewPager.setCurrentItem(tab.getPosition());
+        }
+        isDragged = false;
+    }
+
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {
+
+    }
+
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {
+
+    }
+
+
+    @Override
+    public void onPageScrolled(int i, float v, int i1) {
+
+    }
+
+    @Override
+    public void onPageSelected(int i) {
+
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int i) {
+        if (i == ViewPager.SCROLL_STATE_DRAGGING)
+            isDragged = true;
+    }
+
 }
