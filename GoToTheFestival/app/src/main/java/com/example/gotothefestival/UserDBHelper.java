@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public class UserDBHelper extends SQLiteOpenHelper {
     private Context context;
-    private static final String DB_NAME = "StampInSeoulDB";
+    private static final String DB_NAME = "GoToTheFestivalDB";
     private static final int VERSION = 1;
     private static UserDBHelper userDBHelper = null;
 

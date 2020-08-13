@@ -33,9 +33,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
 
-        <activity android:name=".Theme.ThemeActivity" />
-<!--            android:windowSoftInputMode="stateHidden"-->
-
+        <activity android:name=".Theme.ThemeActivity"
+            android:windowSoftInputMode="stateHidden"
+        />
         <activity android:name=".Login.LoginActivity" />
         <activity android:name=".BottomMenu.BottomMenuActivity" />
         <activity android:name=".BottomMenu.CameraActivity" />
