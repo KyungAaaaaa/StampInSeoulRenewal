@@ -15,15 +15,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-import com.example.gotothefestival.Login.LoginActivity;
-
 import com.bumptech.glide.Glide;
-import com.example.gotothefestival.Model.ThemeData2;
-import com.example.gotothefestival.Model.User;
+import com.example.gotothefestival.Model.ThemeData;
 import com.example.gotothefestival.R;
-import com.example.gotothefestival.UserDBHelper;
-import com.google.android.material.snackbar.BaseTransientBottomBar;
-import com.google.android.material.snackbar.Snackbar;
 
 
 import java.util.ArrayList;
@@ -34,9 +28,9 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.CustomViewHo
 
     private Context context;
     private int layout;
-    private ArrayList<ThemeData2.Item> list;
+    private ArrayList<ThemeData.Item> list;
 
-    public AlbumAdapter(Context context, int layout, ArrayList<ThemeData2.Item> list) {
+    public AlbumAdapter(Context context, int layout, ArrayList<ThemeData.Item> list) {
         this.context = context;
         this.layout = layout;
         this.list = list;

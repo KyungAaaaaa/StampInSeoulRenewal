@@ -8,8 +8,9 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.QueryMap;
 
-public interface TourApiService {
+public interface TourApiSearchService {
 
-    @GET("/openapi/service/rest/KorService/searchFestival?")
-    Call<ThemeData> getData(@QueryMap (encoded = true)Map<String,String> query);
+
+    @GET("/openapi/service/rest/KorService/searchKeyword?")
+    Call<ThemeData> getSearchData(@QueryMap(encoded = true) Map<String, String> query);
 }

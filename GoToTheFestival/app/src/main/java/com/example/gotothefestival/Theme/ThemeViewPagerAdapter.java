@@ -28,8 +28,6 @@ public class ThemeViewPagerAdapter extends FragmentStatePagerAdapter implements 
                 return new ThemeGangwonFragment();
             case 4:
                 return new ThemeJejuFragment();
-            case 5:
-                return new ThemeSearchFragment();
             default:
                 return null;
         }
@@ -42,7 +40,7 @@ public class ThemeViewPagerAdapter extends FragmentStatePagerAdapter implements 
 
     @Override
     public int getCount() {
-        return 6;
+        return 5;
     }
 
     @Nullable

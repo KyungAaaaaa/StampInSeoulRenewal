@@ -23,7 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
 import com.example.gotothefestival.Login.LoginActivity;
-import com.example.gotothefestival.Model.ThemeData2;
+import com.example.gotothefestival.Model.ThemeData;
 import com.example.gotothefestival.R;
 import com.example.gotothefestival.UserDBHelper;
 import com.gun0912.tedpermission.PermissionListener;
@@ -46,7 +46,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     static final int RE = 672;
     public static Bitmap imagesave = null;
     private String imageFile;
-    private ThemeData2.Item themeData;
+    private ThemeData.Item themeData;
 
     private SQLiteDatabase sqlDG;
 
@@ -85,11 +85,6 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         btnSave.setOnClickListener(this);
         btnExit.setOnClickListener(this);
     }
-
-    public void toastDispaly(String s) {
-        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
-    }
-
 
     private void findViewByIdFunc() {
         imgPhoto = findViewById(R.id.imgPhoto);

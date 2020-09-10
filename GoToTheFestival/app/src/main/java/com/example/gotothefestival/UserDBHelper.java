@@ -5,11 +5,9 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.strictmode.SqliteObjectLeakedViolation;
 import android.util.Log;
 
-import com.example.gotothefestival.Model.ThemeData2;
-import com.example.gotothefestival.Model.ThemeData2;
+import com.example.gotothefestival.Model.ThemeData;
 import com.example.gotothefestival.Model.User;
 
 import java.util.ArrayList;
@@ -20,7 +18,8 @@ public class UserDBHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "GoToTheFestivalDB";
     private static final int VERSION = 1;
     private static UserDBHelper userDBHelper = null;
-private ThemeData2 data = new ThemeData2();
+    private ThemeData data = new ThemeData();
+
     private UserDBHelper(Context context) {
         super(context, DB_NAME, null, VERSION);
         this.context = context;
@@ -99,7 +98,7 @@ private ThemeData2 data = new ThemeData2();
         return arrayList;
     }
 
-    public void likeDelete(User user, ThemeData2.Item data) {
+    public void likeDelete(User user, ThemeData.Item data) {
         SQLiteDatabase sqLiteDatabase = null;
         try {
             sqLiteDatabase = this.getWritableDatabase();
@@ -113,7 +112,7 @@ private ThemeData2 data = new ThemeData2();
 
     }
 
-    public void likeInsert(User user, ThemeData2.Item data) {
+    public void likeInsert(User user, ThemeData.Item data) {
         SQLiteDatabase sqLiteDatabase = null;
         try {
             sqLiteDatabase = this.getWritableDatabase();
@@ -132,8 +131,8 @@ private ThemeData2 data = new ThemeData2();
 
     }
 
-    public ArrayList<ThemeData2.Item> likePlaceLoad(User user) {
-        ArrayList<ThemeData2.Item> arrayList = new ArrayList<>();
+    public ArrayList<ThemeData.Item> likePlaceLoad(User user) {
+        ArrayList<ThemeData.Item> arrayList = new ArrayList<>();
         SQLiteDatabase sqLiteDatabase = null;
         Cursor cursor = null;
         try {
@@ -178,7 +177,7 @@ private ThemeData2 data = new ThemeData2();
     }
 
     //카메라 탭에서 버튼이벤트를 사용했을때 테이블에 저장하기위한 테이블
-    public void oninsertCameraTBL(User user, ThemeData2.Item themeData) {
+    public void oninsertCameraTBL(User user, ThemeData.Item themeData) {
         SQLiteDatabase sqLiteDatabase = null;
         sqLiteDatabase = this.getWritableDatabase();
         try {
@@ -195,15 +194,15 @@ private ThemeData2 data = new ThemeData2();
     }
 
     //저장된 사진을 불러오기
-    public ArrayList<ThemeData2.Item> onSelectAlbumTBL(User user) {
+    public ArrayList<ThemeData.Item> onSelectAlbumTBL(User user) {
         SQLiteDatabase sqLiteDatabase = null;
-        ArrayList<ThemeData2.Item> albumArraylist = new ArrayList<>();
+        ArrayList<ThemeData.Item> albumArraylist = new ArrayList<>();
         Cursor cursor = null;
         try {
             sqLiteDatabase = this.getWritableDatabase();
             cursor = sqLiteDatabase.rawQuery("select * from ALBUM" + user.getUserId() + "TBL", null);
             while (cursor.moveToNext()) {
-                albumArraylist.add(data.new Item(cursor.getInt(0),cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),
+                albumArraylist.add(data.new Item(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),
                         cursor.getString(5), cursor.getString(6), cursor.getString(7)));
             }
             Log.d("DBSelectAlbumTBL", "성공");
@@ -216,7 +215,7 @@ private ThemeData2 data = new ThemeData2();
         return albumArraylist;
     }
 
-    public void deleteAlbumData(User user, ThemeData2.Item themeData) {
+    public void deleteAlbumData(User user, ThemeData.Item themeData) {
         SQLiteDatabase sqLiteDatabase = null;
         try {
             sqLiteDatabase = this.getWritableDatabase();

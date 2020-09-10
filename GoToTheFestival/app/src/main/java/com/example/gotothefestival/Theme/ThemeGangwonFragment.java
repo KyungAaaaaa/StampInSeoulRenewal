@@ -1,9 +1,7 @@
 package com.example.gotothefestival.Theme;
 
 import android.app.ProgressDialog;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,17 +10,14 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.gotothefestival.Login.MainActivity;
-import com.example.gotothefestival.Model.ThemeData2;
+import com.example.gotothefestival.Model.ThemeData;
 import com.example.gotothefestival.R;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 
@@ -33,7 +28,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ThemeGangwonFragment extends Fragment {
     private RecyclerView themeRecyclerView;
-
+    private ProgressDialog dialog;
     ///////////////////////////////////////////////////
 
     @Nullable
@@ -41,8 +36,18 @@ public class ThemeGangwonFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_theme, container, false);
         themeRecyclerView = rootView.findViewById(R.id.themeRecyclerView);
+        dialog=displayLoader();
+        dialog.show();
         dataLoad();
         return rootView;
+    }
+
+    private ProgressDialog displayLoader() {
+        ProgressDialog pDialog = new ProgressDialog(getActivity());
+        pDialog.setMessage("잠시만 기다려 주세요..");
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        return pDialog;
     }
 
     private void dataLoad(){
@@ -66,25 +71,25 @@ public class ThemeGangwonFragment extends Fragment {
         query.put("MobileApp", MainActivity.APP_NAME);
         query.put("_type", "json");
 
-        tourApiService.getData(query).enqueue(new Callback<ThemeData2>() {
+        tourApiService.getData(query).enqueue(new Callback<ThemeData>() {
             @Override
-            public void onResponse(Call<ThemeData2> call, retrofit2.Response<ThemeData2> response) {
+            public void onResponse(Call<ThemeData> call, retrofit2.Response<ThemeData> response) {
                 if (response.isSuccessful()) {
                     Log.d("retro", 1 + "");
-                    ThemeData2 result = response.body();
+                    ThemeData result = response.body();
 
-                    ThemeData2.Response response1 = result.getResponse();
-                    ThemeData2.Body body = response1.getBody();
-                    ThemeData2.Items items = body.getItems();
-                    List<ThemeData2.Item> item = items.getItem();
+                    ThemeData.Response response1 = result.getResponse();
+                    ThemeData.Body body = response1.getBody();
+                    ThemeData.Items items = body.getItems();
+                    List<ThemeData.Item> item = items.getItem();
 
                     //////////////////////////////////////////////////
-                    ArrayList<ThemeData2.Item> list = new ArrayList<>(item);
+                    ArrayList<ThemeData.Item> list = new ArrayList<>(item);
                     ThemeAdapter adapter = new com.example.gotothefestival.Theme.ThemeAdapter(list, getView());
                     LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
                     themeRecyclerView.setLayoutManager(layoutManager);
                     themeRecyclerView.setAdapter(adapter);
-
+                    dialog.dismiss();
                 } else {
                     Log.d("retro", 2 + "Error");
                 }
@@ -92,7 +97,7 @@ public class ThemeGangwonFragment extends Fragment {
 
 
             @Override
-            public void onFailure(Call<ThemeData2> call, Throwable t) {
+            public void onFailure(Call<ThemeData> call, Throwable t) {
                 Log.d("retro", t.getMessage());
             }
         });

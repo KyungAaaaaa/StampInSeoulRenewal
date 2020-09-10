@@ -15,7 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.AuthFailureError;
@@ -30,7 +29,7 @@ import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.example.gotothefestival.Login.LoginActivity;
 import com.example.gotothefestival.Login.MainActivity;
-import com.example.gotothefestival.Model.ThemeData2;
+import com.example.gotothefestival.Model.ThemeData;
 import com.example.gotothefestival.R;
 import com.example.gotothefestival.UserDBHelper;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
@@ -41,21 +40,14 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ViewHolder> {
     Context context;
     View view;
-    ArrayList<ThemeData2.Item> list;
-    ThemeData2 data = new ThemeData2();
-    ThemeData2.Item detailData = data.new Item();
+    ArrayList<ThemeData.Item> list;
+    ThemeData data = new ThemeData();
+    ThemeData.Item detailData = data.new Item();
     UserDBHelper userDBHelper = UserDBHelper.getInstance(context);
     static final String appName = "Zella";
 
@@ -93,7 +85,7 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ViewHolder> 
 
             imagebtn.setOnClickListener(v -> {
                 int position = getAdapterPosition();
-                ThemeData2.Item data = list.get(position);
+                ThemeData.Item data = list.get(position);
                 if (position != RecyclerView.NO_POSITION) {
                     try {
                         if (data.isHart()) {
@@ -120,7 +112,7 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ViewHolder> 
     }
 
     // 어탭터 생성자. 매개변수로 list를 가져온다
-    public ThemeAdapter(ArrayList<ThemeData2.Item> list, View view) {
+    public ThemeAdapter(ArrayList<ThemeData.Item> list, View view) {
         this.list = list;
         this.view = view;
     }
@@ -140,7 +132,7 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ViewHolder> 
     //position에 해당하는 데이터를 뷰홀더의 아이템뷰에 표시
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        ThemeData2.Item data = list.get(position);
+        ThemeData.Item data = list.get(position);
         holder.txtView.setText(data.getTitle());
         Glide.with(context).load(data.getFirstimage()).into(holder.imgView);
         holder.itemView.setTag(position);
@@ -175,7 +167,7 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ViewHolder> 
     // 관광 정보(리사이클러뷰) 를 선택했을때 상세 데이터 읽어오는 메소드
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
-    private ThemeData2.Item getData(int contentID) {
+    private ThemeData.Item getData(int contentID) {
 
         RequestQueue queue = Volley.newRequestQueue(context);
 
@@ -185,7 +177,7 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ViewHolder> 
                 + "&firstImageYN=Y&mapinfoYN=Y&addrinfoYN=Y&defaultYN=Y&overviewYN=Y"
                 + "&pageNo=1&MobileOS=AND&MobileApp="
                 + appName + "&_type=json";
-        ThemeData2.Item detailThemeData = data.new Item();
+        ThemeData.Item detailThemeData = data.new Item();
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, (response) -> {
                     try {
@@ -203,7 +195,7 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ViewHolder> 
                         e.printStackTrace();
                     }
 
-                }, (error) -> Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show()) {
+                }, (error) -> Log.d("detailError", error.getMessage())) {
             //response를 UTF8로 변경해주는 소스코드
             @Override
             protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
@@ -235,7 +227,7 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ViewHolder> 
     //AsynTask란 클래스를 상속하여 클래스를 만들면 해당 클래스안에 스레드를 위한 동작코드와 UI 접근 코드를 한꺼번에 넣을 수 있습니다.
     //새로운 TASK정의 (AsyncTask)
     // < >안에 들은 자료형은 순서대로 doInBackground, onProgressUpdate, onPostExecute의 매개변수 자료형을 뜻한다.(내가 사용할 매개변수타입을 설정하면된다)
-    class AsyncTaskClassSub extends android.os.AsyncTask<Integer, ThemeData2.Item, ThemeData2.Item> {
+    class AsyncTaskClassSub extends android.os.AsyncTask<Integer, ThemeData.Item, ThemeData.Item> {
         //초기화 단계에서 사용한다. 초기화관련 코드를 작성했다.
         @Override
         protected void onPreExecute() {
@@ -246,23 +238,23 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ViewHolder> 
         //여기서 매개변수 Intger ... values란 values란 이름의 Integer배열이라 생각하면된다.
         //배열이라 여러개를 받을 수 도 있다. ex) excute(100, 10, 20, 30); 이런식으로 전달 받으면 된다.
         @Override
-        protected ThemeData2.Item doInBackground(Integer... integers) {
+        protected ThemeData.Item doInBackground(Integer... integers) {
             int position = integers[0];
-            ThemeData2.Item myThemeData1 = list.get(position);
-            ThemeData2.Item themeData = getData(myThemeData1.getContentid());
+            ThemeData.Item myThemeData1 = list.get(position);
+            ThemeData.Item themeData = getData(myThemeData1.getContentid());
             return themeData;
         }
 
         //UI작업 관련 작업 (백그라운드 실행중 이 메소드를 통해 UI작업을 할 수 있다)
         //publishProgress(value)의 value를 값으로 받는다.values는 배열이라 여러개 받기가능
         @Override
-        protected void onProgressUpdate(ThemeData2.Item... values) {
+        protected void onProgressUpdate(ThemeData.Item... values) {
             super.onProgressUpdate(values);
         }
 
         //이 Task에서(즉 이 스레드에서) 수행되던 작업이 종료되었을 때 호출됨
         @Override
-        protected void onPostExecute(ThemeData2.Item themeData) {
+        protected void onPostExecute(ThemeData.Item themeData) {
             super.onPostExecute(themeData);
 
             View viewDialog = View.inflate(context, R.layout.dialog_info, null);

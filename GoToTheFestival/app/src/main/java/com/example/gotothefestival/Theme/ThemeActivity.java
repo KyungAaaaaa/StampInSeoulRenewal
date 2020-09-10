@@ -1,19 +1,14 @@
 package com.example.gotothefestival.Theme;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.View;
 import android.view.animation.Animation;
@@ -26,44 +21,19 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkResponse;
-import com.android.volley.ParseError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.HttpHeaderParser;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.example.gotothefestival.BottomMenu.BottomMenuActivity;
 import com.example.gotothefestival.Login.LoginActivity;
-import com.example.gotothefestival.Login.MainActivity;
-import com.example.gotothefestival.Model.ThemeData2;
+import com.example.gotothefestival.Model.ThemeData;
 import com.example.gotothefestival.R;
 import com.example.gotothefestival.UserDBHelper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ThemeActivity extends AppCompatActivity implements View.OnClickListener, TabLayout.BaseOnTabSelectedListener {
     private EditText edtSearch;
@@ -72,15 +42,17 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
     private FloatingActionButton fab, fab1, fab2;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-
+    private FrameLayout viewFrame;
     private ThemeViewPagerAdapter fragmentStatePagerAdapter;
     private ThemeSearchFragment themeSearchFragment;
+
+
 
     private Animation fab_open, fab_close;
     private boolean isDragged;
     private boolean isFabOpen;
     private boolean searchFlag;
-    ArrayList<ThemeData2.Item> checkedList = new ArrayList<>();
+    ArrayList<ThemeData.Item> checkedList = new ArrayList<>();
 
 
     @Override
@@ -89,9 +61,7 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_theme);
         findViewByIdFunc(); //UI 처리 메소드
         screenSetting();    //화면 셋팅 메소드
-
     }
-
 
     //화면 셋팅 메소드
     private void screenSetting() {
@@ -123,6 +93,8 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
         edtSearch = findViewById(R.id.edtSearch);
         ibSearch = findViewById(R.id.ibSearch);
         civImage = findViewById(R.id.civImage);
+        viewFrame = findViewById(R.id.viewFrame);
+
 
         fab = findViewById(R.id.fab);
         fab1 = findViewById(R.id.fab1);
@@ -154,22 +126,25 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
 
                 break;
             case R.id.ibSearch:
-                if (searchFlag) {
-                    Snackbar.make(view, "뒤로가기 버튼을 누른후 다시 시도하세요", Snackbar.LENGTH_LONG).show();
-                    return;
-                }
+//                if (searchFlag) {
+//                    Snackbar.make(view, "뒤로가기 버튼을 누른후 다시 시도하세요", Snackbar.LENGTH_LONG).show();
+//                    return;
+//                }
                 String word = edtSearch.getText().toString().trim();
                 //검색어가 두글자 이상이면
                 if (word.length() >= 2) {
-                    if (!searchFlag) tabLayout.setVisibility(View.GONE);
-                    else tabLayout.setVisibility(View.VISIBLE);
+                        tabLayout.setVisibility(View.GONE);
 
-                    themeSearchFragment = new ThemeSearchFragment();
+                    viewFrame.setVisibility(View.VISIBLE);
+                    viewPager.setVisibility(View.GONE);
                     Bundle bundle = new Bundle();
                     bundle.putString("keyword", word);
+                    themeSearchFragment = new ThemeSearchFragment();
                     themeSearchFragment.setArguments(bundle);
                     searchFlag = true;
-                    viewPager.setCurrentItem(8);
+                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.viewFrame, themeSearchFragment).commit();
+//                    viewPager.setCurrentItem(8);
 //                    viewPager.setPagingDisabled();
                 } else {
                     Snackbar.make(view,"두 글자 이상 입력해 주세요",Snackbar.LENGTH_SHORT).show();
@@ -198,7 +173,7 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
         Dialog dialog = new Dialog(viewDialog.getContext());
         likeListView.setOnItemClickListener((adapterView, view1, i, l) -> {
             SparseBooleanArray booleans = likeListView.getCheckedItemPositions();
-            ThemeData2 data=new ThemeData2();
+            ThemeData data=new ThemeData();
             if (booleans.get(i)) checkedList.add(data.new Item(likeList.get(i)));
         });
 
@@ -239,32 +214,24 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    public ProgressDialog displayLoader() {
-        ProgressDialog pDialog = new ProgressDialog(this);
-        pDialog.setMessage("잠시만 기다려 주세요..");
-        pDialog.setIndeterminate(false);
-        pDialog.setCancelable(false);
-        return pDialog;
-    }
 
-    private long backKeyPressedTime = 0;//
+
+    private long backKeyPressedTime = 0;
 
     // 뒤로가기 버튼 이벤트
     @Override
     public void onBackPressed() {
         if (searchFlag) {
             searchFlag = false;
-//            viewPager.setPagingEnabled();
-            //ibSearch.setEnabled(true);
-            //edtSearch.setEnabled(true);
-            viewPager.setCurrentItem(0);
+            edtSearch.setText("");
             tabLayout.setVisibility(View.VISIBLE);
-            //themeSearchFragment = null;
+            viewFrame.setVisibility(View.GONE);
+            viewPager.setVisibility(View.VISIBLE);
             return;
         }
         if (System.currentTimeMillis() > backKeyPressedTime + 2500) {
             backKeyPressedTime = System.currentTimeMillis();
-            Toast.makeText(this, "한 번 더 누르시면 종료됩니다.", Toast.LENGTH_LONG).show();
+            Snackbar.make(getWindow().getDecorView().getRootView(), "한 번 더 누르시면 종료됩니다", Snackbar.LENGTH_LONG).show();
             return;
         }
         if (System.currentTimeMillis() <= backKeyPressedTime + 2500) finish();

@@ -2,7 +2,6 @@ package com.example.gotothefestival.BottomMenu;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,18 +11,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.gotothefestival.Model.ThemeData2;
+import com.example.gotothefestival.Model.ThemeData;
 import com.example.gotothefestival.R;
 
 import java.util.ArrayList;
 
 public class MapLocateAdapter extends RecyclerView.Adapter<MapLocateAdapter.CustomViewHolder> {
     private int layout;
-    private ArrayList<ThemeData2.Item> list;
+    private ArrayList<ThemeData.Item> list;
 
     static int number = 0;
 
-    public MapLocateAdapter(int layout, ArrayList<ThemeData2.Item> themedatalist) {
+    public MapLocateAdapter(int layout, ArrayList<ThemeData.Item> themedatalist) {
         this.layout = layout;
         this.list = themedatalist;
     }
@@ -43,7 +42,7 @@ public class MapLocateAdapter extends RecyclerView.Adapter<MapLocateAdapter.Cust
     @Override
     public void onBindViewHolder(@NonNull final MapLocateAdapter.CustomViewHolder customViewHolder, final int position) {
 
-        ThemeData2.Item data = list.get(position);
+        ThemeData.Item data = list.get(position);
 
         customViewHolder.txtName.setText(data.getTitle());
         customViewHolder.txtContent.setText(data.getAddr1());

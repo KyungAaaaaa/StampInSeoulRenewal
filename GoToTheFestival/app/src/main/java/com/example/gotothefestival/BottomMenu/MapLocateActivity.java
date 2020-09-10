@@ -1,9 +1,7 @@
 package com.example.gotothefestival.BottomMenu;
 
 import android.Manifest;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -32,7 +30,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.gotothefestival.Login.LoginActivity;
-import com.example.gotothefestival.Model.ThemeData2;
+import com.example.gotothefestival.Model.ThemeData;
 import com.example.gotothefestival.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -56,7 +54,7 @@ public class MapLocateActivity extends Fragment implements View.OnTouchListener,
 
     LocationManager locationManager;
 
-    static ArrayList<ThemeData2.Item> themedatalist = new ArrayList<>();
+    static ArrayList<ThemeData.Item> themedatalist = new ArrayList<>();
     ArrayList<MarkerOptions> cctvlist = new ArrayList<MarkerOptions>();
     ArrayList<String> check = new ArrayList<>();
     static GoogleMap googleMaps;
@@ -77,7 +75,7 @@ public class MapLocateActivity extends Fragment implements View.OnTouchListener,
     private FloatingActionButton fab, fab1, fab2;
     private DrawerLayout drawerLayout;
     private ConstraintLayout drawer;
-    private ThemeData2.Item data;
+    private ThemeData.Item data;
     boolean tag = true;
     private static final int FASTEST_UPDATE_INTERVAL_MS = 1000 * 30;
 
@@ -269,7 +267,7 @@ public class MapLocateActivity extends Fragment implements View.OnTouchListener,
         //if (check.size() >= 1) {
 
             // for (String x : check) {
-           // for (ThemeData y : themedatalist) {
+           // for (ThemeData2.Item y : themedatalist) {
                // if (check.get(0).equals(y.getTitle())){
         if (data != null) {
 
@@ -284,11 +282,6 @@ public class MapLocateActivity extends Fragment implements View.OnTouchListener,
                     googleMaps2.addMarker(markerOptions1);
             googleMaps2.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng1, 16));
         }
-        // }
-        //  }
-        //  }
-        // }
-
         if (win) {
 
             //구글맵에서 자체적으로 사용자 gps사용권한을 동의하면 버튼 이벤트로 현재 내위치를 구글맵에 표시해줄수있다.

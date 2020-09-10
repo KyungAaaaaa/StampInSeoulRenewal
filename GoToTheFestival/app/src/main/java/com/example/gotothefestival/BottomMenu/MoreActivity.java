@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.gotothefestival.Login.LoginActivity;
 import com.example.gotothefestival.R;
+import com.google.android.material.snackbar.Snackbar;
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
 
@@ -35,7 +36,7 @@ public class MoreActivity extends Fragment {
             @Override
             public void onClick(View view) {
                 onClickLogout();
-                Toast.makeText(view.getContext(), "로그아웃 되었습니다", Toast.LENGTH_SHORT).show();
+                Snackbar.make(getView(), "로그아웃 되었습니다.", Snackbar.LENGTH_LONG).show();
             }
         });
         return view;
