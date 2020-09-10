@@ -26,7 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.gotothefestival.ClickListener;
 import com.example.gotothefestival.Login.LoginActivity;
-import com.example.gotothefestival.Model.ThemeData;
+import com.example.gotothefestival.Model.ThemeData2;
 import com.example.gotothefestival.R;
 import com.example.gotothefestival.RecyclerTouchListener;
 import com.example.gotothefestival.UserDBHelper;
@@ -38,7 +38,7 @@ import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AlbumActivity extends Fragment implements View.OnTouchListener {
-    private ArrayList<ThemeData> cameraList = new ArrayList<>();
+    private ArrayList<ThemeData2.Item> cameraList = new ArrayList<>();
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
     private AlbumAdapter albumAdapter;

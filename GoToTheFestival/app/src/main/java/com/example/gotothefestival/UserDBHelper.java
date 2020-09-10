@@ -8,7 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.os.strictmode.SqliteObjectLeakedViolation;
 import android.util.Log;
 
-import com.example.gotothefestival.Model.ThemeData;
+import com.example.gotothefestival.Model.ThemeData2;
+import com.example.gotothefestival.Model.ThemeData2;
 import com.example.gotothefestival.Model.User;
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public class UserDBHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "GoToTheFestivalDB";
     private static final int VERSION = 1;
     private static UserDBHelper userDBHelper = null;
-
+private ThemeData2 data = new ThemeData2();
     private UserDBHelper(Context context) {
         super(context, DB_NAME, null, VERSION);
         this.context = context;
@@ -98,7 +99,7 @@ public class UserDBHelper extends SQLiteOpenHelper {
         return arrayList;
     }
 
-    public void likeDelete(User user, ThemeData data) {
+    public void likeDelete(User user, ThemeData2.Item data) {
         SQLiteDatabase sqLiteDatabase = null;
         try {
             sqLiteDatabase = this.getWritableDatabase();
@@ -112,16 +113,16 @@ public class UserDBHelper extends SQLiteOpenHelper {
 
     }
 
-    public void likeInsert(User user, ThemeData data) {
+    public void likeInsert(User user, ThemeData2.Item data) {
         SQLiteDatabase sqLiteDatabase = null;
         try {
             sqLiteDatabase = this.getWritableDatabase();
             sqLiteDatabase.execSQL("INSERT INTO LikePlace" + user.getUserId() + "TBL (title,addr,mapX,mapY,image) VALUES ('"
                     + data.getTitle() + "','"
-                    + data.getAddr() + "','"
-                    + data.getMapX() + "','"
-                    + data.getMapY() + "','"
-                    + data.getFirstImage() + "');");
+                    + data.getAddr1() + "','"
+                    + data.getMapx() + "','"
+                    + data.getMapy() + "','"
+                    + data.getFirstimage() + "');");
             Log.d("DBLikeInsert", "성공");
         } catch (SQLException e) {
             Log.d("DBLikeInsert", e.getMessage());
@@ -131,15 +132,15 @@ public class UserDBHelper extends SQLiteOpenHelper {
 
     }
 
-    public ArrayList<ThemeData> likePlaceLoad(User user) {
-        ArrayList<ThemeData> arrayList = new ArrayList<>();
+    public ArrayList<ThemeData2.Item> likePlaceLoad(User user) {
+        ArrayList<ThemeData2.Item> arrayList = new ArrayList<>();
         SQLiteDatabase sqLiteDatabase = null;
         Cursor cursor = null;
         try {
             sqLiteDatabase = this.getWritableDatabase();
             cursor = sqLiteDatabase.rawQuery("SELECT * FROM LikePlace" + user.getUserId() + "TBL;", null);
             while (cursor.moveToNext()) {
-                arrayList.add(new ThemeData(cursor.getString(0), cursor.getString(1), cursor.getDouble(2), cursor.getDouble(3), cursor.getString(4)));
+                arrayList.add(data.new Item(cursor.getString(0), cursor.getString(1), cursor.getDouble(2), cursor.getDouble(3), cursor.getString(4)));
             }
             Log.d("DBLikePlaceLoad", "성공");
         } catch (SQLException e) {
@@ -177,12 +178,12 @@ public class UserDBHelper extends SQLiteOpenHelper {
     }
 
     //카메라 탭에서 버튼이벤트를 사용했을때 테이블에 저장하기위한 테이블
-    public void oninsertCameraTBL(User user, ThemeData themeData) {
+    public void oninsertCameraTBL(User user, ThemeData2.Item themeData) {
         SQLiteDatabase sqLiteDatabase = null;
         sqLiteDatabase = this.getWritableDatabase();
         try {
             sqLiteDatabase.execSQL("insert into ALBUM" + user.getUserId() + "TBL Values (null,'" + themeData.getTitle() + "'," +
-                    "'" + themeData.getFirstImage() + "','" + themeData.getAddr() + "'," +
+                    "'" + themeData.getFirstimage() + "','" + themeData.getAddr1() + "'," +
                     "'" + themeData.getPicture() + "','" + themeData.getContent_pola() + "','" + themeData.getContent_title() + "'," +
                     "'" + themeData.getContents() + "');");
             Log.d("DBinsertCameraTBL", "성공");
@@ -194,15 +195,15 @@ public class UserDBHelper extends SQLiteOpenHelper {
     }
 
     //저장된 사진을 불러오기
-    public ArrayList<ThemeData> onSelectAlbumTBL(User user) {
+    public ArrayList<ThemeData2.Item> onSelectAlbumTBL(User user) {
         SQLiteDatabase sqLiteDatabase = null;
-        ArrayList<ThemeData> albumArraylist = new ArrayList<ThemeData>();
+        ArrayList<ThemeData2.Item> albumArraylist = new ArrayList<>();
         Cursor cursor = null;
         try {
             sqLiteDatabase = this.getWritableDatabase();
             cursor = sqLiteDatabase.rawQuery("select * from ALBUM" + user.getUserId() + "TBL", null);
             while (cursor.moveToNext()) {
-                albumArraylist.add(new ThemeData(cursor.getInt(0),cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),
+                albumArraylist.add(data.new Item(cursor.getInt(0),cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),
                         cursor.getString(5), cursor.getString(6), cursor.getString(7)));
             }
             Log.d("DBSelectAlbumTBL", "성공");
@@ -215,7 +216,7 @@ public class UserDBHelper extends SQLiteOpenHelper {
         return albumArraylist;
     }
 
-    public void deleteAlbumData(User user, ThemeData themeData) {
+    public void deleteAlbumData(User user, ThemeData2.Item themeData) {
         SQLiteDatabase sqLiteDatabase = null;
         try {
             sqLiteDatabase = this.getWritableDatabase();

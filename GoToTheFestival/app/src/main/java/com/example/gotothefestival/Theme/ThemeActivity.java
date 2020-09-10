@@ -2,6 +2,7 @@ package com.example.gotothefestival.Theme;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager.widget.ViewPager;
 
 import android.app.Dialog;
@@ -39,7 +40,7 @@ import com.bumptech.glide.Glide;
 import com.example.gotothefestival.BottomMenu.BottomMenuActivity;
 import com.example.gotothefestival.Login.LoginActivity;
 import com.example.gotothefestival.Login.MainActivity;
-import com.example.gotothefestival.Model.ThemeData;
+import com.example.gotothefestival.Model.ThemeData2;
 import com.example.gotothefestival.R;
 import com.example.gotothefestival.UserDBHelper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -55,17 +56,22 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ThemeActivity extends AppCompatActivity implements View.OnClickListener, ThemeViewPager.OnPageChangeListener, TabLayout.BaseOnTabSelectedListener {
+public class ThemeActivity extends AppCompatActivity implements View.OnClickListener, TabLayout.BaseOnTabSelectedListener {
     private EditText edtSearch;
     private ImageButton ibSearch;
     private CircleImageView civImage;
     private FloatingActionButton fab, fab1, fab2;
     private TabLayout tabLayout;
-    private ThemeViewPager viewPager;
+    private ViewPager viewPager;
 
     private ThemeViewPagerAdapter fragmentStatePagerAdapter;
     private ThemeSearchFragment themeSearchFragment;
@@ -74,7 +80,8 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
     private boolean isDragged;
     private boolean isFabOpen;
     private boolean searchFlag;
-    ArrayList<ThemeData> checkedList = new ArrayList<>();
+    ArrayList<ThemeData2.Item> checkedList = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +91,7 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
         screenSetting();    //화면 셋팅 메소드
 
     }
+
 
     //화면 셋팅 메소드
     private void screenSetting() {
@@ -162,7 +170,7 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
                     themeSearchFragment.setArguments(bundle);
                     searchFlag = true;
                     viewPager.setCurrentItem(8);
-                    viewPager.setPagingDisabled();
+//                    viewPager.setPagingDisabled();
                 } else {
                     Snackbar.make(view,"두 글자 이상 입력해 주세요",Snackbar.LENGTH_SHORT).show();
                 }
@@ -190,7 +198,8 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
         Dialog dialog = new Dialog(viewDialog.getContext());
         likeListView.setOnItemClickListener((adapterView, view1, i, l) -> {
             SparseBooleanArray booleans = likeListView.getCheckedItemPositions();
-            if (booleans.get(i)) checkedList.add(new ThemeData(likeList.get(i)));
+            ThemeData2 data=new ThemeData2();
+            if (booleans.get(i)) checkedList.add(data.new Item(likeList.get(i)));
         });
 
         //삭제 버튼을 누르면 선택된 타이틀의 축제정보를 DB에 좋아요 값을 수정하고 어댑터를 다시 로드
@@ -230,74 +239,6 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    //관광공사 api 받아오기
-    public ArrayList<ThemeData> requestData(int areaCode) {
-        ArrayList<ThemeData> dataArrayList = new ArrayList<>();
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://api.visitkorea.or.kr/openapi/service/rest/KorService/searchFestival?" +
-                "ServiceKey=" + MainActivity.KEY +
-                "&areaCode=" + areaCode + "&contentTypeId=15&listYN=Y&arrange=P&numOfRows=20&pageNo=1" +
-                "&MobileOS=AND&MobileApp=" + MainActivity.APP_NAME +
-                "&_type=json";
-
-        JsonObjectRequest jsObjRequest = new JsonObjectRequest
-                (Request.Method.GET, url, null, new com.android.volley.Response.Listener<JSONObject>() {
-                    @RequiresApi(api = Build.VERSION_CODES.O)
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            JSONObject parse_response = (JSONObject) response.get("response");
-                            JSONObject parse_body = (JSONObject) parse_response.get("body");
-                            JSONObject parse_items = (JSONObject) parse_body.get("items");
-                            JSONArray parse_itemlist = (JSONArray) parse_items.get("item");
-
-                            for (int i = 0; i < parse_itemlist.length(); i++) {
-                                JSONObject imsi = (JSONObject) parse_itemlist.get(i);
-                                ThemeData themeData = new ThemeData();
-                                themeData.setFirstImage(imsi.getString("firstimage"));
-                                themeData.setTitle(imsi.getString("title"));
-                                themeData.setAddr(imsi.getString("addr1"));
-                                themeData.setMapX(imsi.getDouble("mapx"));
-                                themeData.setMapY(imsi.getDouble("mapy"));
-                                themeData.setContentsID(Integer.valueOf(imsi.getString("contentid")));
-                                dataArrayList.add(themeData);
-                            }
-                            //recyclerView.setAdapter(adapter);
-                        } catch (JSONException e) {
-                            Log.d("JSON 오류", e.getMessage());
-                            e.printStackTrace();
-                        }
-                    }
-
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                    }
-                }) {
-            @Override //response를 UTF8로 변경해주는 소스코드
-            protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
-                try {
-                    String utf8String = new String(response.data, "UTF-8");
-                    JSONObject jsonObject = new JSONObject(utf8String);
-                    return Response.success(jsonObject, HttpHeaderParser.parseCacheHeaders(response));
-                } catch (UnsupportedEncodingException e) {
-                    // log error
-                    return Response.error(new ParseError(e));
-                } catch (Exception e) {
-                    // log error
-                    return Response.error(new ParseError(e));
-                }
-            }
-
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                return super.getParams();
-            }
-        };
-        queue.add(jsObjRequest);
-        return dataArrayList;
-    }
-
     public ProgressDialog displayLoader() {
         ProgressDialog pDialog = new ProgressDialog(this);
         pDialog.setMessage("잠시만 기다려 주세요..");
@@ -313,7 +254,7 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
     public void onBackPressed() {
         if (searchFlag) {
             searchFlag = false;
-            viewPager.setPagingEnabled();
+//            viewPager.setPagingEnabled();
             //ibSearch.setEnabled(true);
             //edtSearch.setEnabled(true);
             viewPager.setCurrentItem(0);
@@ -362,23 +303,6 @@ public class ThemeActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onTabReselected(TabLayout.Tab tab) {
 
-    }
-
-
-    @Override
-    public void onPageScrolled(int i, float v, int i1) {
-
-    }
-
-    @Override
-    public void onPageSelected(int i) {
-
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int i) {
-        if (i == ViewPager.SCROLL_STATE_DRAGGING)
-            isDragged = true;
     }
 
 }

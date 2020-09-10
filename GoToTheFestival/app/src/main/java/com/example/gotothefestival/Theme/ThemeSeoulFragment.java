@@ -1,8 +1,10 @@
 package com.example.gotothefestival.Theme;
 
 import android.app.ProgressDialog;
-import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,88 +12,94 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
-import com.example.gotothefestival.Model.ThemeData;
+import com.example.gotothefestival.Login.MainActivity;
+import com.example.gotothefestival.Model.ThemeData2;
 import com.example.gotothefestival.R;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ThemeSeoulFragment extends Fragment {
     private RecyclerView themeRecyclerView;
-    private ArrayList<ThemeData> list;
-    private com.example.gotothefestival.Theme.ThemeAdapter adapter;
     private ProgressDialog lodingDialog;
-    private com.example.gotothefestival.Theme.ThemeActivity themeActivity;
 
-    public static ThemeSeoulFragment newInstance() {
-        ThemeSeoulFragment themeSeoulFragment = new ThemeSeoulFragment();
-        return themeSeoulFragment;
-    }
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        themeActivity = (com.example.gotothefestival.Theme.ThemeActivity) getActivity();
-    }
-
+    ///////////////////////////////////////////////////
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_theme, container, false);
-
-        lodingDialog = themeActivity.displayLoader();
+//        lodingDialog = themeActivity.displayLoader();
         themeRecyclerView = rootView.findViewById(R.id.themeRecyclerView);
-
-        // 레이아웃매니저: 아이템 뷰가 나열되는 형태를 관리하기 위한 요소를 제공
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        themeRecyclerView.setLayoutManager(layoutManager);
-        list = new ArrayList<>();
-        ThemeSeoulFragment.AsyncTaskClassMain async = new ThemeSeoulFragment.AsyncTaskClassMain();
-        async.execute();
+        dataLoad();
         return rootView;
     }
 
-    //스레드를 위한 동작코드와 UI 접근 코드를 한꺼번에 사용할수있는 클래스
-    //UI 작업을 위해 별도의 스레드로 만들어져서 백그라운드에서 실행되는 태스크
-    // 메인 UI 스레드에서 시간이 오래 걸리는 UI 작업을 백그라운드에서 실행할 수 있고 만들어진 Asynctask와 메인 UI스레드간 이벤트 통신이 가능합니다.
-    class AsyncTaskClassMain extends android.os.AsyncTask<Integer, Long, String> {
-        // 일반쓰레드 돌리기 전 메인쓰레드에서 보여줄 화면처리
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            lodingDialog.show();
-        }
+    private void dataLoad(){
+        //////////////////////////////
+        //Retrofit 객체생성
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(MainActivity.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        /*addConverterFactory(GsonConverterFactory.create())은
+        Json을 우리가 원하는 형태로 만들어주는 Gson라이브러리와 Retrofit2에 연결하는 코드 */
+        TourApiService tourApiService = retrofit.create(TourApiService.class);
 
-        // 일반쓰레드에서 돌릴 네트워크 작업
-        @Override
-        protected String doInBackground(Integer... integers) {
-            list = themeActivity.requestData(1);
-            adapter = new com.example.gotothefestival.Theme.ThemeAdapter(list,getView());
-            // publishProgress()를 호출하면 onProgressUpdate가 실행되고 메인쓰레드에서 UI 처리를 한다
-            return "종료";
-        }
+        HashMap<String, String> query = new HashMap<>();
+        query.put("ServiceKey", MainActivity.KEY);
+        query.put("areaCode", "1");
+        query.put("contentTypeId", "15");
+        query.put("listYN", "Y");
+        query.put("arrange", "P");
+        query.put("numOfRows", "20");
+        query.put("pageNo", "1");
+        query.put("MobileOS", "AND");
+        query.put("MobileApp", MainActivity.APP_NAME);
+        query.put("_type", "json");
+        tourApiService.getData(query).enqueue(new Callback<ThemeData2>() {
+            @Override
+            public void onResponse(Call<ThemeData2> call, retrofit2.Response<ThemeData2> response) {
+                if (response.isSuccessful()) {
+                    Log.d("retro", 1 + "");
+                    ThemeData2 result = response.body();
 
-        @Override
-        protected void onProgressUpdate(Long... values) {
-            // 일반 쓰레드가 도는 도중에 메인 쓰레드에서 처리할 UI작업
-            super.onProgressUpdate(values);
-        }
+                    ThemeData2.Response response1 = result.getResponse();
+                    ThemeData2.Body body = response1.getBody();
+                    ThemeData2.Items items = body.getItems();
+                    List<ThemeData2.Item> item = items.getItem();
 
-        // doInBackground 메서드가 완료되면 메인 쓰레드가 얘를 호출한다(doInBackground가 반환한 값을 매개변수로 받음)
-        @Override
-        protected void onPostExecute(String s) {
-            // Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
-            super.onPostExecute(s);
-            themeRecyclerView.setAdapter(adapter);
-            themeRecyclerView.invalidate();
-            lodingDialog.cancel();
-        }
+                    //////////////////////////////////////////////////
+                    ArrayList<ThemeData2.Item> list = new ArrayList<>(item);
+                    ThemeAdapter adapter = new com.example.gotothefestival.Theme.ThemeAdapter(list, getView());
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+                    themeRecyclerView.setLayoutManager(layoutManager);
+                    themeRecyclerView.setAdapter(adapter);
+                } else {
+                    Log.d("retro", 2 + "Error");
+                }
+            }
+
+
+            @Override
+            public void onFailure(Call<ThemeData2> call, Throwable t) {
+                Log.d("retro", t.getMessage());
+            }
+        });
     }
-
-
+//    public static ThemeSeoulFragment newInstance() {
+//        ThemeSeoulFragment themeSeoulFragment = new ThemeSeoulFragment();
+//        return themeSeoulFragment;
+//    }
 }

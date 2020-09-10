@@ -16,9 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.example.gotothefestival.Login.LoginActivity;
-import com.example.gotothefestival.Model.ThemeData;
 
 import com.bumptech.glide.Glide;
+import com.example.gotothefestival.Model.ThemeData2;
 import com.example.gotothefestival.Model.User;
 import com.example.gotothefestival.R;
 import com.example.gotothefestival.UserDBHelper;
@@ -34,9 +34,9 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.CustomViewHo
 
     private Context context;
     private int layout;
-    private ArrayList<ThemeData> list;
+    private ArrayList<ThemeData2.Item> list;
 
-    public AlbumAdapter(Context context, int layout, ArrayList<ThemeData> list) {
+    public AlbumAdapter(Context context, int layout, ArrayList<ThemeData2.Item> list) {
         this.context = context;
         this.layout = layout;
         this.list = list;
@@ -70,9 +70,9 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.CustomViewHo
             customViewHolder.imgReview.setImageResource(R.drawable.a_dialog_design);
         }
 
-        if (list.get(position).getFirstImage() != null) {
+        if (list.get(position).getFirstimage() != null) {
 
-            Glide.with(customViewHolder.itemView.getContext()).load(list.get(position).getFirstImage()).override(500, 300).into(customViewHolder.imgChoice);
+            Glide.with(customViewHolder.itemView.getContext()).load(list.get(position).getFirstimage()).override(500, 300).into(customViewHolder.imgChoice);
 
         } else {
             customViewHolder.imgChoice.setImageResource(R.drawable.a_dialog_design);

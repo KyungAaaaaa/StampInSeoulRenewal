@@ -78,7 +78,7 @@ public class ThemeSearchFragment extends Fragment {
 
         ThemeSearchFragment.AsyncTaskClassMain async = new ThemeSearchFragment.AsyncTaskClassMain();
         async.execute();
-        adapter = new com.example.gotothefestival.Theme.ThemeAdapter(list,getView());
+//        adapter = new com.example.gotothefestival.Theme.ThemeAdapter(list,getView());
         themeRecyclerView.setAdapter(adapter);
 
         return rootView;

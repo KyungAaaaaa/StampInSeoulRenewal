@@ -12,18 +12,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.gotothefestival.Model.ThemeData;
+import com.example.gotothefestival.Model.ThemeData2;
 import com.example.gotothefestival.R;
 
 import java.util.ArrayList;
 
 public class MapLocateAdapter extends RecyclerView.Adapter<MapLocateAdapter.CustomViewHolder> {
     private int layout;
-    private ArrayList<ThemeData> list;
+    private ArrayList<ThemeData2.Item> list;
 
     static int number = 0;
 
-    public MapLocateAdapter(int layout, ArrayList<ThemeData> themedatalist) {
+    public MapLocateAdapter(int layout, ArrayList<ThemeData2.Item> themedatalist) {
         this.layout = layout;
         this.list = themedatalist;
     }
@@ -43,10 +43,10 @@ public class MapLocateAdapter extends RecyclerView.Adapter<MapLocateAdapter.Cust
     @Override
     public void onBindViewHolder(@NonNull final MapLocateAdapter.CustomViewHolder customViewHolder, final int position) {
 
-        ThemeData data = list.get(position);
+        ThemeData2.Item data = list.get(position);
 
         customViewHolder.txtName.setText(data.getTitle());
-        customViewHolder.txtContent.setText(data.getAddr());
+        customViewHolder.txtContent.setText(data.getAddr1());
 
         customViewHolder.imaProfile.setOnClickListener(new View.OnClickListener() {
 

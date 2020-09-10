@@ -19,6 +19,7 @@ import java.security.NoSuchAlgorithmException;
 public class MainActivity extends Activity {
     public static final String KEY = "r5SONxjKf67vRjWSB5VkCHjhlvpWtAAcXV8IEJumquZL3SfuS9eazbphf2%2BSprq0iO6PVT1MVcC70enAwCeLOA%3D%3D";
     public static final String APP_NAME = "GoToTheFestival";
+    public static final String BASE_URL = "http://api.visitkorea.or.kr/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

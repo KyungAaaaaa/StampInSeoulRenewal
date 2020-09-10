@@ -32,7 +32,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.gotothefestival.Login.LoginActivity;
-import com.example.gotothefestival.Model.ThemeData;
+import com.example.gotothefestival.Model.ThemeData2;
 import com.example.gotothefestival.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -56,7 +56,7 @@ public class MapLocateActivity extends Fragment implements View.OnTouchListener,
 
     LocationManager locationManager;
 
-    static ArrayList<ThemeData> themedatalist = new ArrayList<>();
+    static ArrayList<ThemeData2.Item> themedatalist = new ArrayList<>();
     ArrayList<MarkerOptions> cctvlist = new ArrayList<MarkerOptions>();
     ArrayList<String> check = new ArrayList<>();
     static GoogleMap googleMaps;
@@ -77,7 +77,7 @@ public class MapLocateActivity extends Fragment implements View.OnTouchListener,
     private FloatingActionButton fab, fab1, fab2;
     private DrawerLayout drawerLayout;
     private ConstraintLayout drawer;
-    private ThemeData data;
+    private ThemeData2.Item data;
     boolean tag = true;
     private static final int FASTEST_UPDATE_INTERVAL_MS = 1000 * 30;
 
@@ -273,12 +273,12 @@ public class MapLocateActivity extends Fragment implements View.OnTouchListener,
                // if (check.get(0).equals(y.getTitle())){
         if (data != null) {
 
-            LatLng latLng1 = new LatLng(data.getMapY(), data.getMapX());
+            LatLng latLng1 = new LatLng(data.getMapy(), data.getMapx());
 
-                    Log.d("MapActivity", data.getMapY() + "/" + data.getMapX());
+                    Log.d("MapActivity", data.getMapy() + "/" + data.getMapx());
                     MarkerOptions markerOptions1 = new MarkerOptions();
                     markerOptions1.title(data.getTitle());
-                    markerOptions1.snippet(data.getAddr());
+                    markerOptions1.snippet(data.getAddr1());
                     markerOptions1.position(latLng1);
 
                     googleMaps2.addMarker(markerOptions1);

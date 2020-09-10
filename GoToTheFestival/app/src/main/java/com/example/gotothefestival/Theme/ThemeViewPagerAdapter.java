@@ -8,8 +8,8 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 public class ThemeViewPagerAdapter extends FragmentStatePagerAdapter implements ViewPager.OnPageChangeListener {
-    int count = 0;
-    ThemeViewPagerAdapter adapter;
+    private int count;
+
     public ThemeViewPagerAdapter(FragmentManager fm, int count) {
         super(fm);
         this.count = count;
@@ -19,19 +19,19 @@ public class ThemeViewPagerAdapter extends FragmentStatePagerAdapter implements 
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return com.example.gotothefestival.Theme.ThemeSeoulFragment.newInstance();
+                return new ThemeSeoulFragment();
             case 1:
-                return com.example.gotothefestival.Theme.ThemeGyeonggiFragment.newInstance();
+                return new ThemeGyeonggiFragment();
             case 2:
-                return com.example.gotothefestival.Theme.ThemeIncheonFragment.newInstance();
+                return new ThemeIncheonFragment();
             case 3:
-                return com.example.gotothefestival.Theme.ThemeGangwonFragment.newInstance();
+                return new ThemeGangwonFragment();
             case 4:
-                return com.example.gotothefestival.Theme.ThemeJejuFragment.newInstance();
+                return new ThemeJejuFragment();
             case 5:
-                return com.example.gotothefestival.Theme.ThemeSearchFragment.newInstance();
+                return new ThemeSearchFragment();
             default:
-                return  null;
+                return null;
         }
     }
 
@@ -78,7 +78,6 @@ public class ThemeViewPagerAdapter extends FragmentStatePagerAdapter implements 
     public void onPageScrollStateChanged(int state) {
 
     }
-
 
 
 }
