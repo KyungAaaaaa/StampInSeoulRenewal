@@ -1,7 +1,7 @@
 # 🎈우리 어디가?
 안드로이드 전국 축제 정보 조회 앱 프로젝트
 
-youtube : https://youtu.be/
+youtube : https://youtu.be/3JLmB6mPfHs
 
 ## 개요
 - 전국의 축제정보를 지역별로 확인 & 검색할 수 있고,  
